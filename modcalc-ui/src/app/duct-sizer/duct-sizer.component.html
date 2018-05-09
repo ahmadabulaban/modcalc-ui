@@ -1,22 +1,12 @@
-<!--<script src="../../../node_modules/bootstrap/js/src/button.js"></script>-->
-
+<html>
 <header *ngIf="dataAvailable">
-  <p></p>
   <h3 class="text-center">Duct Sizer</h3>
 </header>
 <body [formGroup]="ductSizerForm" *ngIf="dataAvailable">
-<p></p>
 <div class="data-border">
-  <p>
-    Most pipe sizing charts are based on Hazen-Williams equation. However, this web site calculates pressure drop using
-    Darcy-Weisbach equation since the Hazen-Williams equation has narrow applicable ranges for Reynolds numbers and pipe
-    sizes. The equation is valid for pipe sizes 3 in. (75 mm) and larger, for water flowing at temperatures of between
-    40°F to 75°F
-    (21° to 24°C) and pressures up to 175 psi (1.2 MPa). The level of error when the Hazen-Williams equation is used
-    outside
-  </p>
+  This duct sizer is based on Darcy-Weisbach equation which is more accurate and applicable to a wider range of
+  temperature and duct size than Hazen-William equation based on which many duct sizing chart are drafted.
 </div>
-<p></p>
 <div>
   <h5 style="margin-left: 1%;">
     Inputs
@@ -24,51 +14,52 @@
   <div class="data-border">
     <div class="row">
       <div class="col">
-        <p>1- Units</p>
+        1- Units
         <div class="data-border">
           <div class="row">
             <div class="col">
-              <label>Unit System</label>
-              <select class="custom-select"
-                      [formControl]="ductSizerForm.controls.unitSystem"
-                      (change)="this.setRelatedData(ductSizerForm.controls.unitSystem.value)">
-                <option *ngFor="let unitSystem of unitSystemList" [ngValue]="unitSystem"
-                        selected="{{unitSystem.defaultOption}}" [selected]="unitSystem.defaultOption">{{unitSystem.key}}
-                </option>
-              </select>
-            </div>
-            <div class="col">
-              <label>Flow Rate</label>
-              <select class="custom-select" [formControl]="ductSizerForm.controls.flowRate">
-                <option *ngFor="let flowRate of flowRateList" [ngValue]="flowRate"
-                        selected="{{flowRate.defaultOption}}" [selected]="flowRate.defaultOption">{{flowRate.key}}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <p>2- Air Temperature</p>
-        <div class="data-border">
-          <div class="row">
-            <div class="col">
-              <label>Fluid Temperature</label>
+              Unit System
               <div class="form-group row">
-                <input type="number" step="any" class="form-control col"
-                       [formControl]="ductSizerForm.controls.temperatureInput">
-                <input type="text" class="form-control col" readonly value="{{temperatureUnit.key}}">
+                <select class="custom-select"
+                        [formControl]="ductSizerForm.controls.unitSystem"
+                        (change)="this.setRelatedData(ductSizerForm.controls.unitSystem.value)">
+                  <option *ngFor="let unitSystem of unitSystemList" [ngValue]="unitSystem"
+                          selected="{{unitSystem.defaultOption}}" [selected]="unitSystem.defaultOption">
+                    {{unitSystem.key}}
+                  </option>
+                </select>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col">
-        <p>3- Duct Type</p>
+        2- Air Temperature
         <div class="data-border">
           <div class="row">
             <div class="col">
-              <label>Duct Material</label>
+              Fluid Temperature
+              <div class="form-group row">
+                <input type="number" step="any" class="form-control col"
+                       [formControl]="ductSizerForm.controls.temperatureInput"
+                       [ngClass]="this.setStyleClass(this, ductSizerForm.controls.temperatureInput)">
+                <input type="text" class="form-control col" readonly value="{{temperatureUnit.key}}">
+              </div>
+              <div
+                *ngIf="ductSizerForm.controls.temperatureInput.invalid && (ductSizerForm.controls.temperatureInput.dirty || ductSizerForm.controls.temperatureInput.touched)"
+                class="note-error">
+                Temperature is out of range
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        3- Duct Type
+        <div class="data-border">
+          <div class="row">
+            <div class="col">
+              Duct Material
               <select class="custom-select" [formControl]="ductSizerForm.controls.ductMaterial">
                 <option *ngFor="let ductMaterial of ductMaterialList" [ngValue]="ductMaterial"
                         selected="{{ductMaterial.defaultOption}}" [selected]="ductMaterial.defaultOption">
@@ -77,89 +68,124 @@
               </select>
             </div>
             <div class="col">
-              <label>Duct Thickness</label>
+              Duct Thickness
               <div class="form-group row">
                 <input type="number" step="any" class="form-control col"
-                       [formControl]="ductSizerForm.controls.ductThickness">
+                       [formControl]="ductSizerForm.controls.ductThickness"
+                       [ngClass]="this.setStyleClass(this, ductSizerForm.controls.ductThickness)">
                 <input type="text" class="form-control col" readonly value="{{dimensionUnit.key}}">
+              </div>
+              <div
+                *ngIf="ductSizerForm.controls.ductThickness.invalid && (ductSizerForm.controls.ductThickness.dirty || ductSizerForm.controls.ductThickness.touched)"
+                class="note-error">
+                Duct Thickness is out of range
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <p></p>
     <div>
-      <p>4- Flow Rate & Sizing Criteria</p>
+      4- Flow Rate & Sizing Criteria
       <div class="data-border">
         <div class="row">
-          <div class="col">
-            <label>Flow Rate</label>
-            <div class="form-group row">
-              <input type="number" step="any" class="form-control col"
-                     [formControl]="ductSizerForm.controls.flowRateInput">
-              <input type="text" class="form-control col" readonly
-                     value="{{ductSizerForm.controls.flowRate.value.key}}">
+          <div class="col row">
+            <div class="col">
+              Flow Rate
+              <div class="form-group row">
+                <input type="number" step="any" class="form-control col"
+                       [formControl]="ductSizerForm.controls.flowRateInput"
+                       [ngClass]="this.setStyleClass(this, ductSizerForm.controls.flowRateInput)">
+              </div>
+              <div
+                *ngIf="ductSizerForm.controls.flowRateInput.invalid && (ductSizerForm.controls.flowRateInput.dirty || ductSizerForm.controls.flowRateInput.touched)"
+                class="note-error">
+                Flow Rate is out of range
+              </div>
+            </div>
+            <div class="col">
+              Flow Rate Unit
+              <select class="custom-select" [formControl]="ductSizerForm.controls.flowRate">
+                <option *ngFor="let flowRate of flowRateList" [ngValue]="flowRate"
+                        selected="{{flowRate.defaultOption}}" [selected]="flowRate.defaultOption"
+                        [innerHtml]="flowRate.key"
+                        (change)="this.changeUf(ductSizerForm.controls.flowRate.value)">
+                </option>
+              </select>
             </div>
           </div>
           <div class="col">
-            <label>Duct Shape</label>
-            <select class="custom-select" [formControl]="ductSizerForm.controls.ductShape">
+            Duct Shape
+            <select class="custom-select" [formControl]="ductSizerForm.controls.ductShape"
+                    (change)="this.changeDuctShape(ductSizerForm.controls.ductShape.value)">
               <option *ngFor="let ductShape of ductShapeList" [ngValue]="ductShape"
                       selected="{{ductShape.defaultOption}}" [selected]="ductShape.defaultOption">{{ductShape.key}}
               </option>
             </select>
           </div>
           <div class="col">
-            <label>Enter One Dimension</label>
+            <div *ngIf="ductSizerForm.controls.ductShape.value.value == 1">Enter One Dimension</div>
             <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 1">
               <input type="number" step="any" class="form-control col"
-                     [formControl]="ductSizerForm.controls.dimensionInput">
+                     [formControl]="ductSizerForm.controls.dimensionInput"
+                     [ngClass]="this.setStyleClass(this, ductSizerForm.controls.dimensionInput)">
               <input type="text" class="form-control col" readonly value="{{dimensionUnit.key}}">
             </div>
+            <div
+              *ngIf="ductSizerForm.controls.ductShape.value.value == 1 && ductSizerForm.controls.dimensionInput.invalid && (ductSizerForm.controls.dimensionInput.dirty || ductSizerForm.controls.dimensionInput.touched)"
+              class="note-error">
+              Dimension Input is out of range
+            </div>
             <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 2">
-              <input type="number" step="any" class="form-control col" readonly
-                     [formControl]="ductSizerForm.controls.dimensionInput">
-              <input type="text" class="form-control col" readonly>
             </div>
           </div>
         </div>
         <div class="row">
+          <button type="button" class="btn btn-primary col align-content-center"
+                  (click)="changeSizingCriteria(0)">Pressure Drop Criteria
+          </button>
+          <div class="col-sm-1"></div>
+          <button type="button" class="btn btn-primary col align-content-center"
+                  (click)="changeSizingCriteria(1)">Velocity Criteria
+          </button>
+        </div>
+        <div class="row">
           <div class="col">
-            <label>Max allowed pressure drop</label>
+            <div *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1">Max allowed pressure drop</div>
             <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1">
               <input type="number" step="any" class="form-control col"
-                     [formControl]="ductSizerForm.controls.allowedPressureInput">
+                     [formControl]="ductSizerForm.controls.allowedPressureInput"
+                     [ngClass]="this.setStyleClass(this, ductSizerForm.controls.allowedPressureInput)">
               <input type="text" class="form-control col" readonly value="{{pressureUnit.key}}">
             </div>
             <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2">
-              <input type="number" step="any" class="form-control col" readonly
-                     [formControl]="ductSizerForm.controls.allowedPressureInput">
-              <input type="text" class="form-control col" readonly>
+            </div>
+            <div
+              *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1 && ductSizerForm.controls.allowedPressureInput.invalid && (ductSizerForm.controls.allowedPressureInput.dirty || ductSizerForm.controls.allowedPressureInput.touched)"
+              class="note-error">
+              Pressure Input is out of range
             </div>
           </div>
-          <label class="switch">
-            <input type="checkbox" [formControl]="ductSizerForm.controls.sizingCriteria">
-            <span class="slider round"></span>
-          </label>
           <div class="col">
-            <label>Max allowed velocity</label>
+            <div *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2">Max allowed velocity</div>
             <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2">
               <input type="number" step="any" class="form-control col"
-                     [formControl]="ductSizerForm.controls.allowedVelocityInput">
+                     [formControl]="ductSizerForm.controls.allowedVelocityInput"
+                     [ngClass]="this.setStyleClass(this, ductSizerForm.controls.allowedVelocityInput)">
               <input type="text" class="form-control col" readonly value="{{velocityUnit.key}}">
             </div>
             <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1">
-              <input type="number" step="any" class="form-control col" readonly
-                     [formControl]="ductSizerForm.controls.allowedVelocityInput">
-              <input type="text" class="form-control col" readonly>
+            </div>
+            <div
+              *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2 && ductSizerForm.controls.allowedVelocityInput.invalid && (ductSizerForm.controls.allowedVelocityInput.dirty || ductSizerForm.controls.allowedVelocityInput.touched)"
+              class="note-error">
+              Velocity Input is out of range
             </div>
           </div>
         </div>
         <div id="inner-button" class="row">
           <button class="btn btn-primary align-content-center" type="submit" (click)="calculate()">Calculate</button>
         </div>
-        <p></p>
         <div id="inner-error-message" class="row" *ngIf="error">
           {{errorMessage.substring(errorMessage.lastIndexOf("-")+1)}}
         </div>
@@ -167,7 +193,6 @@
     </div>
   </div>
 </div>
-<p></p>
 <div>
   <h5 style="margin-left: 1%;">
     Results
@@ -175,48 +200,50 @@
   <div class="data-border">
     <div class="row">
       <div class="col">
-        <label>Flow Rate</label>
+        Flow Rate
         <div class="form-group row">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.o1.value}}">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.tx1.value}}">
+          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o1.value}}">
+          <option type="text" class="form-control col output-field" readonly
+                  innerHtml="{{ductSizerForm.controls.flowRate.value.key}}">
         </div>
       </div>
       <div class="col-sm-1"></div>
       <div class="col">
-        <label>Round Duct Size</label>
-        <div class="form-group row">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.o2.value}}">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.tx2.value}}">
+        <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2">Circular Duct Size</div>
+        <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 2">
+          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o2.value}}">
+          <input type="text" class="form-control col output-field" readonly value="{{dimensionUnit.key}}">
         </div>
       </div>
       <div class="col-sm-1"></div>
       <div class="col">
-        <label>Rectangular Duct Size</label>
-        <div class="form-group row">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.o3.value}}">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.o4.value}}">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.tx3.value}}">
+        <div *ngIf="ductSizerForm.controls.ductShape.value.value == 1">Rectangular Duct Size</div>
+        <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 1">
+          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o3.value}}">
+          <input type="text" class="form-control col output-field" readonly style="text-align: center;" value="X">
+          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o4.value}}">
+          <input type="text" class="form-control col output-field" readonly value="{{dimensionUnit.key}}">
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <label>Flow Velocity</label>
+        Flow Velocity
         <div class="form-group row">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.o5.value}}">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.tx5.value}}">
+          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o5.value}}">
+          <input type="text" class="form-control col output-field" readonly value="{{velocityUnit.key}}">
         </div>
       </div>
       <div class="col-sm-1"></div>
       <div class="col">
-        <label>Pressure Drop</label>
+        Pressure Drop
         <div class="form-group row">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.o6.value}}">
-          <input type="text" class="form-control col" readonly value="{{ductSizerForm.controls.tx6.value}}">
+          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o6.value}}">
+          <input type="text" class="form-control col output-field" readonly value="{{pressureUnit.key}}">
         </div>
       </div>
     </div>
   </div>
 </div>
 </body>
-
+</html>

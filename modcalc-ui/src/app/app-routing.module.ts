@@ -1,16 +1,18 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DuctSizerComponent} from './duct-sizer/duct-sizer.component';
 
 const routes: Routes = [
-  { path: 'duct-sizer', component: DuctSizerComponent }
+  {path: '', redirectTo: 'duct-sizer', pathMatch: 'full'},
+  {path: 'duct-sizer', component: DuctSizerComponent}
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [
     RouterModule
   ],
 })
 
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

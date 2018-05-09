@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {isNull} from 'util';
 import {FlowRateAndSizingCriteria} from './models/flow-rate-and-sizing-criteria.model';
 import {AirTemperature} from './models/air-temperature.model';
@@ -35,21 +35,25 @@ export class DuctSizerComponent implements OnInit {
   flowRateAndSizingCriteria: FlowRateAndSizingCriteria;
   ductSizerRequest: DuctSizerRequest;
   errorMessage: string;
+  uu: number;
+  uf: number;
+  shp: number;
+  tg: number;
 
   constructor(private titleService: Title, private formBuilder: FormBuilder, private ductSizerService: DuctSizerServiceImpl) {
     this.titleService.setTitle(this.title);
     this.ductSizerForm = this.formBuilder.group({
       unitSystem: DuctSizingLookupData,
       flowRate: DuctSizingLookupData,
-      temperatureInput: ['', [Validators.required]],
+      temperatureInput: ['', [this.validateTemperatureInput()]],
       ductMaterial: DuctSizingLookupData,
-      ductThickness: ['', [Validators.required]],
-      flowRateInput: ['', [Validators.required]],
+      ductThickness: ['', [this.validateThicknessInput()]],
+      flowRateInput: ['', [this.validateFlowRateInput()]],
       ductShape: DuctSizingLookupData,
-      dimensionInput: null,
+      dimensionInput: ['', [this.validateDimensionInput()]],
       sizingCriteria: 0,
-      allowedPressureInput: null,
-      allowedVelocityInput: null,
+      allowedPressureInput: ['', [this.validatePressureInput()]],
+      allowedVelocityInput: ['', [this.validateVelocityInput()]],
       o1: '',
       tx1: '',
       o2: '',
@@ -68,6 +72,90 @@ export class DuctSizerComponent implements OnInit {
     this.dataAvailable = false;
     this.error = false;
     this.getLookupData();
+  }
+
+  validateTemperatureInput(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      let temperature;
+      if (this.uu === 1) {
+        temperature = control.value;
+      } else {
+        temperature = (control.value - 32) / 1.8;
+      }
+      const forbidden = (temperature >= -20 && temperature <= 100) ? false : true;
+      return forbidden ? {'invalidTemperature': {value: control.value}} : null;
+    };
+  }
+
+  validateThicknessInput(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      let thickness;
+      if (this.uu === 1) {
+        thickness = control.value;
+      } else {
+        thickness = control.value * 25.4;
+      }
+      const forbidden = (thickness >= 0.1 && thickness <= 5) ? false : true;
+      return forbidden ? {'invalidThickness': {value: control.value}} : null;
+    };
+  }
+
+  validateFlowRateInput(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      const flowRate = control.value * this.uf;
+      const forbidden = (flowRate >= 0 && flowRate <= 200000) ? false : true;
+      return forbidden ? {'invalidFlowRate': {value: control.value}} : null;
+    };
+  }
+
+  validateDimensionInput(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (this.shp === 2) {
+        return null;
+      }
+      const dimension = control.value;
+      if (this.uu === 1) {
+        const forbidden = ((dimension % 1 === 0) && (dimension >= 50 && dimension <= 4000)) ? false : true;
+        return forbidden ? {'invalidDimensionInput': {value: control.value}} : null;
+      } else {
+        const forbidden = (((dimension * 10) % 1 === 0) && (dimension >= 2 && dimension <= 160)) ? false : true;
+        return forbidden ? {'invalidDimensionInput': {value: control.value}} : null;
+      }
+    };
+  }
+
+  validatePressureInput(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (this.tg === 2) {
+        return null;
+      }
+      let pressure;
+      if (this.uu === 1) {
+        pressure = control.value;
+      } else {
+        pressure = control.value * 8.17;
+      }
+      const forbidden = (pressure >= 0.1 && pressure <= 9999) ? false : true;
+      return forbidden ? {'invalidPressureInput': {value: control.value}} : null;
+
+    };
+  }
+
+  validateVelocityInput(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (this.tg === 1) {
+        return null;
+      }
+      let velocity;
+      if (this.uu === 1) {
+        velocity = control.value;
+      } else {
+        velocity = control.value / 196.8;
+      }
+      const forbidden = (velocity >= 0.1 && velocity <= 9999) ? false : true;
+      return forbidden ? {'invalidVelocityInput': {value: control.value}} : null;
+
+    };
   }
 
   getLookupData() {
@@ -91,6 +179,7 @@ export class DuctSizerComponent implements OnInit {
     this.fillDuctTypeList();
     this.fillDuctShapeList();
     this.setRelatedData(this.unitSystemList[0]);
+    this.tg = 1;
   }
 
   calculate() {
@@ -215,6 +304,7 @@ export class DuctSizerComponent implements OnInit {
       }
     }
     this.ductSizerForm.controls.ductShape.setValue(this.ductShapeList[0]);
+    this.changeDuctShape(this.ductShapeList[0]);
   }
 
   private fillDuctTypeList() {
@@ -228,8 +318,10 @@ export class DuctSizerComponent implements OnInit {
 
   setRelatedData(unitSystem) {
     this.flowRateList = [];
+    this.uu = unitSystem.value;
     for (const lookupData of this.lookupDataList) {
       if (lookupData.uiField === 'uf' && lookupData.group === unitSystem.value) {
+        lookupData.key = lookupData.key.replace('^', '&sup');
         this.flowRateList.push(lookupData);
       }
       if (lookupData.uiField === 'temperatureUnit' && lookupData.group === unitSystem.value) {
@@ -246,5 +338,43 @@ export class DuctSizerComponent implements OnInit {
       }
     }
     this.ductSizerForm.controls.flowRate.setValue(this.flowRateList[0]);
+    this.changeUf(this.flowRateList[0]);
+    this.callAllValidation();
+  }
+
+  changeDuctShape(ductShape) {
+    this.shp = ductShape.value;
+    this.ductSizerForm.patchValue({dimensionInput: ''});
+    this.callAllValidation();
+  }
+
+  changeSizingCriteria(sizingCriteria) {
+    this.tg = sizingCriteria + 1;
+    this.ductSizerForm.patchValue({sizingCriteria: sizingCriteria});
+    this.ductSizerForm.patchValue({allowedPressureInput: ''});
+    this.ductSizerForm.patchValue({allowedVelocityInput: ''});
+    this.callAllValidation();
+  }
+
+  setStyleClass(objForm, objField) {
+    let styleClass = 'state-success';
+    if (objField.invalid && (objField.dirty || objField.touched)) {
+      styleClass = 'state-error';
+    }
+    return styleClass;
+  }
+
+  changeUf(flowRateUnit) {
+    this.uf = flowRateUnit.value;
+    this.callAllValidation();
+  }
+
+  callAllValidation() {
+    this.ductSizerForm.controls.temperatureInput.updateValueAndValidity();
+    this.ductSizerForm.controls.ductThickness.updateValueAndValidity();
+    this.ductSizerForm.controls.flowRateInput.updateValueAndValidity();
+    this.ductSizerForm.controls.dimensionInput.updateValueAndValidity();
+    this.ductSizerForm.controls.allowedPressureInput.updateValueAndValidity();
+    this.ductSizerForm.controls.allowedVelocityInput.updateValueAndValidity();
   }
 }

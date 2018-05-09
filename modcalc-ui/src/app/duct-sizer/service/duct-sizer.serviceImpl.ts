@@ -13,7 +13,11 @@ export class DuctSizerServiceImpl extends DuctSizerService {
 
   constructor(private http: HttpClient) {
     super();
-    this.baseUrl = '/modcalc/ductsizer/';
+    // Production Url
+    this.baseUrl = 'http://ec2-34-243-32-121.eu-west-1.compute.amazonaws.com';
+    this.baseUrl = '/modcalc-deployment/duct-sizer/';
+    // Development Url
+    // this.baseUrl = '/modcalc-controller/duct-sizer/';
   }
 
   calculateDuctSizer(body: DuctSizerRequest): Observable<any> {
@@ -27,12 +31,7 @@ export class DuctSizerServiceImpl extends DuctSizerService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    // console.log('message    [Error     ]==' + error);
-    // console.log('message    [message   ]==' + error.message);
-    // console.log('message    [name      ]==' + error.name);
-    // console.log('message    [status    ]==' + error.status);
-    // console.log('message    [statusText]==' + error.statusText);
-    // console.log('message    [Error     ]==' + error.error);
-    return Observable.throw(error.name + ' - ' + error.status + ' - ' + error.statusText + ' - ' + error.error.message);
+    console.log('message    [Error     ]==' + error);
+    return Observable.throw(error.error);
   }
 }
