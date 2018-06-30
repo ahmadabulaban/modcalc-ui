@@ -1,0 +1,17 @@
+<div style="overflow-x: hidden;overflow-y: auto; max-height:500px;">
+  <div *ngFor="let lookupCoefficientData of data.lookupCoefficientDataList">
+    <h1 mat-dialog-title>{{lookupCoefficientData.typeName}}</h1>
+    <div mat-dialog-content>
+      <img src="assets/images/{{lookupCoefficientData.image}}.png" style="height: 400px; width: 400px; display: block;
+    margin-left: auto;
+    margin-right: auto;">
+      <button type="button" class="btn btn-primary col align-content-center"
+              (click)="this.chooseType(lookupCoefficientData.typeName)">choose
+      </button>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <!--<button mat-button (click)="onNoClick()">No Thanks</button>-->
+  <!--<button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
+</div>

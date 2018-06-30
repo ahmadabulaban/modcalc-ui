@@ -15,7 +15,7 @@ export class DuctSizerServiceImpl extends DuctSizerService {
     super();
     // Production Url
     this.baseUrl = 'http://ec2-34-243-32-121.eu-west-1.compute.amazonaws.com';
-    this.baseUrl = '/modcalc-deployment/duct-sizer/';
+    this.baseUrl = '/modcalc-deployment-draft1/duct-sizer/';
     // Development Url
     // this.baseUrl = '/modcalc-controller/duct-sizer/';
   }

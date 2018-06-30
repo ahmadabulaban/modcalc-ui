@@ -1,0 +1,35 @@
+<div style="overflow-x: auto;overflow-y: auto; max-height:500px;">
+  <h1 mat-dialog-title>{{data.fanLookupCoefficient.typeName}}</h1>
+  <div>
+    <img src="assets/images/{{data.fanLookupCoefficient.image}}.png" style="height: 400px; width: 400px; display: block;
+    margin-left: auto;
+    margin-right: auto;">
+    <br>
+    <table>
+      <tr *ngFor="let cells of data.table;">
+        <ng-container *ngFor="let c of cells;">
+          <ng-container *ngIf="c != '' && c.endsWith('v')">
+            <td>
+              <button type="button" class="btn btn-primary col align-content-center"
+                      (click)="this.selectCoefficient(c.replace('v',''))">{{c.replace('v','')}}
+              </button>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="c != '' && !c.endsWith('v') && c.endsWith('->colspan')">
+            <td [attr.colspan]="data.fanLookupCoefficient.width" style="text-align: center">{{c.replace('->colspan','')}}</td>
+          </ng-container>
+          <ng-container *ngIf="c != '' && !c.endsWith('v') && !c.endsWith('->colspan')">
+            <td style="text-align: center">{{c}}</td>
+          </ng-container>
+          <ng-container *ngIf="c == ''">
+            <!--<td>&lt;!&ndash;style="visibility: hidden;">&ndash;&gt;</td>-->
+          </ng-container>
+        </ng-container>
+      </tr>
+    </table>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <!--<button mat-button (click)="onNoClick()">No Thanks</button>-->
+  <!--<button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
+</div>
