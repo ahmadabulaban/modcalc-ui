@@ -5,6 +5,11 @@
   padding: 15px;
 }
 
+.data-border-rectangular{
+  border: 2px solid #000000;
+  padding: 15px;
+}
+
 #inner-button {
   display: table;
   margin: 0 auto;
@@ -40,4 +45,12 @@ option.output-field:read-only {
 
 table, th, td {
   border: 1px solid black;
+}
+
+.mat-input-underline {
+  background-color: silver;
+}
+
+.mat-raised-button {
+  background-color: silver;
 }

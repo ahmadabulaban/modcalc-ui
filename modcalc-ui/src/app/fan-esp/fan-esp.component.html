@@ -3,976 +3,1874 @@
   <h3 class="text-center">Fan Esp</h3>
 </header>
 <body *ngIf="dataAvailable && !resultAvailable">
-<div class="data-border">
-  <u>Important Remark</u>
-  <br>
-  Most pipe sizing charts are based on Hazen-Williams equation. However, this web site calculates pressure drop using
-  Darcy-Weisbach equation since
-  the Hazen-Williams equation has narrow applicable ranges for Reynolds numbers and pipe sizes. The equation is valid
-  for pipe sizes 3 in. (75 mm)
-  and larger, for water flowing at temperatures of between 40° to 75oF (21° to 24°C) and pressures up to 175 psi (1.2
-  MPa). The level of error when the
-  Hazen-Williams equation is used outside its data ranges is significant.
-</div>
-<div>
-  <h5 style="margin-left: 1%;">
-    Pump Information
-  </h5>
-  <div class="data-border">
-    <div class="row">
-      <div class="col">
-        <label>Project</label>
-        <input type="text" class="form-control col" [(ngModel)]="request.pumpInformation.project">
-      </div>
-      <div class="col">
-        <label>System</label>
-        <input type="text" class="form-control col" [(ngModel)]="request.pumpInformation.system">
-      </div>
-      <div class="col">
-        <label>Pump Ref.</label>
-        <input type="text" class="form-control col" [(ngModel)]="request.pumpInformation.pumpRef">
-      </div>
-    </div>
+<mat-expansion-panel expanded="true">
+  <div class="data-border-rectangular">
+    <u>Important Remark</u>
+    <br>
+    Most pipe sizing charts are based on Hazen-Williams equation. However, this web site calculates pressure drop using
+    Darcy-Weisbach equation since
+    the Hazen-Williams equation has narrow applicable ranges for Reynolds numbers and pipe sizes. The equation is valid
+    for pipe sizes 3 in. (75 mm)
+    and larger, for water flowing at temperatures of between 40° to 75oF (21° to 24°C) and pressures up to 175 psi (1.2
+    MPa). The level of error when the
+    Hazen-Williams equation is used outside its data ranges is significant.
   </div>
+</mat-expansion-panel>
+<div>
+  <mat-expansion-panel expanded="true">
+    <h6 style="font-weight: bold;">
+      Fan Information
+    </h6>
+    <mat-expansion-panel expanded="true">
+      <div>
+        <div class="row">
+          <mat-form-field class="col" style="width: 33%">
+            <input type="text" matInput placeholder="Project" [(ngModel)]="request.pumpInformation.project">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 33%">
+            <input type="text" matInput placeholder="System" [(ngModel)]="request.pumpInformation.system">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 33%">
+            <input type="text" matInput placeholder="Fan Ref." [(ngModel)]="request.pumpInformation.pumpRef">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-expansion-panel>
   <br>
-  <div class="data-border">
-    <div class="row">
-      <div class="col">
-        1- Units
-        <div class="data-border">
-          <div class="row">
-            <div class="col">
-              Unit System
-              <div class="form-group row">
-                <select class="custom-select"
-                        [(ngModel)]="request.units.uu"
-                        (change)="this.setRelatedData(request.units.uu)">
-                  <option *ngFor="let unitSystem of unitSystemList" [ngValue]="unitSystem.value"
-                          selected="{{unitSystem.defaultOption}}" [selected]="unitSystem.defaultOption">
-                    {{unitSystem.key}}
-                  </option>
-                </select>
+  <mat-expansion-panel expanded="true">
+    <div>
+      <div class="row">
+        <div class="col">
+          <mat-expansion-panel expanded="true">
+            <h6 style="font-weight: bold">Units</h6>
+            <mat-expansion-panel expanded="true">
+              <div>
+                <div class="row">
+                  <mat-form-field class="col" style="width: 33%">
+                    <mat-select placeholder="Unit System" [(ngModel)]="request.units.uu"
+                                (selectionChange)="this.setRelatedData(request.units.uu)">
+                      <mat-option *ngFor="let unitSystem of unitSystemList" [value]="unitSystem.value">
+                        {{unitSystem.key}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 33%">
+                    <mat-select placeholder="Flow Rate" [(ngModel)]="request.units.uf">
+                      <mat-option *ngFor="let flowRate of flowRateList" [value]="flowRate.value"
+                                  [innerHtml]="flowRate.key">-->
+                        <!--{{flowRate.key}}-->
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 33%">
+                    <mat-select placeholder="Length" [(ngModel)]="request.units.ul">
+                      <mat-option *ngFor="let length of lengthList" [value]="length.value" [innerHtml]="length.key">
+                        <!--{{unitSystem.key}}-->
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--Unit System-->
+                  <!--<div class="form-group row">-->
+                  <!--<select class="custom-select"-->
+                  <!--[(ngModel)]="request.units.uu"-->
+                  <!--(change)="this.setRelatedData(request.units.uu)">-->
+                  <!--<option *ngFor="let unitSystem of unitSystemList" [ngValue]="unitSystem.value"-->
+                  <!--selected="{{unitSystem.defaultOption}}" [selected]="unitSystem.defaultOption">-->
+                  <!--{{unitSystem.key}}-->
+                  <!--</option>-->
+                  <!--</select>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Flow Rate-->
+                  <!--<select class="custom-select" [(ngModel)]="request.units.uf">-->
+                  <!--<option *ngFor="let flowRate of flowRateList" [ngValue]="flowRate.value"-->
+                  <!--selected="{{flowRate.defaultOption}}" [selected]="flowRate.defaultOption"-->
+                  <!--[innerHtml]="flowRate.key">-->
+                  <!--</option>-->
+                  <!--</select>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Length-->
+                  <!--<select class="custom-select" [(ngModel)]="request.units.ul">-->
+                  <!--<option *ngFor="let length of lengthList" [ngValue]="length.value"-->
+                  <!--selected="{{length.defaultOption}}" [selected]="length.defaultOption"-->
+                  <!--[innerHtml]="length.key">-->
+                  <!--</option>-->
+                  <!--</select>-->
+                  <!--</div>-->
+                </div>
               </div>
-            </div>
-            <div class="col">
-              Flow Rate
-              <select class="custom-select" [(ngModel)]="request.units.uf">
-                <option *ngFor="let flowRate of flowRateList" [ngValue]="flowRate.value"
-                        selected="{{flowRate.defaultOption}}" [selected]="flowRate.defaultOption"
-                        [innerHtml]="flowRate.key">
-                </option>
-              </select>
-            </div>
-            <div class="col">
-              Length
-              <select class="custom-select" [(ngModel)]="request.units.ul">
-                <option *ngFor="let length of lengthList" [ngValue]="length.value"
-                        selected="{{length.defaultOption}}" [selected]="length.defaultOption"
-                        [innerHtml]="length.key">
-                </option>
-              </select>
-            </div>
-          </div>
+            </mat-expansion-panel>
+          </mat-expansion-panel>
+        </div>
+        <div class="col">
+          <mat-expansion-panel expanded="true">
+            <h6 style="font-weight: bold">Air Temperature</h6>
+            <mat-expansion-panel expanded="true">
+              <div>
+                <div class="row">
+                  <mat-form-field class="col" style="width: 50%">
+                    <input type="number" step="any" matInput placeholder="Air Temperature"
+                           [(ngModel)]="request.airTemperature.temperatureInput">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 50%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="request.airTemperature.temperatureUnit" value="{{temperatureUnit.key}}">
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--Air Temperature-->
+                  <!--<div class="form-group row">-->
+                  <!--<input type="number" step="any" class="form-control col"-->
+                  <!--[(ngModel)]="request.airTemperature.temperatureInput">-->
+                  <!--&lt;!&ndash;[ngClass]="this.setStyleClass(this, request.airTemperature.temperatureInput)">&ndash;&gt;-->
+                  <!--<input type="text" class="form-control col" readonly-->
+                  <!--[(ngModel)]="request.airTemperature.temperatureUnit" value="{{temperatureUnit.key}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-expansion-panel>
+        </div>
+        <div class="col">
+          <mat-expansion-panel expanded="true">
+            <h6 style="font-weight: bold">Duct Type</h6>
+            <mat-expansion-panel expanded="true">
+              <div>
+                <div class="row">
+                  <mat-form-field class="col" style="width: 100%">
+                    <mat-select placeholder="Duct Material" [(ngModel)]="request.ductType.eps">
+                      <mat-option *ngFor="let ductMaterial of ductMaterialList" [value]="ductMaterial.value"
+                                  [innerHtml]="ductMaterial.key">
+                        <!--{{unitSystem.key}}-->
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--Duct Material-->
+                  <!--<div class="form-group row">-->
+                  <!--<select class="custom-select" [(ngModel)]="request.ductType.eps">-->
+                  <!--<option *ngFor="let ductMaterial of ductMaterialList" [ngValue]="ductMaterial.value"-->
+                  <!--selected="{{ductMaterial.defaultOption}}" [selected]="ductMaterial.defaultOption">-->
+                  <!--{{ductMaterial.key}}-->
+                  <!--</option>-->
+                  <!--</select>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-expansion-panel>
         </div>
       </div>
-      <div class="col">
-        2- Air Temperature
-        <div class="data-border">
-          <div class="row">
-            <div class="col">
-              Fluid Temperature
-              <div class="form-group row">
-                <input type="number" step="any" class="form-control col"
-                       [(ngModel)]="request.airTemperature.temperatureInput">
-                <!--[ngClass]="this.setStyleClass(this, request.airTemperature.temperatureInput)">-->
-                <input type="text" class="form-control col" readonly
-                       [(ngModel)]="request.airTemperature.temperatureUnit" value="{{temperatureUnit.key}}">
-              </div>
+      <div class="row">
+        <div class="col">
+          <mat-expansion-panel expanded="true">
+            <h6 style="font-weight: bold">Duct Sections</h6>
+            <div *ngFor="let ductSection of request.ductSectionList;let i = index">
+              <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Duct Section #{{i+1}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row">
+                  <div class="col" style="width: 25%"></div>
+                  <mat-form-field class="col" style="width: 25%">
+                    <input type="text" matInput placeholder="Section Start"
+                           [(ngModel)]="ductSection.startPoint">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 25%">
+                    <input type="text" matInput placeholder="Section End"
+                           [(ngModel)]="ductSection.endPoint">
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--Section Start-->
+                  <!--<div class="form-group row">-->
+                  <!--<input type="text" class="form-control col" [(ngModel)]="ductSection.startPoint">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Section End-->
+                  <!--<div class="form-group row">-->
+                  <!--<input type="text" class="form-control col" [(ngModel)]="ductSection.endPoint">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <div class="col" style="width: 25%"></div>
+                </div>
+                <div class="row">
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="number" step="any" matInput placeholder="Flow Rate"
+                           [(ngModel)]="ductSection.rateInput">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductSection.rateUnit"
+                           value="{{this.getFlowRateKey(request.units.uf,ductSection)}}">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="number" step="any" matInput placeholder="Length"
+                           [(ngModel)]="ductSection.lengthInput">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductSection.lengthUnit"
+                           value="{{this.getLengthKey(request.units.ul,ductSection)}}">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <mat-select placeholder="Duct Shape" [(ngModel)]="ductSection.shp"
+                                (change)="this.changeDuctSectionShpFun(ductSection)">
+                      <mat-option *ngFor="let ductShape of ductShapeList" [value]="ductShape.value"
+                                  [innerHtml]="ductShape.key">
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <mat-select placeholder="Function" [(ngModel)]="ductSection.fun"
+                                (change)="this.changeDuctSectionShpFun(ductSection)">
+                      <mat-option *ngFor="let function of functionList" [value]="function.value"
+                                  [innerHtml]="function.key">
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--Flow Rate-->
+                  <!--<div class="form-group row">-->
+                  <!--<input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.rateInput">-->
+                  <!--<input type="text" class="form-control col" readonly [(ngModel)]="ductSection.rateUnit"-->
+                  <!--value="{{this.getFlowRateKey(request.units.uf,ductSection)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Length-->
+                  <!--<div class="form-group row">-->
+                  <!--<input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.lengthInput">-->
+                  <!--<input type="text" class="form-control col" readonly [(ngModel)]="ductSection.lengthUnit"-->
+                  <!--value="{{this.getLengthKey(request.units.ul,ductSection)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Duct Shape-->
+                  <!--<select class="custom-select" [(ngModel)]="ductSection.shp"-->
+                  <!--(change)="this.changeDuctSectionShpFun(ductSection)">-->
+                  <!--<option *ngFor="let ductShape of ductShapeList" [ngValue]="ductShape.value"-->
+                  <!--selected="{{ductShape.defaultOption}}" [selected]="ductShape.defaultOption">-->
+                  <!--{{ductShape.key}}-->
+                  <!--</option>-->
+                  <!--</select>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Function-->
+                  <!--<select class="custom-select" [(ngModel)]="ductSection.fun"-->
+                  <!--(change)="this.changeDuctSectionShpFun(ductSection)">-->
+                  <!--<option *ngFor="let function of functionList" [ngValue]="function.value"-->
+                  <!--selected="{{function.defaultOption}}" [selected]="function.defaultOption">{{function.key}}-->
+                  <!--</option>-->
+                  <!--</select>-->
+                  <!--</div>-->
+                </div>
+                <div class="row">
+                  <div *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%"></div>
+                  <div *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%"></div>
+                  <mat-form-field *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%">
+                    <input type="number" step="any" matInput placeholder="Duct Diameter"
+                           [(ngModel)]="ductSection.ductDiameterInput">
+                  </mat-form-field>
+                  <mat-form-field *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductSection.ductDiameterUnit"
+                           value="{{this.getDimensionUnit(ductSection)}}">
+                  </mat-form-field>
+                  <div *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%"></div>
+                  <div *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%"></div>
+                  <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
+                    <input type="number" step="any" matInput placeholder="Duct Width"
+                           [(ngModel)]="ductSection.ductWidthInput">
+                  </mat-form-field>
+                  <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductSection.ductWidthUnit"
+                           value="{{this.getDimensionUnit(ductSection)}}">
+                  </mat-form-field>
+                  <div *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%"></div>
+                  <div *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%"></div>
+                  <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
+                    <input type="number" step="any" matInput placeholder="Duct Height"
+                           [(ngModel)]="ductSection.ductHeightInput">
+                  </mat-form-field>
+                  <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductSection.ductHeightUnit"
+                           value="{{this.getDimensionUnit(ductSection)}}">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 12.5%">
+                    <input type="number" step="any" matInput placeholder="Duct Thickness"
+                           [(ngModel)]="ductSection.ductThicknessInput">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 12.5%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductSection.ductThicknessUnit"
+                           value="{{this.getDimensionUnit(ductSection)}}">
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--<div *ngIf="ductSection.shp == 2">Duct Diameter</div>-->
+                  <!--<div class="form-group row" *ngIf="ductSection.shp == 2">-->
+                  <!--<input type="number" step="any" class="form-control col"-->
+                  <!--[(ngModel)]="ductSection.ductDiameterInput">-->
+                  <!--<input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductDiameterUnit"-->
+                  <!--value="{{this.getDimensionUnit(ductSection)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--<div *ngIf="ductSection.shp == 1">Duct Width</div>-->
+                  <!--<div class="form-group row" *ngIf="ductSection.shp == 1">-->
+                  <!--<input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.ductWidthInput">-->
+                  <!--<input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductWidthUnit"-->
+                  <!--value="{{this.getDimensionUnit(ductSection)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--<div *ngIf="ductSection.shp == 1">Duct Height</div>-->
+                  <!--<div class="form-group row" *ngIf="ductSection.shp == 1">-->
+                  <!--<input type="number" step="any" class="form-control col"-->
+                  <!--[(ngModel)]="ductSection.ductHeightInput">-->
+                  <!--<input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductHeightUnit"-->
+                  <!--value="{{this.getDimensionUnit(ductSection)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Duct Thickness-->
+                  <!--<div class="form-group row">-->
+                  <!--<input type="number" step="any" class="form-control col"-->
+                  <!--[(ngModel)]="ductSection.ductThicknessInput">-->
+                  <!--<input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductThicknessUnit"-->
+                  <!--value="{{this.getDimensionUnit(ductSection)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                </div>
+                <mat-expansion-panel expanded="true">
+                  Fittings
+                  <div *ngFor="let fitting of ductSection.fittingList;let i = index">
+                    <mat-expansion-panel expanded="true">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Fitting #{{i+1}}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-radio-group class="row">
+                        <mat-radio-button class="col"
+                                          (click)="this.setFittingCriteria(fitting,1)">
+                          Using ASHRAE fittings database
+                        </mat-radio-button>
+                        <div class="col-sm-1"></div>
+                        <mat-radio-button [value]="false" class="col"
+                                          (click)="this.setFittingCriteria(fitting,2)">
+                          User-Defined
+                        </mat-radio-button>
+                      </mat-radio-group>
+                      <!--<div class="row">-->
+                      <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                      <!--(click)="this.setFittingCriteria(fitting,1)">Using ASHRAE fittings database-->
+                      <!--</button>-->
+                      <!--<div class="col-sm-1"></div>-->
+                      <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                      <!--(click)="this.setFittingCriteria(fitting,2)">User-Defined-->
+                      <!--</button>-->
+                      <!--</div>-->
+                      <div class="row">
+                        <div class="col">
+                          <mat-form-field *ngIf="fitting.fittingSizingCriteria == 1" style="width: 100%;">
+                            <mat-select placeholder="Category" [(ngModel)]="fitting.cat"
+                                        (selectionChange)="this.changeFittingCat(fitting)">
+                              <mat-option *ngFor="let category of this.getCategoryList(ductSection.fun)"
+                                          [value]="category.value">
+                                {{category.key}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <div class="row">
+                            <mat-form-field class="col" *ngIf="fitting.fittingSizingCriteria == 1">
+                              <input type="text" matInput readonly placeholder="Type"
+                                     [(ngModel)]="fitting.fittingDescription">
+                            </mat-form-field>
+                            <button mat-raised-button class="col-sm-4" *ngIf="fitting.fittingSizingCriteria == 1"
+                                    (click)="this.chooseFittingType(ductSection,fitting)">Select Type
+                            </button>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <mat-form-field class="col" *ngIf="fitting.fittingSizingCriteria == 1">
+                              <input type="text" matInput readonly placeholder="Co"
+                                     [(ngModel)]="fitting.cf">
+                            </mat-form-field>
+                            <button mat-raised-button class="col-sm-4" *ngIf="fitting.fittingSizingCriteria == 1"
+                                    (click)="this.chooseFittingCoefficient(fitting)"
+                                    [disabled]="fitting.fittingDescription == null">Select Coefficient
+                            </button>
+                          </div>
+                          <mat-form-field *ngIf="fitting.fittingSizingCriteria == 1" style="width: 100%;">
+                            <input type="number" step="any" matInput placeholder="Qty"
+                                   [(ngModel)]="fitting.qf">
+                          </mat-form-field>
+                          <!--<div class="form-group col" *ngIf="fitting.fittingSizingCriteria == 1">-->
+                          <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+                          <!--&lt;!&ndash;Category&ndash;&gt;-->
+                          <!--&lt;!&ndash;<select class="custom-select" [(ngModel)]="fitting.cat"&ndash;&gt;-->
+                          <!--&lt;!&ndash;(change)="this.changeFittingCat(fitting)">&ndash;&gt;-->
+                          <!--&lt;!&ndash;<option *ngFor="let category of this.getCategoryList(ductSection.fun)"&ndash;&gt;-->
+                          <!--&lt;!&ndash;[ngValue]="category.value">&ndash;&gt;-->
+                          <!--&lt;!&ndash;{{category.key}}&ndash;&gt;-->
+                          <!--&lt;!&ndash;</option>&ndash;&gt;-->
+                          <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+                          <!--&lt;!&ndash;Type&ndash;&gt;-->
+                          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+                          <!--&lt;!&ndash;<input type="text" class="form-control col" readonly&ndash;&gt;-->
+                          <!--&lt;!&ndash;[(ngModel)]="fitting.fittingDescription">&ndash;&gt;-->
+                          <!--&lt;!&ndash;<button type="button" class="btn btn-primary col-sm-4 align-content-center"&ndash;&gt;-->
+                          <!--&lt;!&ndash;(click)="this.chooseFittingType(ductSection,fitting)">Select Type&ndash;&gt;-->
+                          <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+                          <!--&lt;!&ndash;Co&ndash;&gt;-->
+                          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+                          <!--&lt;!&ndash;<input type="number" class="form-control col" readonly [(ngModel)]="fitting.cf">&ndash;&gt;-->
+                          <!--&lt;!&ndash;<button type="button" class="btn btn-primary col-sm-4 align-content-center"&ndash;&gt;-->
+                          <!--&lt;!&ndash;(click)="this.chooseFittingCoefficient(fitting)"&ndash;&gt;-->
+                          <!--&lt;!&ndash;[disabled]="fitting.fittingDescription == null">Select Coefficient&ndash;&gt;-->
+                          <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                          <!--<div class="row">-->
+                          <!--Qty-->
+                          <!--<input type="number" class="form-control" [(ngModel)]="fitting.qf">-->
+                          <!--</div>-->
+                          <!--</div>-->
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col">
+                          <mat-form-field *ngIf="fitting.fittingSizingCriteria == 2" style="width: 100%">
+                            <input type="text" matInput placeholder="Description"
+                                   [(ngModel)]="fitting.fittingDescription">
+                          </mat-form-field>
+                          <mat-form-field *ngIf="fitting.fittingSizingCriteria == 2" style="width: 100%">
+                            <input type="number" step="any" matInput placeholder="loss coefficient (C)"
+                                   [(ngModel)]="fitting.cf">
+                          </mat-form-field>
+                          <mat-form-field *ngIf="fitting.fittingSizingCriteria == 2" style="width: 100%">
+                            <input type="number" step="any" matInput placeholder="Qty"
+                                   [(ngModel)]="fitting.qf">
+                          </mat-form-field>
+                          <!--<div class="form-group col" *ngIf="fitting.fittingSizingCriteria == 2">-->
+                          <!--<div class="row">-->
+                          <!--Description-->
+                          <!--<input type="text" class="form-control" [(ngModel)]="fitting.fittingDescription">-->
+                          <!--</div>-->
+                          <!--<div class="row">-->
+                          <!--loss coefficient (C)-->
+                          <!--<input type="number" class="form-control" [(ngModel)]="fitting.cf">-->
+                          <!--</div>-->
+                          <!--<div class="row">-->
+                          <!--Qty-->
+                          <!--<input type="number" class="form-control" [(ngModel)]="fitting.qf">-->
+                          <!--</div>-->
+                          <!--</div>-->
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </div>
+                  <br>
+                  <div id="inner-button" class="row">
+                    <button mat-raised-button type="submit"
+                            (click)="this.addFitting(ductSection)">
+                      Add New Fitting
+                    </button>
+                    <button mat-raised-button color="warn"
+                            type="submit" (click)="this.removeFitting(ductSection)"
+                            [disabled]="ductSection.fittingList.length==0">
+                      Remove Fitting
+                    </button>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel expanded="true">
+                  Dampers & Obstructions
+                  <div *ngFor="let dampersAndObstructions of ductSection.dampersAndObstructionsList;let i = index">
+                    <mat-expansion-panel expanded="true">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Dampers & Obstructions #{{i+1}}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-radio-group class="row">
+                        <mat-radio-button class="col"
+                                          (click)="setDampersAndObstructionsCriteria(dampersAndObstructions,1)">
+                          Using ASHRAE fittings database
+                        </mat-radio-button>
+                        <div class="col-sm-1"></div>
+                        <mat-radio-button [value]="false"
+                                          class="col"
+                                          (click)="setDampersAndObstructionsCriteria(dampersAndObstructions,2)">
+                          User-Defined
+                        </mat-radio-button>
+                      </mat-radio-group>
+                      <!--<div class="row">-->
+                      <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                      <!--(click)="this.setDampersAndObstructionsCriteria(dampersAndObstructions,1)">Using ASHRAE-->
+                      <!--fittings-->
+                      <!--database-->
+                      <!--</button>-->
+                      <!--<div class="col-sm-1"></div>-->
+                      <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                      <!--(click)="this.setDampersAndObstructionsCriteria(dampersAndObstructions,2)">User-Defined-->
+                      <!--</button>-->
+                      <!--</div>-->
+                      <div class="row">
+                        <div class="col">
+                          <div class="row">
+                            <mat-form-field class="col"
+                                            *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1">
+                              <input type="text" matInput readonly placeholder="Type"
+                                     [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">
+                            </mat-form-field>
+                            <button mat-raised-button class="col-sm-4"
+                                    *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1"
+                                    (click)="this.chooseDampersAndObstructionsType(ductSection,dampersAndObstructions)">
+                              Select Type
+                            </button>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <mat-form-field class="col"
+                                            *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1">
+                              <input type="text" matInput readonly placeholder="Co"
+                                     [(ngModel)]="dampersAndObstructions.cd">
+                            </mat-form-field>
+                            <button mat-raised-button class="col-sm-4"
+                                    *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1"
+                                    (click)="this.chooseDampersAndObstructionsCoefficient(dampersAndObstructions)"
+                                    [disabled]="dampersAndObstructions.dampersAndObstructionsDescription == null">Select
+                              Coefficient
+                            </button>
+                          </div>
+                          <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1"
+                                          style="width: 100%;">
+                            <input type="number" step="any" matInput placeholder="Qty"
+                                   [(ngModel)]="dampersAndObstructions.qd">
+                          </mat-form-field>
+                        </div>
+                        <!--<div class="col">-->
+                        <!--<div class="form-group col"-->
+                        <!--*ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1">-->
+                        <!--<div class="row">-->
+                        <!--Type-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--<input type="text" class="form-control col" readonly-->
+                        <!--[(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">-->
+                        <!--<button type="button" class="btn btn-primary col-sm-4 align-content-center"-->
+                        <!--(click)="this.chooseDampersAndObstructionsType(ductSection,dampersAndObstructions)">-->
+                        <!--Select-->
+                        <!--Type-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--Co-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--<input type="number" class="form-control col" readonly-->
+                        <!--[(ngModel)]="dampersAndObstructions.cd">-->
+                        <!--<button type="button" class="btn btn-primary col-sm-4 align-content-center"-->
+                        <!--(click)="this.chooseDampersAndObstructionsCoefficient(dampersAndObstructions)"-->
+                        <!--[disabled]="dampersAndObstructions.dampersAndObstructionsDescription == null">-->
+                        <!--Select-->
+                        <!--Coefficient-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--Qty-->
+                        <!--<input type="number" class="form-control" [(ngModel)]="dampersAndObstructions.qd">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-sm-1"></div>
+                        <div class="col">
+                          <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2"
+                                          style="width: 100%">
+                            <input type="text" matInput placeholder="Description"
+                                   [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">
+                          </mat-form-field>
+                          <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2"
+                                          style="width: 100%">
+                            <input type="number" step="any" matInput placeholder="loss coefficient (C)"
+                                   [(ngModel)]="dampersAndObstructions.cd">
+                          </mat-form-field>
+                          <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2"
+                                          style="width: 100%">
+                            <input type="number" step="any" matInput placeholder="Qty"
+                                   [(ngModel)]="dampersAndObstructions.qd">
+                          </mat-form-field>
+                        </div>
+                        <!--<div class="col">-->
+                        <!--<div class="form-group col"-->
+                        <!--*ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2">-->
+                        <!--<div class="row">-->
+                        <!--Description-->
+                        <!--<input type="text" class="form-control"-->
+                        <!--[(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--loss coefficient (C)-->
+                        <!--<input type="number" class="form-control" [(ngModel)]="dampersAndObstructions.cd">-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--Qty-->
+                        <!--<input type="number" class="form-control" [(ngModel)]="dampersAndObstructions.qd">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                      </div>
+                    </mat-expansion-panel>
+                  </div>
+                  <br>
+                  <div id="inner-button" class="row">
+                    <button mat-raised-button
+                            (click)="this.addDampersAndObstructions(ductSection)">Add New Dampers/Obstruction
+                    </button>
+                    <button mat-raised-button color="warn"
+                            type="submit" (click)="this.removeDampersAndObstructions(ductSection)"
+                            [disabled]="ductSection.dampersAndObstructionsList.length==0">
+                      Remove Dampers/Obstruction
+                    </button>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel expanded="true">
+                  Duct-Mounted Equipment
+                  <div *ngFor="let ductMountedEquipment of ductSection.ductMountedEquipmentList;let i = index">
+                    <mat-expansion-panel expanded="true">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Duct-Mounted Equipment #{{i+1}}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-radio-group class="row">
+                        <mat-radio-button class="col"
+                                          (click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,1)">
+                          Using ASHRAE fittings database
+                        </mat-radio-button>
+                        <div class="col-sm-1"></div>
+                        <mat-radio-button [value]="false"
+                                          class="col"
+                                          (click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,2)">
+                          User-Defined
+                        </mat-radio-button>
+                      </mat-radio-group>
+                      <!--<div class="row">-->
+                      <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                      <!--(click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,1)">Using ASHRAE-->
+                      <!--fittings-->
+                      <!--database-->
+                      <!--</button>-->
+                      <!--<div class="col-sm-1"></div>-->
+                      <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                      <!--(click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,2)">User-Defined-->
+                      <!--</button>-->
+                      <!--</div>-->
+                      <div class="row">
+                        <div class="col">
+                          <div class="row">
+                            <mat-form-field class="col"
+                                            *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1">
+                              <input type="text" matInput readonly placeholder="Type"
+                                     [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">
+                            </mat-form-field>
+                            <button mat-raised-button class="col-sm-4"
+                                    *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1"
+                                    (click)="this.chooseDuctMountedEquipmentType(ductSection,ductMountedEquipment)">
+                              Select Type
+                            </button>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <mat-form-field class="col"
+                                            *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1">
+                              <input type="text" matInput readonly placeholder="Co"
+                                     [(ngModel)]="ductMountedEquipment.ce">
+                            </mat-form-field>
+                            <button mat-raised-button class="col-sm-4"
+                                    *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1"
+                                    (click)="this.chooseDuctMountedEquipmentCoefficient(ductMountedEquipment)"
+                                    [disabled]="ductMountedEquipment.ductMountedEquipmentDescription == null">Select
+                              Coefficient
+                            </button>
+                          </div>
+                          <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1"
+                                          style="width: 100%;">
+                            <input type="number" step="any" matInput placeholder="Qty"
+                                   [(ngModel)]="ductMountedEquipment.qe">
+                          </mat-form-field>
+                        </div>
+                        <!--<div class="col">-->
+                        <!--<div class="form-group col" *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1">-->
+                        <!--<div class="row">-->
+                        <!--Type-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--<input type="text" class="form-control col" readonly-->
+                        <!--[(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">-->
+                        <!--<button type="button" class="btn btn-primary col-sm-4 align-content-center"-->
+                        <!--(click)="this.chooseDuctMountedEquipmentType(ductSection,ductMountedEquipment)">-->
+                        <!--Select-->
+                        <!--Type-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--Co-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--<input type="number" class="form-control col" readonly-->
+                        <!--[(ngModel)]="ductMountedEquipment.ce">-->
+                        <!--<button type="button" class="btn btn-primary col-sm-4 align-content-center"-->
+                        <!--(click)="this.chooseDuctMountedEquipmentCoefficient(ductMountedEquipment)"-->
+                        <!--[disabled]="ductMountedEquipment.ductMountedEquipmentDescription == null">Select-->
+                        <!--Coefficient-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--Qty-->
+                        <!--<input type="number" class="form-control" [(ngModel)]="ductMountedEquipment.qe">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-sm-1"></div>
+                        <div class="col">
+                          <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2"
+                                          style="width: 100%">
+                            <input type="text" matInput placeholder="Description"
+                                   [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">
+                          </mat-form-field>
+                          <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2"
+                                          style="width: 100%">
+                            <input type="number" step="any" matInput placeholder="loss coefficient (C)"
+                                   [(ngModel)]="ductMountedEquipment.ce">
+                          </mat-form-field>
+                          <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2"
+                                          style="width: 100%">
+                            <input type="number" step="any" matInput placeholder="Qty"
+                                   [(ngModel)]="ductMountedEquipment.qe">
+                          </mat-form-field>
+                        </div>
+                        <!--<div class="col">-->
+                        <!--<div class="form-group col" *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2">-->
+                        <!--<div class="row">-->
+                        <!--Description-->
+                        <!--<input type="text" class="form-control"-->
+                        <!--[(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--loss coefficient (C)-->
+                        <!--<input type="number" class="form-control" [(ngModel)]="ductMountedEquipment.ce">-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                        <!--Qty-->
+                        <!--<input type="number" class="form-control" [(ngModel)]="ductMountedEquipment.qe">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                      </div>
+                    </mat-expansion-panel>
+                  </div>
+                  <br>
+                  <div id="inner-button" class="row">
+                    <button mat-raised-button type="submit"
+                            (click)="this.addEquipment(ductSection)">
+                      Add New Equipment
+                    </button>
+                    <button mat-raised-button color="warn"
+                            type="submit" (click)="this.removeEquipment(ductSection)"
+                            [disabled]="ductSection.ductMountedEquipmentList.length==0">
+                      Remove Equipment
+                    </button>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel expanded="true">
+                  Special Components
+                  <div *ngFor="let specialComponent of ductSection.specialComponentList;let i = index">
+                    <mat-expansion-panel expanded="true">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Special Component #{{i+1}}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="row">
+                        <mat-form-field class="col" style="width: 25%">
+                          <input type="text" matInput placeholder="Description"
+                                 [(ngModel)]="specialComponent.specialComponentDescription">
+                        </mat-form-field>
+                        <mat-form-field class="col" style="width: 25%">
+                          <input type="number" step="any" matInput placeholder="Pressure loss"
+                                 [(ngModel)]="specialComponent.componentPressureDropInput">
+                        </mat-form-field>
+                        <mat-form-field class="col" style="width: 25%">
+                          <input type="text" matInput readonly
+                                 [(ngModel)]="specialComponent.pressureUnit"
+                                 value="{{this.getPressureUnit(specialComponent)}}">
+                        </mat-form-field>
+                        <mat-form-field class="col" style="width: 25%">
+                          <input type="number" step="any" matInput placeholder="Qty"
+                                 [(ngModel)]="specialComponent.qc">
+                        </mat-form-field>
+                        <!--<div class="col">-->
+                        <!--<div class="form-group row">-->
+                        <!--<div class="col">-->
+                        <!--Description-->
+                        <!--<input type="text" class="form-control col"-->
+                        <!--[(ngModel)]="specialComponent.specialComponentDescription">-->
+                        <!--</div>-->
+                        <!--<div class="col">-->
+                        <!--Pressure loss-->
+                        <!--<div class="row">-->
+                        <!--<input type="number" class="form-control col"-->
+                        <!--[(ngModel)]="specialComponent.componentPressureDropInput">-->
+                        <!--<input type="text" class="form-control col" readonly-->
+                        <!--[(ngModel)]="specialComponent.pressureUnit"-->
+                        <!--value="{{this.getPressureUnit(specialComponent)}}">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col">-->
+                        <!--Qty-->
+                        <!--<input type="number" class="form-control col" [(ngModel)]="specialComponent.qc">-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                      </div>
+                    </mat-expansion-panel>
+                  </div>
+                  <br>
+                  <div id="inner-button" class="row">
+                    <button mat-raised-button type="submit"
+                            (click)="this.addSpecialComponent(ductSection)">Add New Component
+                    </button>
+                    <button mat-raised-button color="warn"
+                            type="submit" (click)="this.removeSpecialComponent(ductSection)"
+                            [disabled]="ductSection.specialComponentList.length==0">
+                      Remove Component
+                    </button>
+                  </div>
+                </mat-expansion-panel>
+              </mat-expansion-panel>
             </div>
-          </div>
+            <br>
+            <div id="inner-button" class="row">
+              <button mat-raised-button type="submit" (click)="this.addNewDuctSection()">Add
+                New
+                Duct Section
+              </button>
+              <button mat-raised-button color="warn"
+                      type="submit" (click)="this.removeDuctSection()" [disabled]="request.ductSectionList.length==1">
+                Remove Duct Section
+              </button>
+            </div>
+          </mat-expansion-panel>
         </div>
       </div>
-      <div class="col">
-        3- Duct Type
-        <div class="data-border">
-          <div class="row">
-            <div class="col">
-              Duct Material
-              <div class="form-group row">
-                <select class="custom-select" [(ngModel)]="request.ductType.eps">
-                  <option *ngFor="let ductMaterial of ductMaterialList" [ngValue]="ductMaterial.value"
-                          selected="{{ductMaterial.defaultOption}}" [selected]="ductMaterial.defaultOption">
-                    {{ductMaterial.key}}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        4- Duct Sections
-        <div class="data-border" style="margin-bottom: 5px;" *ngFor="let ductSection of request.ductSectionList">
-          <div class="row">
-            <div class="col"></div>
-            <div class="col">
-              Section Start
-              <div class="form-group row">
-                <input type="text" class="form-control col" [(ngModel)]="ductSection.startPoint">
-              </div>
-            </div>
-            <div class="col">
-              Section End
-              <div class="form-group row">
-                <input type="text" class="form-control col" [(ngModel)]="ductSection.endPoint">
-              </div>
-            </div>
-            <div class="col"></div>
-          </div>
-          <div class="row">
-            <div class="col">
-              Flow Rate
-              <div class="form-group row">
-                <input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.rateInput">
-                <input type="text" class="form-control col" readonly [(ngModel)]="ductSection.rateUnit"
-                       value="{{this.getFlowRateKey(request.units.uf,ductSection)}}">
-              </div>
-            </div>
-            <div class="col">
-              Length
-              <div class="form-group row">
-                <input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.lengthInput">
-                <input type="text" class="form-control col" readonly [(ngModel)]="ductSection.lengthUnit"
-                       value="{{this.getLengthKey(request.units.ul,ductSection)}}">
-              </div>
-            </div>
-            <div class="col">
-              Duct Shape
-              <select class="custom-select" [(ngModel)]="ductSection.shp"
-                      (change)="this.changeDuctSectionShpFun(ductSection)">
-                <option *ngFor="let ductShape of ductShapeList" [ngValue]="ductShape.value"
-                        selected="{{ductShape.defaultOption}}" [selected]="ductShape.defaultOption">{{ductShape.key}}
-                </option>
-              </select>
-            </div>
-            <div class="col">
-              Function
-              <select class="custom-select" [(ngModel)]="ductSection.fun"
-                      (change)="this.changeDuctSectionShpFun(ductSection)">
-                <option *ngFor="let function of functionList" [ngValue]="function.value"
-                        selected="{{function.defaultOption}}" [selected]="function.defaultOption">{{function.key}}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div *ngIf="ductSection.shp == 2">Duct Diameter</div>
-              <div class="form-group row" *ngIf="ductSection.shp == 2">
-                <input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.ductDiameterInput">
-                <input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductDiameterUnit"
-                       value="{{this.getDimensionUnit(ductSection)}}">
-              </div>
-            </div>
-            <div class="col">
-              <div *ngIf="ductSection.shp == 1">Duct Width</div>
-              <div class="form-group row" *ngIf="ductSection.shp == 1">
-                <input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.ductWidthInput">
-                <input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductWidthUnit"
-                       value="{{this.getDimensionUnit(ductSection)}}">
-              </div>
-            </div>
-            <div class="col">
-              <div *ngIf="ductSection.shp == 1">Duct Height</div>
-              <div class="form-group row" *ngIf="ductSection.shp == 1">
-                <input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.ductHeightInput">
-                <input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductHeightUnit"
-                       value="{{this.getDimensionUnit(ductSection)}}">
-              </div>
-            </div>
-            <div class="col">
-              Duct Thickness
-              <div class="form-group row">
-                <input type="number" step="any" class="form-control col" [(ngModel)]="ductSection.ductThicknessInput">
-                <input type="text" class="form-control col" readonly [(ngModel)]="ductSection.ductThicknessUnit"
-                       value="{{this.getDimensionUnit(ductSection)}}">
-              </div>
-            </div>
-          </div>
-          Fittings
-          <div class="data-border" style="margin-bottom: 5px;" *ngFor="let fitting of ductSection.fittingList">
-            <div class="row">
-              <button type="button" class="btn btn-primary col align-content-center"
-                      (click)="this.setFittingCriteria(fitting,1)">Using ASHRAE fittings database
-              </button>
-              <div class="col-sm-1"></div>
-              <button type="button" class="btn btn-primary col align-content-center"
-                      (click)="this.setFittingCriteria(fitting,2)">User-defined fittings
-              </button>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group col" *ngIf="fitting.fittingSizingCriteria == 1">
-                  <div class="row">
-                    Category
-                    <select class="custom-select" [(ngModel)]="fitting.cat" (change)="this.changeFittingCat(fitting)">
-                      <option *ngFor="let category of this.getCategoryList(ductSection.fun)" [ngValue]="category.value">
-                        {{category.key}}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="row">
-                    Type
-                  </div>
-                  <div class="row">
-                    <input type="text" class="form-control col" readonly [(ngModel)]="fitting.fittingDescription">
-                    <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                            (click)="this.chooseFittingType(ductSection,fitting)">Choose Type
-                    </button>
-                  </div>
-                  <div class="row">
-                    Co
-                  </div>
-                  <div class="row">
-                    <input type="number" class="form-control col" readonly [(ngModel)]="fitting.cf">
-                    <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                            (click)="this.chooseFittingCoefficient(fitting)"
-                            [disabled]="fitting.fittingDescription == null">Choose Coefficient
-                    </button>
-                  </div>
-                  <div class="row">
-                    Qty
-                    <input type="number" class="form-control" [(ngModel)]="fitting.qf">
-                  </div>
+      <div class="row">
+        <div class="col">
+          <mat-expansion-panel expanded="true">
+            <h6 style="font-weight: bold;">Fan-system interaction</h6>
+            <mat-expansion-panel expanded="true" *ngIf="request.fanSystemInteraction!=null">
+              <div>
+                <div class="row">
+                  <div class="col" style="width: 33%"></div>
+                  <mat-form-field class="col" style="width: 33%">
+                    <mat-select placeholder="Section" [(ngModel)]="request.fanSystemInteraction.ductSection"
+                                (selectionChange)="setFanSystemInteractionDuctSection()">
+                      <mat-option *ngFor="let ductSection of this.getDuctSectionList()" [value]="ductSection">
+                        {{ductSection}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--Section-->
+                  <!--<div class="form-group row">-->
+                  <!--<select class="custom-select" [(ngModel)]="request.fanSystemInteraction.ductSection"-->
+                  <!--(change)="setFanSystemInteractionDuctSection()">-->
+                  <!--<option *ngFor="let ductSection of this.getDuctSectionList()" [ngValue]="ductSection">-->
+                  <!--{{ductSection}}-->
+                  <!--</option>-->
+                  <!--</select>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <div class="col" style="width: 33%"></div>
                 </div>
-              </div>
-              <div class="col-sm-1"></div>
-              <div class="col">
-                <div class="form-group col" *ngIf="fitting.fittingSizingCriteria == 2">
-                  <div class="row">
-                    Description
-                    <input type="text" class="form-control" [(ngModel)]="fitting.fittingDescription">
-                  </div>
-                  <div class="row">
-                    loss coefficient (C)
-                    <input type="number" class="form-control" [(ngModel)]="fitting.cf">
-                  </div>
-                  <div class="row">
-                    Qty
-                    <input type="number" class="form-control" [(ngModel)]="fitting.qf">
-                  </div>
+                  <mat-radio-group class="row">
+                    <mat-radio-button class="col"
+                      (click)="this.setFanSystemInteractionCriteria(1)">
+                      Using ASHRAE fittings database
+                    </mat-radio-button>
+                    <div class="col-sm-1"></div>
+                    <mat-radio-button [value]="false"
+                      class="col"
+                      (click)="this.setFanSystemInteractionCriteria(2)">
+                      User-Defined
+                    </mat-radio-button>
+                  </mat-radio-group>
+                <div class="row">
+                  <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                  <!--(click)="this.setFanSystemInteractionCriteria(1)">Using ASHRAE fittings-->
+                  <!--database-->
+                  <!--</button>-->
+                  <!--<div class="col-sm-1"></div>-->
+                  <!--<button type="button" class="btn btn-primary col align-content-center"-->
+                  <!--(click)="this.setFanSystemInteractionCriteria(2)">User-Defined-->
+                  <!--</button>-->
                 </div>
-              </div>
-            </div>
-          </div>
-          <div id="inner-button" class="row">
-            <button class="btn btn-primary align-content-center" type="submit" (click)="this.addFitting(ductSection)">
-              Add New Fitting
-            </button>
-            <button class="btn btn-primary align-content-center" style="background-color: red;border-color: red"
-                    type="submit" (click)="this.removeFitting(ductSection)"
-                    [disabled]="ductSection.fittingList.length==0">
-              Remove Fitting
-            </button>
-          </div>
-          Dampers & Obstructions
-          <div class="data-border" style="margin-bottom: 5px;"
-               *ngFor="let dampersAndObstructions of ductSection.dampersAndObstructionsList">
-            <div class="row">
-              <button type="button" class="btn btn-primary col align-content-center"
-                      (click)="this.setDampersAndObstructionsCriteria(dampersAndObstructions,1)">Using ASHRAE fittings
-                database
-              </button>
-              <div class="col-sm-1"></div>
-              <button type="button" class="btn btn-primary col align-content-center"
-                      (click)="this.setDampersAndObstructionsCriteria(dampersAndObstructions,2)">User-defined components
-              </button>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group col" *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1">
-                  <div class="row">
-                    Type
-                  </div>
-                  <div class="row">
-                    <input type="text" class="form-control col" readonly
-                           [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">
-                    <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                            (click)="this.chooseDampersAndObstructionsType(ductSection,dampersAndObstructions)">Choose
-                      Type
-                    </button>
-                  </div>
-                  <div class="row">
-                    Co
-                  </div>
-                  <div class="row">
-                    <input type="number" class="form-control col" readonly [(ngModel)]="dampersAndObstructions.cd">
-                    <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                            (click)="this.chooseDampersAndObstructionsCoefficient(dampersAndObstructions)"
-                            [disabled]="dampersAndObstructions.dampersAndObstructionsDescription == null">Choose
-                      Coefficient
-                    </button>
-                  </div>
-                  <div class="row">
-                    Qty
-                    <input type="number" class="form-control" [(ngModel)]="dampersAndObstructions.qd">
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-1"></div>
-              <div class="col">
-                <div class="form-group col" *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2">
-                  <div class="row">
-                    Description
-                    <input type="text" class="form-control"
-                           [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">
-                  </div>
-                  <div class="row">
-                    loss coefficient (C)
-                    <input type="number" class="form-control" [(ngModel)]="dampersAndObstructions.cd">
-                  </div>
-                  <div class="row">
-                    Qty
-                    <input type="number" class="form-control" [(ngModel)]="dampersAndObstructions.qd">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="inner-button" class="row">
-            <button class="btn btn-primary align-content-center" type="submit"
-                    (click)="this.addDampersAndObstructions(ductSection)">Add New Dampers/Obstruction
-            </button>
-            <button class="btn btn-primary align-content-center" style="background-color: red;border-color: red"
-                    type="submit" (click)="this.removeDampersAndObstructions(ductSection)"
-                    [disabled]="ductSection.dampersAndObstructionsList.length==0">
-              Remove Dampers/Obstruction
-            </button>
-          </div>
-          Duct-Mounted Equipment
-          <div class="data-border" style="margin-bottom: 5px;"
-               *ngFor="let ductMountedEquipment of ductSection.ductMountedEquipmentList">
-            <div class="row">
-              <button type="button" class="btn btn-primary col align-content-center"
-                      (click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,1)">Using ASHRAE fittings
-                database
-              </button>
-              <div class="col-sm-1"></div>
-              <button type="button" class="btn btn-primary col align-content-center"
-                      (click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,2)">User-defined components
-              </button>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class="form-group col" *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1">
-                  <div class="row">
-                    Type
-                  </div>
-                  <div class="row">
-                    <input type="text" class="form-control col" readonly
-                           [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">
-                    <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                            (click)="this.chooseDuctMountedEquipmentType(ductSection,ductMountedEquipment)">Choose Type
-                    </button>
-                  </div>
-                  <div class="row">
-                    Co
-                  </div>
-                  <div class="row">
-                    <input type="number" class="form-control col" readonly [(ngModel)]="ductMountedEquipment.ce">
-                    <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                            (click)="this.chooseDuctMountedEquipmentCoefficient(ductMountedEquipment)"
-                            [disabled]="ductMountedEquipment.ductMountedEquipmentDescription == null">Choose Coefficient
-                    </button>
-                  </div>
-                  <div class="row">
-                    Qty
-                    <input type="number" class="form-control" [(ngModel)]="ductMountedEquipment.qe">
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-1"></div>
-              <div class="col">
-                <div class="form-group col" *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2">
-                  <div class="row">
-                    Description
-                    <input type="text" class="form-control"
-                           [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">
-                  </div>
-                  <div class="row">
-                    loss coefficient (C)
-                    <input type="number" class="form-control" [(ngModel)]="ductMountedEquipment.ce">
-                  </div>
-                  <div class="row">
-                    Qty
-                    <input type="number" class="form-control" [(ngModel)]="ductMountedEquipment.qe">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="inner-button" class="row">
-            <button class="btn btn-primary align-content-center" type="submit" (click)="this.addEquipment(ductSection)">
-              Add New Equipment
-            </button>
-            <button class="btn btn-primary align-content-center" style="background-color: red;border-color: red"
-                    type="submit" (click)="this.removeEquipment(ductSection)"
-                    [disabled]="ductSection.ductMountedEquipmentList.length==0">
-              Remove Equipment
-            </button>
-          </div>
-          Special Components
-          <div class="data-border" style="margin-bottom: 5px;"
-               *ngFor="let specialComponent of ductSection.specialComponentList">
-            <div class="row">
-              <div class="col">
-                <div class="form-group row">
+                <div class="row">
                   <div class="col">
-                    Description
-                    <input type="text" class="form-control col"
-                           [(ngModel)]="specialComponent.specialComponentDescription">
-                  </div>
-                  <div class="col">
-                    Pressure loss
                     <div class="row">
-                      <input type="number" class="form-control col"
-                             [(ngModel)]="specialComponent.componentPressureDropInput">
-                      <input type="text" class="form-control col" readonly
-                             [(ngModel)]="specialComponent.pressureUnit"
-                             value="{{this.getPressureUnit(specialComponent)}}">
+                      <mat-form-field class="col"
+                                      *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 1">
+                        <input type="text" matInput readonly placeholder="Type"
+                               [(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription">
+                      </mat-form-field>
+                      <button mat-raised-button class="col-sm-4"
+                              *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 1"
+                              (click)="this.chooseFanSystemInteractionType()">
+                        Select Type
+                      </button>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <mat-form-field class="col"
+                                      *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 1">
+                        <input type="text" matInput readonly placeholder="Co"
+                               [(ngModel)]="request.fanSystemInteraction.ci">
+                      </mat-form-field>
+                      <button mat-raised-button class="col-sm-4"
+                              *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 1"
+                              (click)="this.chooseFanSystemInteractionCoefficient()"
+                              [disabled]="request.fanSystemInteraction.fanSystemInteractionDescription == null">Select
+                        Coefficient
+                      </button>
                     </div>
                   </div>
+                  <!--<div class="col">-->
+                  <!--<div class="form-group col" *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 1">-->
+                  <!--<div class="row">-->
+                  <!--Type-->
+                  <!--</div>-->
+                  <!--<div class="row">-->
+                  <!--<input type="text" class="form-control col" readonly-->
+                  <!--[(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription">-->
+                  <!--<button type="button" class="btn btn-primary col-sm-4 align-content-center"-->
+                  <!--(click)="this.chooseFanSystemInteractionType()">Select Type-->
+                  <!--</button>-->
+                  <!--</div>-->
+                  <!--<div class="row">-->
+                  <!--Co-->
+                  <!--</div>-->
+                  <!--<div class="row">-->
+                  <!--<input type="number" class="form-control col" readonly-->
+                  <!--[(ngModel)]="request.fanSystemInteraction.ci">-->
+                  <!--<button type="button" class="btn btn-primary col-sm-4 align-content-center"-->
+                  <!--(click)="this.chooseFanSystemInteractionCoefficient()"-->
+                  <!--[disabled]="request.fanSystemInteraction.fanSystemInteractionDescription == null">Select-->
+                  <!--Coefficient-->
+                  <!--</button>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <div class="col-sm-1"></div>
                   <div class="col">
-                    Qty
-                    <input type="number" class="form-control col" [(ngModel)]="specialComponent.qc">
+                    <mat-form-field *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 2"
+                                    style="width: 100%">
+                      <input type="text" matInput placeholder="Description"
+                             [(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription">
+                    </mat-form-field>
+                    <mat-form-field *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 2"
+                                    style="width: 100%">
+                      <input type="number" step="any" matInput placeholder="loss coefficient (C)"
+                             [(ngModel)]="request.fanSystemInteraction.ci">
+                    </mat-form-field>
                   </div>
+                  <!--<div class="col">-->
+                  <!--<div class="form-group col" *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 2">-->
+                  <!--<div class="row">-->
+                  <!--Description-->
+                  <!--<input type="text" class="form-control"-->
+                  <!--[(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription">-->
+                  <!--</div>-->
+                  <!--<div class="row">-->
+                  <!--loss coefficient (C)-->
+                  <!--<input type="number" class="form-control" [(ngModel)]="request.fanSystemInteraction.ci">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
                 </div>
               </div>
+            </mat-expansion-panel>
+            <br>
+            <div id="inner-button" class="row">
+              <button mat-raised-button
+                      type="submit" (click)="this.addFanSystemInteraction()"
+                      [disabled]="request.fanSystemInteraction!=null">
+                Add Fan-system interaction
+              </button>
+              <button mat-raised-button color="warn"
+                      type="submit" (click)="this.removeFanSystemInteraction()"
+                      [disabled]="request.fanSystemInteraction==null">
+                Remove Fan-system interaction
+              </button>
             </div>
-          </div>
-          <div id="inner-button" class="row">
-            <button class="btn btn-primary align-content-center" type="submit"
-                    (click)="this.addSpecialComponent(ductSection)">Add New Component
-            </button>
-            <button class="btn btn-primary align-content-center" style="background-color: red;border-color: red"
-                    type="submit" (click)="this.removeSpecialComponent(ductSection)"
-                    [disabled]="ductSection.specialComponentList.length==0">
-              Remove Component
-            </button>
-          </div>
-        </div>
-        <div id="inner-button" class="row">
-          <button class="btn btn-primary align-content-center" type="submit" (click)="this.addNewDuctSection()">Add New
-            Duct Section
-          </button>
-          <button class="btn btn-primary align-content-center" style="background-color: red;border-color: red"
-                  type="submit" (click)="this.removeDuctSection()" [disabled]="request.ductSectionList.length==1">
-            Remove Duct Section
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        5- Fan-system interaction
-        <div class="data-border" style="margin-bottom: 5px;">
-          <div class="row">
-            <div class="col"></div>
-            <div class="col">
-              Section
-              <div class="form-group row">
-                <select class="custom-select" [(ngModel)]="request.fanSystemInteraction.ductSection"
-                        (change)="setFanSystemInteractionDuctSection()">
-                  <option *ngFor="let ductSection of this.getDuctSectionList()" [ngValue]="ductSection">
-                    {{ductSection}}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="col"></div>
-          </div>
-          <div class="row">
-            <button type="button" class="btn btn-primary col align-content-center"
-                    (click)="this.setFanSystemInteractionCriteria(1)">Using ASHRAE fittings
-              database
-            </button>
-            <div class="col-sm-1"></div>
-            <button type="button" class="btn btn-primary col align-content-center"
-                    (click)="this.setFanSystemInteractionCriteria(2)">User-defined components
-            </button>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div class="form-group col" *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 1">
-                <div class="row">
-                  Type
-                </div>
-                <div class="row">
-                  <input type="text" class="form-control col" readonly
-                         [(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription">
-                  <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                          (click)="this.chooseFanSystemInteractionType()">Choose Type
-                  </button>
-                </div>
-                <div class="row">
-                  Co
-                </div>
-                <div class="row">
-                  <input type="number" class="form-control col" readonly [(ngModel)]="request.fanSystemInteraction.ci">
-                  <button type="button" class="btn btn-primary col-sm-4 align-content-center"
-                          (click)="this.chooseFanSystemInteractionCoefficient()"
-                          [disabled]="request.fanSystemInteraction.fanSystemInteractionDescription == null">Choose
-                    Coefficient
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-1"></div>
-            <div class="col">
-              <div class="form-group col" *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 2">
-                <div class="row">
-                  Description
-                  <input type="text" class="form-control"
-                         [(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription">
-                </div>
-                <div class="row">
-                  loss coefficient (C)
-                  <input type="number" class="form-control" [(ngModel)]="request.fanSystemInteraction.ci">
-                </div>
-              </div>
-            </div>
-          </div>
+          </mat-expansion-panel>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        6- Air terminal (diffuser, grille, louver ... etc)
-        <div class="data-border" style="margin-bottom: 5px;"
-             *ngFor="let airTerminal of request.airTerminalList">
-          <div class="row">
-            <div class="col">
-              <div class="form-group row">
-                <div class="col">
-                  Type
-                  <input type="text" class="form-control col"
-                         [(ngModel)]="airTerminal.airTerminalDescription">
-                </div>
-                <div class="col">
-                  Model
-                  <input type="text" class="form-control col"
-                         [(ngModel)]="airTerminal.model">
-                </div>
-                <div class="col">
-                  Flow Rate
-                  <div class="row">
-                    <input type="number" class="form-control col"
+      <div class="row">
+        <div class="col">
+          <mat-expansion-panel expanded="true">
+            <h6 style="font-weight: bold;">Air terminal (diffuser, grille, louver ... etc)</h6>
+            <div *ngFor="let airTerminal of request.airTerminalList;let i = index">
+              <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Air Terminal #{{i+1}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row">
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="text" matInput placeholder="Type"
+                           [(ngModel)]="airTerminal.airTerminalDescription">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="text" matInput placeholder="Model"
+                           [(ngModel)]="airTerminal.model">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="number" step="any" matInput placeholder="Flow Rate"
                            [(ngModel)]="airTerminal.terminalRateInput">
-                    <input type="text" class="form-control col" readonly
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="text" matInput readonly
                            [(ngModel)]="airTerminal.terminalRateUnit"
                            value="{{this.getTerminalRateUnit(request.units.uf,airTerminal)}}">
-                  </div>
-                </div>
-                <div class="col">
-                  Pressure Loss
-                  <div class="row">
-                    <input type="number" class="form-control col"
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="number" step="any" matInput placeholder="Pressure Loss"
                            [(ngModel)]="airTerminal.terminalPressureDropInput">
-                    <input type="text" class="form-control col" readonly
-                           [(ngModel)]="airTerminal.terminalPressureUnit"
-                           value="{{this.getTerminalPressureUnit(airTerminal)}}">
-                  </div>
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 16.5%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="airTerminal.terminalRateUnit"
+                           value="{{this.getTerminalRateUnit(request.units.uf,airTerminal)}}">
+                  </mat-form-field>
+                  <!--<div class="col">-->
+                  <!--<div class="form-group row">-->
+                  <!--<div class="col">-->
+                  <!--Type-->
+                  <!--<input type="text" class="form-control col"-->
+                  <!--[(ngModel)]="airTerminal.airTerminalDescription">-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Model-->
+                  <!--<input type="text" class="form-control col"-->
+                  <!--[(ngModel)]="airTerminal.model">-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Flow Rate-->
+                  <!--<div class="row">-->
+                  <!--<input type="number" class="form-control col"-->
+                  <!--[(ngModel)]="airTerminal.terminalRateInput">-->
+                  <!--<input type="text" class="form-control col" readonly-->
+                  <!--[(ngModel)]="airTerminal.terminalRateUnit"-->
+                  <!--value="{{this.getTerminalRateUnit(request.units.uf,airTerminal)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col">-->
+                  <!--Pressure Loss-->
+                  <!--<div class="row">-->
+                  <!--<input type="number" class="form-control col"-->
+                  <!--[(ngModel)]="airTerminal.terminalPressureDropInput">-->
+                  <!--<input type="text" class="form-control col" readonly-->
+                  <!--[(ngModel)]="airTerminal.terminalPressureUnit"-->
+                  <!--value="{{this.getTerminalPressureUnit(airTerminal)}}">-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
                 </div>
-              </div>
+              </mat-expansion-panel>
             </div>
-          </div>
-        </div>
-        <div id="inner-button" class="row">
-          <button class="btn btn-primary align-content-center" type="submit"
-                  (click)="this.addTerminal()">Add New Terminal
-          </button>
-          <button class="btn btn-primary align-content-center" style="background-color: red;border-color: red"
-                  type="submit" (click)="this.removeTerminal()" [disabled]="request.airTerminalList.length==1">
-            Remove Terminal
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col"></div>
-      <div class="col">
-        Fan Flow Rate
-        <div class="row">
-          <input type="number" class="form-control col"
-                 [(ngModel)]="request.fanRate.fanRateInput">
-          <input type="text" class="form-control col" readonly
-                 [(ngModel)]="request.fanRate.fanRateUnit"
-                 value="{{this.getFanRateUnit(request.units.uf)}}">
+            <br>
+            <div id="inner-button" class="row">
+              <button mat-raised-button type="submit"
+                      (click)="this.addTerminal()">Add New Terminal
+              </button>
+              <button mat-raised-button color="warn"
+                      type="submit" (click)="this.removeTerminal()" [disabled]="request.airTerminalList.length==1">
+                Remove Terminal
+              </button>
+            </div>
+          </mat-expansion-panel>
         </div>
       </div>
-      <div class="col"></div>
+      <br>
+      <div class="row">
+        <div class="col" style="width: 33%"></div>
+        <mat-expansion-panel expanded="true" style="width: 33%">
+          <mat-form-field class="col" style="width: 45%">
+            <input type="number" step="any" matInput placeholder="Fan Flow Rate"
+                   [(ngModel)]="request.fanRate.fanRateInput">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 45%">
+            <input type="text" matInput readonly
+                   [(ngModel)]="request.fanRate.fanRateUnit"
+                   value="{{this.getFanRateUnit(request.units.uf)}}">
+          </mat-form-field>
+          <!--<div class="col">-->
+          <!--Fan Flow Rate-->
+          <!--<div class="row">-->
+          <!--<input type="number" class="form-control col"-->
+          <!--[(ngModel)]="request.fanRate.fanRateInput">-->
+          <!--<input type="text" class="form-control col" readonly-->
+          <!--[(ngModel)]="request.fanRate.fanRateUnit"-->
+          <!--value="{{this.getFanRateUnit(request.units.uf)}}">-->
+          <!--</div>-->
+          <!--</div>-->
+        </mat-expansion-panel>
+        <div class="col" style="width: 33%"></div>
+      </div>
     </div>
-  </div>
+  </mat-expansion-panel>
   <br *ngIf="!error">
   <div id="inner-error-message" class="row" *ngIf="error">
     {{errorMessage.substring(errorMessage.lastIndexOf("-")+1)}}
   </div>
   <div id="inner-button" class="row">
-    <button class="btn btn-primary align-content-center" type="submit" (click)="calculate()">Calculate</button>
+    <button mat-raised-button type="submit" (click)="calculate()">Calculate</button>
   </div>
+  <br>
 </div>
 </body>
 <body *ngIf="resultAvailable">
-<h5>Output Report</h5>
-<div class="data-border">
-  <div class="row">
-    <div class="col">
-      <label>Project</label>
-      <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.project">
+<h5 style="font-weight: bold;">Output Report</h5>
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel expanded="true">
+    <div class="row">
+      <mat-form-field class="col" style="width: 25%">
+        <input type="text" matInput readonly placeholder="Project"
+               [(ngModel)]="response.project">
+      </mat-form-field>
+      <mat-form-field class="col" readonly style="width: 25%">
+        <input type="text" matInput placeholder="System"
+               [(ngModel)]="response.system">
+      </mat-form-field>
+      <mat-form-field class="col" readonly style="width: 25%">
+        <input type="text" matInput placeholder="Fan Ref."
+               [(ngModel)]="response.pumpRef">
+      </mat-form-field>
+      <mat-form-field class="col" readonly style="width: 25%">
+        <input type="text" matInput placeholder="Date"
+               [(ngModel)]="response.date">
+      </mat-form-field>
+      <!--<div class="col">-->
+      <!--<label>Project</label>-->
+      <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.project">-->
+      <!--</div>-->
+      <!--<div class="col">-->
+      <!--<label>System</label>-->
+      <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.system">-->
+      <!--</div>-->
+      <!--<div class="col">-->
+      <!--<label>Fan Ref.</label>-->
+      <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.pumpRef">-->
+      <!--</div>-->
+      <!--<div class="col">-->
+      <!--<label>Date</label>-->
+      <!--<input type="text" class="form-control col output-field" readonly [(ngModel)]="response.date">-->
+      <!--</div>-->
     </div>
-    <div class="col">
-      <label>System</label>
-      <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.system">
+  </mat-expansion-panel>
+  <br>
+  <mat-expansion-panel expanded="true">
+    <div class="data-border-rectangular">
+      <u>Important Remark</u>
+      <div>1- Pressure drop in straight duct is calculated using the most accurate method (Darcy-Weisbach equation).
+      </div>
+      <div>2- Pressure drop in fittings, dampers ... etc is calculated using loss coefficient (C) which depends on
+        geometry and size.
+      </div>
     </div>
-    <div class="col">
-      <label>Pump Ref.</label>
-      <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.pumpRef">
-    </div>
-    <div class="col">
-      <label>Date</label>
-      <input type="text" class="form-control col output-field" readonly [(ngModel)]="response.date">
-    </div>
-  </div>
-</div>
-<br>
-<div class="data-border">
-  <div class="data-border">
-    <u>Important Remark</u>
-    <div>1- Pressure drop in straight duct is calculated using the most accurate method (Darcy-Weisbach equation).</div>
-    <div>2- Pressure drop in fittings, dampers ... etc is calculated using loss coefficient (C) which depends on
-      geometry and size.
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      1- Duct Sections
-      <div class="data-border" style="margin-bottom: 5px;"
-           *ngFor="let ductSection of response.ductSectionResponseList;let i = index">
-        <div class="row">
-          <div class="col" align="center">Section {{i+1}}</div>
-        </div>
-        <div class="row">
-          <div class="col"></div>
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o1">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o2">
-          <div class="col"></div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div *ngIf="request.ductSectionList[i].shp == 1">Duct Dimensions</div>
-            <div class="form-group row" *ngIf="request.ductSectionList[i].shp == 1">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o3">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o4">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx1">
+    <br>
+    <div class="row">
+      <div class="col">
+        <h6 style="font-weight: bold">Duct Sections</h6>
+        <div *ngFor="let ductSection of response.ductSectionResponseList;let i = index">
+          <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Duct Section #{{i+1}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <!--<div class="row">-->
+            <!--<div class="col" align="center">Section {{i+1}} Points</div>-->
+            <!--</div>-->
+            <div class="row">
+              <div class="col" style="width: 25%"></div>
+              <mat-form-field class="col" style="width: 25%">
+                <input type="text" matInput readonly placeholder="Start"
+                       [(ngModel)]="ductSection.o1">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 25%">
+                <input type="text" matInput readonly placeholder="End"
+                       [(ngModel)]="ductSection.o2">
+              </mat-form-field>
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o1">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o2">-->
+              <div class="col" style="width: 25%"></div>
             </div>
-          </div>
-          <div class="col">
-            <div *ngIf="request.ductSectionList[i].shp == 2">Duct Diameter</div>
-            <div class="form-group row" *ngIf="request.ductSectionList[i].shp == 2">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o5">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx1">
+            <div class="row">
+              <mat-form-field *ngIf="request.ductSectionList[i].shp == 1" class="col" style="width: 0.09%">
+                <input type="text" matInput readonly placeholder="Duct Height"
+                       [(ngModel)]="ductSection.o3">
+              </mat-form-field>
+              <mat-form-field *ngIf="request.ductSectionList[i].shp == 1" class="col" style="width: 0.09%">
+                <input type="text" matInput readonly placeholder="Duct Width"
+                       [(ngModel)]="ductSection.o4">
+              </mat-form-field>
+              <mat-form-field *ngIf="request.ductSectionList[i].shp == 1" class="col" style="width: 0.09%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="ductSection.tx1">
+              </mat-form-field>
+              <div class="col" *ngIf="request.ductSectionList[i].shp == 2" style="width: 0.09%"></div>
+              <div class="col" *ngIf="request.ductSectionList[i].shp == 2" style="width: 0.09%"></div>
+              <div class="col" *ngIf="request.ductSectionList[i].shp == 2" style="width: 0.09%"></div>
+              <mat-form-field *ngIf="request.ductSectionList[i].shp == 2" class="col" style="width: 0.09%">
+                <input type="text" matInput readonly placeholder="Duct Diameter"
+                       [(ngModel)]="ductSection.o5">
+              </mat-form-field>
+              <mat-form-field *ngIf="request.ductSectionList[i].shp == 2" class="col" style="width: 0.09%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="ductSection.tx1">
+              </mat-form-field>
+              <div class="col" *ngIf="request.ductSectionList[i].shp == 1" style="width: 0.09%"></div>
+              <div class="col" *ngIf="request.ductSectionList[i].shp == 1" style="width: 0.09%"></div>
+              <mat-form-field class="col" style="width: 0.09%">
+                <input type="text" matInput readonly placeholder="Duct Thickness"
+                       [(ngModel)]="ductSection.o6">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 0.09%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="ductSection.tx1">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 0.09%">
+                <input type="text" matInput readonly placeholder="Flow Rate"
+                       [(ngModel)]="ductSection.o7">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 0.09%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="ductSection.tx2">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 0.09%">
+                <input type="text" matInput readonly placeholder="Flow Velocity"
+                       [(ngModel)]="ductSection.o8">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 0.09%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="ductSection.tx3">
+              </mat-form-field>
+              <!--<div class="col">-->
+              <!--<div *ngIf="request.ductSectionList[i].shp == 1">Duct Dimensions</div>-->
+              <!--<div class="form-group row" *ngIf="request.ductSectionList[i].shp == 1">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o3">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o4">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx1">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div *ngIf="request.ductSectionList[i].shp == 2">Duct Diameter</div>-->
+              <!--<div class="form-group row" *ngIf="request.ductSectionList[i].shp == 2">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o5">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx1">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Duct Thickness</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o6">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx1">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Flow Rate</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o7">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx2">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Flow Velocity</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o8">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx3">-->
+              <!--</div>-->
+              <!--</div>-->
             </div>
-          </div>
-          <div class="col">
-            <div>Duct Thickness</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o6">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx1">
-            </div>
-          </div>
-          <div class="col">
-            <div>Flow Rate</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o7">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx2">
-            </div>
-          </div>
-          <div class="col">
-            <div>Flow Velocity</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o8">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx3">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <u>Straight Run</u>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div>Length</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o88">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx4">
-            </div>
-          </div>
-          <div class="col">
-            <div>Pressure Loss</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o9">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col data-border">
-            <u>Fittings</u>
-            <div class="row" *ngIf="ductSection.fittingResponseList.length>0">
+            <div class="row">
               <div class="col">
-                Type
+                <u>Straight Run</u>
               </div>
-              <div class="col">
-                C
-              </div>
-              <div class="col">
-                Qty
-              </div>
-              <div class="col">
-                Pressure Loss
-              </div>
-              <div class="col"></div>
             </div>
-            <div class="row" *ngFor="let fitting of ductSection.fittingResponseList">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o10">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o11">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o12">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o13">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
+            <div class="row">
+              <mat-form-field class="col" style="width: 25%">
+                <input type="text" matInput readonly placeholder="Length"
+                       [(ngModel)]="ductSection.o88">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 25%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="ductSection.tx4">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 25%">
+                <input type="text" matInput readonly placeholder="Pressure Loss"
+                       [(ngModel)]="ductSection.o9">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 25%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="response.tx5">
+              </mat-form-field>
+              <!--<div class="col">-->
+              <!--<div>Length</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o88">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.tx4">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Pressure Loss</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o9">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
             </div>
-          </div>
-          <div class="col data-border">
-            <u>Dampers & Obstructions</u>
-            <div class="row" *ngIf="ductSection.dampersAndObstructionsResponseList.length>0">
-              <div class="col">
-                Type
-              </div>
-              <div class="col">
-                C
-              </div>
-              <div class="col">
-                Qty
-              </div>
-              <div class="col">
-                Pressure Loss
-              </div>
-              <div class="col"></div>
+            <div class="row">
+              <mat-expansion-panel class="col" expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Fittings
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row" *ngIf="ductSection.fittingResponseList.length>0">
+                  <div class="col">
+                    Type
+                  </div>
+                  <div class="col">
+                    C
+                  </div>
+                  <div class="col">
+                    Qty
+                  </div>
+                  <div class="col">
+                    Pressure Loss
+                  </div>
+                  <div class="col"></div>
+                </div>
+                <div class="row" *ngFor="let fitting of ductSection.fittingResponseList">
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="fitting.o10">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="fitting.o11">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="fitting.o12">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="fitting.o13">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="response.tx5">
+                  </mat-form-field>
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o10">-->
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o11">-->
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o12">-->
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="fitting.o13">-->
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel class="col" expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Dampers & Obstructions
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row" *ngIf="ductSection.dampersAndObstructionsResponseList.length>0">
+                  <div class="col">
+                    Type
+                  </div>
+                  <div class="col">
+                    C
+                  </div>
+                  <div class="col">
+                    Qty
+                  </div>
+                  <div class="col">
+                    Pressure Loss
+                  </div>
+                  <div class="col"></div>
+                </div>
+                <div class="row"
+                     *ngFor="let dampersAndObstructions of ductSection.dampersAndObstructionsResponseList">
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="dampersAndObstructions.o14">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="dampersAndObstructions.o15">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="dampersAndObstructions.o16">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="dampersAndObstructions.o17">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="response.tx5">
+                  </mat-form-field>
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="dampersAndObstructions.o14">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="dampersAndObstructions.o15">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="dampersAndObstructions.o16">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="dampersAndObstructions.o17">-->
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel class="col" expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Duct-Mounted Equipment
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!--<u>Duct-Mounted Equipment</u>-->
+                <div class="row" *ngIf="ductSection.ductMountedEquipmentResponseList.length>0">
+                  <div class="col">
+                    Type
+                  </div>
+                  <div class="col">
+                    C
+                  </div>
+                  <div class="col">
+                    Qty
+                  </div>
+                  <div class="col">
+                    Pressure Loss
+                  </div>
+                  <div class="col"></div>
+                </div>
+                <div class="row" *ngFor="let ductMountedEquipment of ductSection.ductMountedEquipmentResponseList">
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductMountedEquipment.o18">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductMountedEquipment.o19">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductMountedEquipment.o20">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="ductMountedEquipment.o21">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="response.tx5">
+                  </mat-form-field>
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="ductMountedEquipment.o18">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="ductMountedEquipment.o19">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="ductMountedEquipment.o20">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="ductMountedEquipment.o21">-->
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel class="col" expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Special Components
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!--<u>Special Components</u>-->
+                <div class="row" *ngIf="ductSection.specialComponentResponseList.length>0">
+                  <div class="col">
+                    Type
+                  </div>
+                  <div class="col">
+                    Qty
+                  </div>
+                  <div class="col">
+                    Pressure Loss
+                  </div>
+                  <div class="col"></div>
+                </div>
+                <div class="row" *ngFor="let specialComponent of ductSection.specialComponentResponseList">
+                  <mat-form-field class="col" style="width: 25%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="specialComponent.o22">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 25%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="specialComponent.o23">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 25%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="specialComponent.o24">
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 25%">
+                    <input type="text" matInput readonly
+                           [(ngModel)]="response.tx5">
+                  </mat-form-field>
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="specialComponent.o22">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="specialComponent.o23">-->
+                  <!--<input type="text" readonly class="form-control col output-field"-->
+                  <!--[(ngModel)]="specialComponent.o24">-->
+                  <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+                </div>
+              </mat-expansion-panel>
             </div>
-            <div class="row" *ngFor="let dampersAndObstructions of ductSection.dampersAndObstructionsResponseList">
-              <input type="text" readonly class="form-control col output-field"
-                     [(ngModel)]="dampersAndObstructions.o14">
-              <input type="text" readonly class="form-control col output-field"
-                     [(ngModel)]="dampersAndObstructions.o15">
-              <input type="text" readonly class="form-control col output-field"
-                     [(ngModel)]="dampersAndObstructions.o16">
-              <input type="text" readonly class="form-control col output-field"
-                     [(ngModel)]="dampersAndObstructions.o17">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
+            <br>
+            <div class="row">
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly placeholder="Total"
+                       [(ngModel)]="ductSection.o25">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="response.tx5">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly placeholder="Total"
+                       [(ngModel)]="ductSection.o26">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="response.tx5">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly placeholder="Total"
+                       [(ngModel)]="ductSection.o27">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="response.tx5">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly placeholder="Total"
+                       [(ngModel)]="ductSection.o28">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="response.tx5">
+              </mat-form-field>
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o25">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o26">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o27">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o28">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
             </div>
-          </div>
-          <div class="col data-border">
-            <u>Duct-Mounted Equipment</u>
-            <div class="row" *ngIf="ductSection.ductMountedEquipmentResponseList.length>0">
-              <div class="col">
-                Type
-              </div>
-              <div class="col">
-                C
-              </div>
-              <div class="col">
-                Qty
-              </div>
-              <div class="col">
-                Pressure Loss
-              </div>
-              <div class="col"></div>
-            </div>
-            <div class="row" *ngFor="let ductMountedEquipment of ductSection.ductMountedEquipmentResponseList">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductMountedEquipment.o18">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductMountedEquipment.o19">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductMountedEquipment.o20">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductMountedEquipment.o21">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-            </div>
-          </div>
-          <div class="col data-border">
-            <u>Special Components</u>
-            <div class="row" *ngIf="ductSection.specialComponentResponseList.length>0">
-              <div class="col">
-                Type
-              </div>
-              <div class="col">
-                Qty
-              </div>
-              <div class="col">
-                Pressure Loss
-              </div>
-              <div class="col"></div>
-            </div>
-            <div class="row" *ngFor="let specialComponent of ductSection.specialComponentResponseList">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="specialComponent.o22">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="specialComponent.o23">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="specialComponent.o24">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div>Total</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o25">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-            </div>
-          </div>
-          <div class="col">
-            <div>Total</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o26">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-            </div>
-          </div>
-          <div class="col">
-            <div>Total</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o27">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-            </div>
-          </div>
-          <div class="col">
-            <div>Total</div>
-            <div class="form-group row">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o28">
-              <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-            </div>
-          </div>
+          </mat-expansion-panel>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      2- Fan-System Interaction
-      <div class="data-border" style="margin-bottom: 5px;">
-        <div class="row">
-          <div class="col">Type</div>
-          <div class="col">C</div>
-          <div class="col">Pressure Loss</div>
-          <div class="col"></div>
-        </div>
-        <div class="row">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o29">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o30">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o31">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-        </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <h6 style="font-weight: bold">Fan-System Interaction</h6>
+        <mat-expansion-panel class="row" expanded="true">
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly placeholder="Type"
+                   [(ngModel)]="response.o29">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly placeholder="C"
+                   [(ngModel)]="response.o30">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly placeholder="Pressure Loss"
+                   [(ngModel)]="response.o31">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly
+                   [(ngModel)]="response.tx5">
+          </mat-form-field>
+          <!--<div class="row">-->
+          <!--<div class="col">Type</div>-->
+          <!--<div class="col">C</div>-->
+          <!--<div class="col">Pressure Loss</div>-->
+          <!--<div class="col"></div>-->
+          <!--</div>-->
+          <!--<div class="row">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o29">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o30">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o31">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+          <!--</div>-->
+        </mat-expansion-panel>
+        <!--</div>-->
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      3- Duct Sections Pressure Loss Summary
-      <div class="data-border" style="margin-bottom: 5px;">
-        <div class="row">
-          <div class="col" align="center"><u>Straight Duct</u></div>
-          <div class="col" align="center"><u>Fittings</u></div>
-          <div class="col" align="center"><u>Dampers & Obstructions</u></div>
-          <div class="col" align="center"><u>Duct-Mounted Equipments</u></div>
-          <div class="col" align="center"><u>Special Components</u></div>
-          <div class="col" align="center"><u>Fan-System Interaction</u></div>
-          <div class="col" align="center"><u>Total Pressure Loss</u></div>
-        </div>
-        <div class="row">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o32">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o33">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o34">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o35">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o36">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o31">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o37">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      4- Air Terminals
-      <div class="data-border" style="margin-bottom: 5px;">
-        <div class="row">
-          <div class="col"></div>
-          <div class="col">Type</div>
-          <div class="col">Model</div>
-          <div class="col">Flow Rate</div>
-          <div class="col"></div>
-          <div class="col">Pressure Loss</div>
-          <div class="col"></div>
-        </div>
-        <div class="row" *ngFor="let airTerminal of response.airTerminalResponseList;let i = index">
-          <div class="col">Air Terminal {{i+1}}</div>
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o38">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o39">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o40">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.ductSectionResponseList[0].tx2">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o41">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col"></div>
-        <div class="col">
-          <div>Total</div>
-          <div class="form-group row">
-            <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o42">
-            <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
+    <br>
+    <div class="row">
+      <div class="col">
+        <h6 style="font-weight: bold">Duct Sections Pressure Loss Summary</h6>
+        <mat-expansion-panel class="row" expanded="true">
+          <div class="row">
+            <div class="col" align="center"><u>Straight Duct</u></div>
+            <div class="col" align="center"><u>Fittings</u></div>
+            <div class="col" align="center"><u>Dampers & Obstructions</u></div>
+            <div class="col" align="center"><u>Duct-Mounted Equipments</u></div>
+            <div class="col" align="center"><u>Special Components</u></div>
+            <div class="col" align="center"><u>Fan-System Interaction</u></div>
+            <div class="col" align="center"><u>Total Pressure Loss</u></div>
           </div>
-        </div>
-        <div class="col"></div>
+          <div class="row">
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.o32">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.o33">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.o34">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.o35">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.o36">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.o31">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.o37">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 0.07%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o32">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o33">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o34">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o35">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o36">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o31">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o37">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+          </div>
+        </mat-expansion-panel>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      5- Fan ESP & Flow
-      <div class="data-border" style="margin-bottom: 5px;">
+    <br>
+    <div class="row">
+      <div class="col">
+        <h6 style="font-weight: bold">Air Terminals</h6>
+        <mat-expansion-panel class="row" expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Air Terminals
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row" *ngIf="response.airTerminalResponseList.length>0">
+            <div class="col" style="width: 16%"></div>
+            <div class="col" style="width: 16%">Type</div>
+            <div class="col" style="width: 16%">Model</div>
+            <div class="col" style="width: 16%">Flow Rate</div>
+            <div class="col" style="width: 16%">Pressure Loss</div>
+            <div class="col" style="width: 16%"></div>
+            <!--<div class="col"></div>-->
+          </div>
+          <div class="row" *ngFor="let airTerminal of response.airTerminalResponseList;let i = index">
+            <!--<div class="col" style="width: 16%">Air Terminal {{i+1}}</div>-->
+            <mat-form-field class="col" style="width: 16%">
+              <input type="text" matInput readonly
+                     value="Air Terminal {{i+1}}">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 16%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="airTerminal.o38">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 16%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="airTerminal.o39">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 16%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="airTerminal.o40">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 16%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="airTerminal.o41">
+            </mat-form-field>
+            <mat-form-field class="col" style="width: 16%">
+              <input type="text" matInput readonly
+                     [(ngModel)]="response.tx5">
+            </mat-form-field>
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o38">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o39">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o40">-->
+            <!--<input type="text" readonly class="form-control col output-field"-->
+            <!--[(ngModel)]="response.ductSectionResponseList[0].tx2">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="airTerminal.o41">-->
+            <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+          </div>
+        </mat-expansion-panel>
+        <br>
         <div class="row">
-          <div class="col">Fan Flow Rate</div>
-          <div class="col"></div>
-          <div class="col">Fan Esp</div>
-          <div class="col"></div>
-        </div>
-        <div class="row">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o43">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.ductSectionResponseList[0].tx2">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o44">
-          <input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">
+          <div class="col" style="width: 25%"></div>
+          <mat-form-field class="col" style="width: 25%">
+            <input type="text" matInput readonly placeholder="Total"
+                   [(ngModel)]="response.o42">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 25%">
+            <input type="text" matInput readonly
+                   [(ngModel)]="response.tx5">
+          </mat-form-field>
+          <!--<div class="col">-->
+          <!--<div>Total</div>-->
+          <!--<div class="form-group row">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o42">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+          <!--</div>-->
+          <!--</div>-->
+          <div class="col" style="width: 25%"></div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="row">
+      <div class="col">
+        <h6 style="font-weight: bold">Fan ESP & Flow</h6>
+        <mat-expansion-panel class="row" expanded="true">
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly placeholder="Fan Flow Rate"
+                   [(ngModel)]="response.o43">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly
+                   [(ngModel)]="response.ductSectionResponseList[0].tx2">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly placeholder="Fan Esp"
+                   [(ngModel)]="response.o44">
+          </mat-form-field>
+          <mat-form-field class="col" style="width: 24%">
+            <input type="text" matInput readonly
+                   [(ngModel)]="response.tx5">
+          </mat-form-field>
+          <!--<div class="row">-->
+          <!--<div class="col">Fan Flow Rate</div>-->
+          <!--<div class="col"></div>-->
+          <!--<div class="col">Fan Esp</div>-->
+          <!--<div class="col"></div>-->
+          <!--</div>-->
+          <!--<div class="row">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o43">-->
+          <!--<input type="text" readonly class="form-control col output-field"-->
+          <!--[(ngModel)]="response.ductSectionResponseList[0].tx2">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.o44">-->
+          <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+          <!--</div>-->
+        </mat-expansion-panel>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-expansion-panel>
 <br>
 <div id="inner-button" class="row">
-  <button class="btn btn-primary align-content-center" type="submit" (click)="backToInputPage()">Back</button>
+  <button mat-raised-button type="submit" (click)="backToInputPage()">Back</button>
 </div>
+<br>
 </body>
 </html>

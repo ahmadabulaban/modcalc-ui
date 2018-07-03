@@ -11,7 +11,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import { FanEspComponent } from './fan-esp/fan-esp.component';
 import {FanEspServiceImpl} from './fan-esp/service/fan-esp.serviceImpl';
-import {MatDialogModule, MatNativeDateModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatRadioModule,
+  MatSelectModule
+} from '@angular/material';
 import { FanPopupTypeComponent } from './fan-esp/fan-popup-type/fan-popup-type.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FanPopupCoefficientComponent } from './fan-esp/fan-popup-coefficient/fan-popup-coefficient.component';
@@ -33,6 +37,12 @@ import { FanPopupCoefficientComponent } from './fan-esp/fan-popup-coefficient/fa
     HttpClientModule,
     MatDialogModule,
     MatNativeDateModule,
+    MatExpansionModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatRadioModule,
     BrowserAnimationsModule
   ],
   entryComponents: [FanEspComponent, FanPopupTypeComponent, FanPopupCoefficientComponent],
