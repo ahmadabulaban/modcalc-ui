@@ -5,7 +5,7 @@ export class FittingResponse {
   o13: number;
 
   constructor() {
-    this.o10 = null;
+    this.o10 = 'cdsdsfsdfsdfsddfsdfsfdsfsfdsfsdfsdsdsd';
     this.o11 = null;
     this.o12 = null;
     this.o13 = null;

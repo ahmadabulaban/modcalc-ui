@@ -40,8 +40,8 @@ export class FanEspResponse {
     this.o42 = null;
     this.o43 = null;
     this.o44 = null;
-    // this.ductSectionResponseList.push(new DuctSectionResponse());
-    // this.airTerminalResponseList.push(new AirTerminalResponse());
+    this.ductSectionResponseList.push(new DuctSectionResponse());
+    this.airTerminalResponseList.push(new AirTerminalResponse());
     // this.ductSectionResponseList.push(new DuctSectionResponse());
   }
 }

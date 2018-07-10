@@ -116,7 +116,7 @@
                     <input type="number" step="any" matInput placeholder="Air Temperature"
                            [(ngModel)]="request.airTemperature.temperatureInput">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 50%">
+                  <mat-form-field id="units-style" class="col" style="width: 50%">
                     <input type="text" matInput readonly
                            [(ngModel)]="request.airTemperature.temperatureUnit" value="{{temperatureUnit.key}}">
                   </mat-form-field>
@@ -206,7 +206,7 @@
                     <input type="number" step="any" matInput placeholder="Flow Rate"
                            [(ngModel)]="ductSection.rateInput">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 16.5%">
+                  <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="ductSection.rateUnit"
                            value="{{this.getFlowRateKey(request.units.uf,ductSection)}}">
@@ -215,7 +215,7 @@
                     <input type="number" step="any" matInput placeholder="Length"
                            [(ngModel)]="ductSection.lengthInput">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 16.5%">
+                  <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="ductSection.lengthUnit"
                            value="{{this.getLengthKey(request.units.ul,ductSection)}}">
@@ -279,7 +279,7 @@
                     <input type="number" step="any" matInput placeholder="Duct Diameter"
                            [(ngModel)]="ductSection.ductDiameterInput">
                   </mat-form-field>
-                  <mat-form-field *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%">
+                  <mat-form-field id="units-style" *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="ductSection.ductDiameterUnit"
                            value="{{this.getDimensionUnit(ductSection)}}">
@@ -290,7 +290,7 @@
                     <input type="number" step="any" matInput placeholder="Duct Width"
                            [(ngModel)]="ductSection.ductWidthInput">
                   </mat-form-field>
-                  <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
+                  <mat-form-field id="units-style" *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="ductSection.ductWidthUnit"
                            value="{{this.getDimensionUnit(ductSection)}}">
@@ -301,7 +301,7 @@
                     <input type="number" step="any" matInput placeholder="Duct Height"
                            [(ngModel)]="ductSection.ductHeightInput">
                   </mat-form-field>
-                  <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
+                  <mat-form-field id="units-style" *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="ductSection.ductHeightUnit"
                            value="{{this.getDimensionUnit(ductSection)}}">
@@ -310,7 +310,7 @@
                     <input type="number" step="any" matInput placeholder="Duct Thickness"
                            [(ngModel)]="ductSection.ductThicknessInput">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 12.5%">
+                  <mat-form-field id="units-style" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="ductSection.ductThicknessUnit"
                            value="{{this.getDimensionUnit(ductSection)}}">
@@ -361,12 +361,15 @@
                         </mat-panel-title>
                       </mat-expansion-panel-header>
                       <mat-radio-group class="row">
-                        <mat-radio-button class="col"
+                        <mat-radio-button [checked]="fitting.fittingSizingCriteria==1"
+                                          [value]="fitting.fittingSizingCriteria==1"
+                                          class="col"
                                           (click)="this.setFittingCriteria(fitting,1)">
                           Using ASHRAE fittings database
                         </mat-radio-button>
                         <div class="col-sm-1"></div>
-                        <mat-radio-button [value]="false" class="col"
+                        <mat-radio-button [checked]="fitting.fittingSizingCriteria==2"
+                                          [value]="fitting.fittingSizingCriteria==2" class="col"
                                           (click)="this.setFittingCriteria(fitting,2)">
                           User-Defined
                         </mat-radio-button>
@@ -507,12 +510,15 @@
                         </mat-panel-title>
                       </mat-expansion-panel-header>
                       <mat-radio-group class="row">
-                        <mat-radio-button class="col"
+                        <mat-radio-button [checked]="dampersAndObstructions.dampersAndObstructionsSizingCriteria==1"
+                                          [value]="dampersAndObstructions.dampersAndObstructionsSizingCriteria==1"
+                                          class="col"
                                           (click)="setDampersAndObstructionsCriteria(dampersAndObstructions,1)">
                           Using ASHRAE fittings database
                         </mat-radio-button>
                         <div class="col-sm-1"></div>
-                        <mat-radio-button [value]="false"
+                        <mat-radio-button [checked]="dampersAndObstructions.dampersAndObstructionsSizingCriteria==2"
+                                          [value]="dampersAndObstructions.dampersAndObstructionsSizingCriteria==2"
                                           class="col"
                                           (click)="setDampersAndObstructionsCriteria(dampersAndObstructions,2)">
                           User-Defined
@@ -658,12 +664,15 @@
                         </mat-panel-title>
                       </mat-expansion-panel-header>
                       <mat-radio-group class="row">
-                        <mat-radio-button class="col"
+                        <mat-radio-button [checked]="ductMountedEquipment.ductMountedEquipmentCriteria==1"
+                                          [value]="ductMountedEquipment.ductMountedEquipmentCriteria==1"
+                                          class="col"
                                           (click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,1)">
                           Using ASHRAE fittings database
                         </mat-radio-button>
                         <div class="col-sm-1"></div>
-                        <mat-radio-button [value]="false"
+                        <mat-radio-button [checked]="ductMountedEquipment.ductMountedEquipmentCriteria==2"
+                                          [value]="ductMountedEquipment.ductMountedEquipmentCriteria==2"
                                           class="col"
                                           (click)="this.setDuctMountedEquipmentCriteria(ductMountedEquipment,2)">
                           User-Defined
@@ -815,7 +824,7 @@
                           <input type="number" step="any" matInput placeholder="Pressure loss"
                                  [(ngModel)]="specialComponent.componentPressureDropInput">
                         </mat-form-field>
-                        <mat-form-field class="col" style="width: 25%">
+                        <mat-form-field id="units-style" class="col" style="width: 25%">
                           <input type="text" matInput readonly
                                  [(ngModel)]="specialComponent.pressureUnit"
                                  value="{{this.getPressureUnit(specialComponent)}}">
@@ -907,18 +916,21 @@
                   <!--</div>-->
                   <div class="col" style="width: 33%"></div>
                 </div>
-                  <mat-radio-group class="row">
-                    <mat-radio-button class="col"
-                      (click)="this.setFanSystemInteractionCriteria(1)">
-                      Using ASHRAE fittings database
-                    </mat-radio-button>
-                    <div class="col-sm-1"></div>
-                    <mat-radio-button [value]="false"
-                      class="col"
-                      (click)="this.setFanSystemInteractionCriteria(2)">
-                      User-Defined
-                    </mat-radio-button>
-                  </mat-radio-group>
+                <mat-radio-group class="row">
+                  <mat-radio-button [checked]="request.fanSystemInteraction.fanSystemInteractionCriteria==1"
+                                    [value]="request.fanSystemInteraction.fanSystemInteractionCriteria==1"
+                                    class="col"
+                                    (click)="this.setFanSystemInteractionCriteria(1)">
+                    Using ASHRAE fittings database
+                  </mat-radio-button>
+                  <div class="col-sm-1"></div>
+                  <mat-radio-button [checked]="request.fanSystemInteraction.fanSystemInteractionCriteria==2"
+                                    [value]="request.fanSystemInteraction.fanSystemInteractionCriteria==2"
+                                    class="col"
+                                    (click)="this.setFanSystemInteractionCriteria(2)">
+                    User-Defined
+                  </mat-radio-button>
+                </mat-radio-group>
                 <div class="row">
                   <!--<button type="button" class="btn btn-primary col align-content-center"-->
                   <!--(click)="this.setFanSystemInteractionCriteria(1)">Using ASHRAE fittings-->
@@ -1053,7 +1065,7 @@
                     <input type="number" step="any" matInput placeholder="Flow Rate"
                            [(ngModel)]="airTerminal.terminalRateInput">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 16.5%">
+                  <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="airTerminal.terminalRateUnit"
                            value="{{this.getTerminalRateUnit(request.units.uf,airTerminal)}}">
@@ -1062,7 +1074,7 @@
                     <input type="number" step="any" matInput placeholder="Pressure Loss"
                            [(ngModel)]="airTerminal.terminalPressureDropInput">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 16.5%">
+                  <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
                            [(ngModel)]="airTerminal.terminalRateUnit"
                            value="{{this.getTerminalRateUnit(request.units.uf,airTerminal)}}">
@@ -1125,7 +1137,7 @@
             <input type="number" step="any" matInput placeholder="Fan Flow Rate"
                    [(ngModel)]="request.fanRate.fanRateInput">
           </mat-form-field>
-          <mat-form-field class="col" style="width: 45%">
+          <mat-form-field id="units-style" class="col" style="width: 45%">
             <input type="text" matInput readonly
                    [(ngModel)]="request.fanRate.fanRateUnit"
                    value="{{this.getFanRateUnit(request.units.uf)}}">
@@ -1157,8 +1169,8 @@
 </body>
 <body *ngIf="resultAvailable">
 <h5 style="font-weight: bold;">Output Report</h5>
-<mat-expansion-panel expanded="true">
-  <mat-expansion-panel expanded="true">
+<mat-expansion-panel expanded="true" class="data-border-rectangular">
+  <mat-expansion-panel expanded="true" class="data-border-rectangular">
     <div class="row">
       <mat-form-field class="col" style="width: 25%">
         <input type="text" matInput readonly placeholder="Project"
@@ -1195,7 +1207,7 @@
     </div>
   </mat-expansion-panel>
   <br>
-  <mat-expansion-panel expanded="true">
+  <mat-expansion-panel expanded="true" class="data-border-rectangular">
     <div class="data-border-rectangular">
       <u>Important Remark</u>
       <div>1- Pressure drop in straight duct is calculated using the most accurate method (Darcy-Weisbach equation).
@@ -1209,7 +1221,7 @@
       <div class="col">
         <h6 style="font-weight: bold">Duct Sections</h6>
         <div *ngFor="let ductSection of response.ductSectionResponseList;let i = index">
-          <mat-expansion-panel expanded="true">
+          <mat-expansion-panel expanded="true" class="data-border-rectangular">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Duct Section #{{i+1}}
@@ -1241,7 +1253,8 @@
                 <input type="text" matInput readonly placeholder="Duct Width"
                        [(ngModel)]="ductSection.o4">
               </mat-form-field>
-              <mat-form-field *ngIf="request.ductSectionList[i].shp == 1" class="col" style="width: 0.09%">
+              <mat-form-field id="units-style" *ngIf="request.ductSectionList[i].shp == 1" class="col"
+                              style="width: 0.09%">
                 <input type="text" matInput readonly
                        [(ngModel)]="ductSection.tx1">
               </mat-form-field>
@@ -1252,7 +1265,8 @@
                 <input type="text" matInput readonly placeholder="Duct Diameter"
                        [(ngModel)]="ductSection.o5">
               </mat-form-field>
-              <mat-form-field *ngIf="request.ductSectionList[i].shp == 2" class="col" style="width: 0.09%">
+              <mat-form-field id="units-style" *ngIf="request.ductSectionList[i].shp == 2" class="col"
+                              style="width: 0.09%">
                 <input type="text" matInput readonly
                        [(ngModel)]="ductSection.tx1">
               </mat-form-field>
@@ -1262,7 +1276,7 @@
                 <input type="text" matInput readonly placeholder="Duct Thickness"
                        [(ngModel)]="ductSection.o6">
               </mat-form-field>
-              <mat-form-field class="col" style="width: 0.09%">
+              <mat-form-field id="units-style" class="col" style="width: 0.09%">
                 <input type="text" matInput readonly
                        [(ngModel)]="ductSection.tx1">
               </mat-form-field>
@@ -1270,7 +1284,7 @@
                 <input type="text" matInput readonly placeholder="Flow Rate"
                        [(ngModel)]="ductSection.o7">
               </mat-form-field>
-              <mat-form-field class="col" style="width: 0.09%">
+              <mat-form-field id="units-style" class="col" style="width: 0.09%">
                 <input type="text" matInput readonly
                        [(ngModel)]="ductSection.tx2">
               </mat-form-field>
@@ -1278,7 +1292,7 @@
                 <input type="text" matInput readonly placeholder="Flow Velocity"
                        [(ngModel)]="ductSection.o8">
               </mat-form-field>
-              <mat-form-field class="col" style="width: 0.09%">
+              <mat-form-field id="units-style" class="col" style="width: 0.09%">
                 <input type="text" matInput readonly
                        [(ngModel)]="ductSection.tx3">
               </mat-form-field>
@@ -1329,7 +1343,7 @@
                 <input type="text" matInput readonly placeholder="Length"
                        [(ngModel)]="ductSection.o88">
               </mat-form-field>
-              <mat-form-field class="col" style="width: 25%">
+              <mat-form-field id="units-style" class="col" style="width: 25%">
                 <input type="text" matInput readonly
                        [(ngModel)]="ductSection.tx4">
               </mat-form-field>
@@ -1337,7 +1351,7 @@
                 <input type="text" matInput readonly placeholder="Pressure Loss"
                        [(ngModel)]="ductSection.o9">
               </mat-form-field>
-              <mat-form-field class="col" style="width: 25%">
+              <mat-form-field id="units-style" class="col" style="width: 25%">
                 <input type="text" matInput readonly
                        [(ngModel)]="response.tx5">
               </mat-form-field>
@@ -1357,7 +1371,7 @@
               <!--</div>-->
             </div>
             <div class="row">
-              <mat-expansion-panel class="col" expanded="true">
+              <mat-expansion-panel class="col data-border-rectangular" expanded="true">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     Fittings
@@ -1379,7 +1393,7 @@
                   <div class="col"></div>
                 </div>
                 <div class="row" *ngFor="let fitting of ductSection.fittingResponseList">
-                  <mat-form-field class="col" style="width: 20%">
+                  <mat-form-field class="col" style="width: 20%;">
                     <input type="text" matInput readonly
                            [(ngModel)]="fitting.o10">
                   </mat-form-field>
@@ -1395,7 +1409,7 @@
                     <input type="text" matInput readonly
                            [(ngModel)]="fitting.o13">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 20%">
+                  <mat-form-field id="units-style" class="col" style="width: 20%">
                     <input type="text" matInput readonly
                            [(ngModel)]="response.tx5">
                   </mat-form-field>
@@ -1406,7 +1420,7 @@
                   <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
                 </div>
               </mat-expansion-panel>
-              <mat-expansion-panel class="col" expanded="true">
+              <mat-expansion-panel class="col data-border-rectangular" expanded="true">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     Dampers & Obstructions
@@ -1445,7 +1459,7 @@
                     <input type="text" matInput readonly
                            [(ngModel)]="dampersAndObstructions.o17">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 20%">
+                  <mat-form-field id="units-style" class="col" style="width: 20%">
                     <input type="text" matInput readonly
                            [(ngModel)]="response.tx5">
                   </mat-form-field>
@@ -1460,7 +1474,56 @@
                   <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
                 </div>
               </mat-expansion-panel>
-              <mat-expansion-panel class="col" expanded="true">
+            </div>
+            <br>
+            <div class="row">
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly placeholder="Total"
+                       [(ngModel)]="ductSection.o25">
+              </mat-form-field>
+              <mat-form-field id="units-style" class="col" style="width: 12.5%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="response.tx5">
+              </mat-form-field>
+              <mat-form-field class="col" style="width: 12.5%">
+                <input type="text" matInput readonly placeholder="Total"
+                       [(ngModel)]="ductSection.o26">
+              </mat-form-field>
+              <mat-form-field id="units-style" class="col" style="width: 12.5%">
+                <input type="text" matInput readonly
+                       [(ngModel)]="response.tx5">
+              </mat-form-field>
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o25">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o26">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o27">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col">-->
+              <!--<div>Total</div>-->
+              <!--<div class="form-group row">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="ductSection.o28">-->
+              <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
+              <!--</div>-->
+              <!--</div>-->
+            </div>
+            <div class="row">
+              <mat-expansion-panel class="col data-border-rectangular" expanded="true">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     Duct-Mounted Equipment
@@ -1499,7 +1562,7 @@
                     <input type="text" matInput readonly
                            [(ngModel)]="ductMountedEquipment.o21">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 20%">
+                  <mat-form-field id="units-style" class="col" style="width: 20%">
                     <input type="text" matInput readonly
                            [(ngModel)]="response.tx5">
                   </mat-form-field>
@@ -1514,7 +1577,7 @@
                   <!--<input type="text" readonly class="form-control col output-field" [(ngModel)]="response.tx5">-->
                 </div>
               </mat-expansion-panel>
-              <mat-expansion-panel class="col" expanded="true">
+              <mat-expansion-panel class="col data-border-rectangular" expanded="true">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     Special Components
@@ -1546,7 +1609,7 @@
                     <input type="text" matInput readonly
                            [(ngModel)]="specialComponent.o24">
                   </mat-form-field>
-                  <mat-form-field class="col" style="width: 25%">
+                  <mat-form-field id="units-style" class="col" style="width: 25%">
                     <input type="text" matInput readonly
                            [(ngModel)]="response.tx5">
                   </mat-form-field>
@@ -1564,25 +1627,9 @@
             <div class="row">
               <mat-form-field class="col" style="width: 12.5%">
                 <input type="text" matInput readonly placeholder="Total"
-                       [(ngModel)]="ductSection.o25">
-              </mat-form-field>
-              <mat-form-field class="col" style="width: 12.5%">
-                <input type="text" matInput readonly
-                       [(ngModel)]="response.tx5">
-              </mat-form-field>
-              <mat-form-field class="col" style="width: 12.5%">
-                <input type="text" matInput readonly placeholder="Total"
-                       [(ngModel)]="ductSection.o26">
-              </mat-form-field>
-              <mat-form-field class="col" style="width: 12.5%">
-                <input type="text" matInput readonly
-                       [(ngModel)]="response.tx5">
-              </mat-form-field>
-              <mat-form-field class="col" style="width: 12.5%">
-                <input type="text" matInput readonly placeholder="Total"
                        [(ngModel)]="ductSection.o27">
               </mat-form-field>
-              <mat-form-field class="col" style="width: 12.5%">
+              <mat-form-field id="units-style" class="col" style="width: 12.5%">
                 <input type="text" matInput readonly
                        [(ngModel)]="response.tx5">
               </mat-form-field>
@@ -1590,7 +1637,7 @@
                 <input type="text" matInput readonly placeholder="Total"
                        [(ngModel)]="ductSection.o28">
               </mat-form-field>
-              <mat-form-field class="col" style="width: 12.5%">
+              <mat-form-field id="units-style" class="col" style="width: 12.5%">
                 <input type="text" matInput readonly
                        [(ngModel)]="response.tx5">
               </mat-form-field>
@@ -1631,20 +1678,20 @@
     <div class="row">
       <div class="col">
         <h6 style="font-weight: bold">Fan-System Interaction</h6>
-        <mat-expansion-panel class="row" expanded="true">
-          <mat-form-field class="col" style="width: 24%">
+        <mat-expansion-panel class="row data-border-rectangular" expanded="true">
+          <mat-form-field class="col" style="width: 24%" *ngIf="request.fanSystemInteraction!=null">
             <input type="text" matInput readonly placeholder="Type"
                    [(ngModel)]="response.o29">
           </mat-form-field>
-          <mat-form-field class="col" style="width: 24%">
+          <mat-form-field class="col" style="width: 24%" *ngIf="request.fanSystemInteraction!=null">
             <input type="text" matInput readonly placeholder="C"
                    [(ngModel)]="response.o30">
           </mat-form-field>
-          <mat-form-field class="col" style="width: 24%">
+          <mat-form-field class="col" style="width: 24%" *ngIf="request.fanSystemInteraction!=null">
             <input type="text" matInput readonly placeholder="Pressure Loss"
                    [(ngModel)]="response.o31">
           </mat-form-field>
-          <mat-form-field class="col" style="width: 24%">
+          <mat-form-field id="units-style" class="col" style="width: 24%" *ngIf="request.fanSystemInteraction!=null">
             <input type="text" matInput readonly
                    [(ngModel)]="response.tx5">
           </mat-form-field>
@@ -1668,7 +1715,7 @@
     <div class="row">
       <div class="col">
         <h6 style="font-weight: bold">Duct Sections Pressure Loss Summary</h6>
-        <mat-expansion-panel class="row" expanded="true">
+        <mat-expansion-panel class="row data-border-rectangular" expanded="true">
           <div class="row">
             <div class="col" align="center"><u>Straight Duct</u></div>
             <div class="col" align="center"><u>Fittings</u></div>
@@ -1683,7 +1730,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="response.o32">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 0.07%">
+            <mat-form-field id="units-style" class="col" style="width: 0.07%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1691,7 +1738,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="response.o33">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 0.07%">
+            <mat-form-field id="units-style" class="col" style="width: 0.07%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1699,7 +1746,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="response.o34">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 0.07%">
+            <mat-form-field id="units-style" class="col" style="width: 0.07%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1707,7 +1754,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="response.o35">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 0.07%">
+            <mat-form-field id="units-style" class="col" style="width: 0.07%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1715,7 +1762,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="response.o36">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 0.07%">
+            <mat-form-field id="units-style" class="col" style="width: 0.07%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1723,7 +1770,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="response.o31">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 0.07%">
+            <mat-form-field id="units-style" class="col" style="width: 0.07%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1731,7 +1778,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="response.o37">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 0.07%">
+            <mat-form-field id="units-style" class="col" style="width: 0.07%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1757,7 +1804,7 @@
     <div class="row">
       <div class="col">
         <h6 style="font-weight: bold">Air Terminals</h6>
-        <mat-expansion-panel class="row" expanded="true">
+        <mat-expansion-panel class="row data-border-rectangular" expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Air Terminals
@@ -1794,7 +1841,7 @@
               <input type="text" matInput readonly
                      [(ngModel)]="airTerminal.o41">
             </mat-form-field>
-            <mat-form-field class="col" style="width: 16%">
+            <mat-form-field id="units-style" class="col" style="width: 16%">
               <input type="text" matInput readonly
                      [(ngModel)]="response.tx5">
             </mat-form-field>
@@ -1814,7 +1861,7 @@
             <input type="text" matInput readonly placeholder="Total"
                    [(ngModel)]="response.o42">
           </mat-form-field>
-          <mat-form-field class="col" style="width: 25%">
+          <mat-form-field id="units-style" class="col" style="width: 25%">
             <input type="text" matInput readonly
                    [(ngModel)]="response.tx5">
           </mat-form-field>
@@ -1832,12 +1879,12 @@
     <div class="row">
       <div class="col">
         <h6 style="font-weight: bold">Fan ESP & Flow</h6>
-        <mat-expansion-panel class="row" expanded="true">
+        <mat-expansion-panel class="row data-border-rectangular" expanded="true">
           <mat-form-field class="col" style="width: 24%">
             <input type="text" matInput readonly placeholder="Fan Flow Rate"
                    [(ngModel)]="response.o43">
           </mat-form-field>
-          <mat-form-field class="col" style="width: 24%">
+          <mat-form-field id="units-style" class="col" style="width: 24%">
             <input type="text" matInput readonly
                    [(ngModel)]="response.ductSectionResponseList[0].tx2">
           </mat-form-field>
@@ -1845,7 +1892,7 @@
             <input type="text" matInput readonly placeholder="Fan Esp"
                    [(ngModel)]="response.o44">
           </mat-form-field>
-          <mat-form-field class="col" style="width: 24%">
+          <mat-form-field id="units-style" class="col" style="width: 24%">
             <input type="text" matInput readonly
                    [(ngModel)]="response.tx5">
           </mat-form-field>

@@ -46,9 +46,9 @@ export class DuctSectionResponse {
     this.o26 = null;
     this.o27 = null;
     this.o28 = null;
-    // this.fittingResponseList.push(new FittingResponse());
-    // this.dampersAndObstructionsResponseList.push(new DampersAndObstructionsResponse());
-    // this.ductMountedEquipmentResponseList.push(new DuctMountedEquipmentResponse());
-    // this.specialComponentResponseList.push(new SpecialComponentResponse());
+    this.fittingResponseList.push(new FittingResponse());
+    this.dampersAndObstructionsResponseList.push(new DampersAndObstructionsResponse());
+    this.ductMountedEquipmentResponseList.push(new DuctMountedEquipmentResponse());
+    this.specialComponentResponseList.push(new SpecialComponentResponse());
   }
 }

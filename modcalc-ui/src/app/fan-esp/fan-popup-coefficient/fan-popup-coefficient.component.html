@@ -5,28 +5,112 @@
     margin-left: auto;
     margin-right: auto;">
     <br>
-    <table align="center">
-      <tr *ngFor="let cells of data.table;">
-        <ng-container *ngFor="let c of cells;">
-          <ng-container *ngIf="c != '' && c.endsWith('v')">
-            <td>
-              <button mat-raised-button
-                      (click)="this.selectCoefficient(c.replace('v',''))">{{c.replace('v','')}}
-              </button>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="c != '' && !c.endsWith('v') && c.endsWith('->colspan')">
-            <td [attr.colspan]="data.fanLookupCoefficient.width" style="text-align: center">{{c.replace('->colspan','')}}</td>
-          </ng-container>
-          <ng-container *ngIf="c != '' && !c.endsWith('v') && !c.endsWith('->colspan')">
-            <td style="text-align: center">{{c}}</td>
-          </ng-container>
-          <ng-container *ngIf="c == ''">
-            <!--<td>&lt;!&ndash;style="visibility: hidden;">&ndash;&gt;</td>-->
-          </ng-container>
+    <table align="center" style="max-height:400px;display: inline-block;">
+      <ng-container *ngFor="let cells of data.table;let i = index">
+        <ng-container *ngIf="i<data.fanLookupCoefficient.fixedHeaderHeight">
+          <tr>
+            <ng-container *ngFor="let c of cells;">
+              <ng-container *ngIf="c != '' && c.endsWith('v')">
+                <td>
+                  <button mat-raised-button
+                          (click)="this.selectCoefficient(c.replace('v',''))">{{c.replace('v','')}}
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && c.endsWith('->colspan')">
+                <td [attr.colspan]="data.fanLookupCoefficient.width" style="text-align: center">
+                  {{c.replace('->colspan','')}}
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && !c.endsWith('->colspan')">
+                <td style="text-align: center">{{c}}</td>
+              </ng-container>
+              <ng-container *ngIf="c == ''">
+                <!--<td>&lt;!&ndash;style="visibility: hidden;">&ndash;&gt;</td>-->
+              </ng-container>
+            </ng-container>
+          </tr>
         </ng-container>
-      </tr>
+        <ng-container *ngIf="i>=data.fanLookupCoefficient.fixedHeaderHeight">
+          <tr style="visibility: collapse">
+            <ng-container *ngFor="let c of cells;">
+              <ng-container *ngIf="c != '' && c.endsWith('v')">
+                <td style="visibility: hidden">
+                  <button mat-raised-button
+                          (click)="this.selectCoefficient(c.replace('v',''))">{{c.replace('v','')}}
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && c.endsWith('->colspan')">
+                <td [attr.colspan]="data.fanLookupCoefficient.width" style="text-align: center;visibility: hidden">
+                  {{c.replace('->colspan','')}}
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && !c.endsWith('->colspan')">
+                <td style="text-align: center;visibility: hidden">{{c}}</td>
+              </ng-container>
+              <ng-container *ngIf="c == ''">
+                <!--<td>&lt;!&ndash;style="visibility: hidden;">&ndash;&gt;</td>-->
+              </ng-container>
+            </ng-container>
+          </tr>
+        </ng-container>
+      </ng-container>
     </table>
+    <table align="center" style="overflow-y:auto;max-height:300px;display: inline-block;margin-top: -10px">
+      <ng-container *ngFor="let cells of data.table;let i = index">
+        <ng-container *ngIf="i<data.fanLookupCoefficient.fixedHeaderHeight">
+          <tr style="visibility: collapse">
+            <ng-container *ngFor="let c of cells;">
+              <ng-container *ngIf="c != '' && c.endsWith('v')">
+                <td style="visibility: hidden">
+                  <button mat-raised-button
+                          (click)="this.selectCoefficient(c.replace('v',''))">{{c.replace('v','')}}
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && c.endsWith('->colspan')">
+                <td [attr.colspan]="data.fanLookupCoefficient.width" style="text-align: center;visibility: hidden">
+                  {{c.replace('->colspan','')}}
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && !c.endsWith('->colspan')">
+                <td style="text-align: center;visibility: hidden">{{c}}</td>
+              </ng-container>
+              <ng-container *ngIf="c == ''">
+                <!--<td>&lt;!&ndash;style="visibility: hidden;">&ndash;&gt;</td>-->
+              </ng-container>
+            </ng-container>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="i>=data.fanLookupCoefficient.fixedHeaderHeight">
+          <tr>
+            <ng-container *ngFor="let c of cells;">
+              <ng-container *ngIf="c != '' && c.endsWith('v')">
+                <td>
+                  <button mat-raised-button
+                          (click)="this.selectCoefficient(c.replace('v',''))">{{c.replace('v','')}}
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && c.endsWith('->colspan')">
+                <td [attr.colspan]="data.fanLookupCoefficient.width" style="text-align: center;">
+                  {{c.replace('->colspan','')}}
+                </td>
+              </ng-container>
+              <ng-container *ngIf="c != '' && !c.endsWith('v') && !c.endsWith('->colspan')">
+                <td style="text-align: center;">{{c}}</td>
+              </ng-container>
+              <ng-container *ngIf="c == ''">
+                <!--<td>&lt;!&ndash;style="visibility: hidden;">&ndash;&gt;</td>-->
+              </ng-container>
+            </ng-container>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </table>
+    <br>
+    <div style="text-align: center">Source: {{data.fanLookupCoefficient.tableSource}}</div>
     <br>
   </div>
 </div>

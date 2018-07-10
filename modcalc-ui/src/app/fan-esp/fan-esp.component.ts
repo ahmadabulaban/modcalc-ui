@@ -16,6 +16,7 @@ import {FanEspCoefficientDataLookup} from './models/lookups/fan-esp-coefficient-
 import {FanPopupCoefficientComponent} from './fan-popup-coefficient/fan-popup-coefficient.component';
 import {FanEspResponse} from './models/response/fan-esp-response.model';
 import {FanSystemInteraction} from './models/request/fan-system-interaction.model';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-fan-esp',
@@ -47,9 +48,11 @@ export class FanEspComponent implements OnInit {
 
   calculate() {
     console.log(this.request);
-    this.request.fanSystemInteraction.ductSection
-      = this.request.ductSectionList[this.fanSystemInteractionDuctSection].startPoint
-      + ':' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
+    if (this.request.fanSystemInteraction != null) {
+      this.request.fanSystemInteraction.ductSection
+        = this.request.ductSectionList[this.fanSystemInteractionDuctSection].startPoint
+        + ':' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
+    }
     this.fanEspService.calculateFanEsp(this.request)
       .subscribe(resp => {
         this.response = resp;
@@ -63,7 +66,12 @@ export class FanEspComponent implements OnInit {
 
   backToInputPage() {
     this.resultAvailable = false;
-    this.fillInitialData();
+    this.response = null;
+    if (this.request.fanSystemInteraction != null) {
+      this.request.fanSystemInteraction.ductSection
+        = this.request.ductSectionList[this.fanSystemInteractionDuctSection].startPoint
+        + '-' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
+    }
   }
 
   constructor(private titleService: Title, private fanEspService: FanEspServiceImpl, public dialog: MatDialog) {
@@ -102,7 +110,9 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.document
             , lookupCoefficient.height
             , lookupCoefficient.width
-            , lookupCoefficient.image));
+            , lookupCoefficient.image
+            , lookupCoefficient.tableSource
+            , lookupCoefficient.fixedHeaderHeight));
         }
       },
       error => {
@@ -272,7 +282,7 @@ export class FanEspComponent implements OnInit {
     if (this.fanSystemInteractionDuctSection === this.request.ductSectionList.length - 1) {
       this.fanSystemInteractionDuctSection = 0;
       this.request.fanSystemInteraction.ductSection
-        = this.request.ductSectionList[0].startPoint + ':' + this.request.ductSectionList[0].endPoint;
+        = this.request.ductSectionList[0].startPoint + '-' + this.request.ductSectionList[0].endPoint;
     }
     this.request.ductSectionList.pop();
   }
@@ -352,7 +362,7 @@ export class FanEspComponent implements OnInit {
   getDuctSectionList() {
     const tempDuctSectionList: Array<string> = [];
     for (const ductSection of this.request.ductSectionList) {
-      tempDuctSectionList.push(ductSection.startPoint + ':' + ductSection.endPoint);
+      tempDuctSectionList.push(ductSection.startPoint + '-' + ductSection.endPoint);
     }
     return tempDuctSectionList;
   }
@@ -419,7 +429,9 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.document
             , lookupCoefficient.height
             , lookupCoefficient.width
-            , lookupCoefficient.image));
+            , lookupCoefficient.image
+            , lookupCoefficient.tableSource
+            , lookupCoefficient.fixedHeaderHeight));
         }
       }
     }
@@ -496,7 +508,9 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.document
             , lookupCoefficient.height
             , lookupCoefficient.width
-            , lookupCoefficient.image));
+            , lookupCoefficient.image
+            , lookupCoefficient.tableSource
+            , lookupCoefficient.fixedHeaderHeight));
         }
       }
     }
@@ -563,7 +577,9 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.document
             , lookupCoefficient.height
             , lookupCoefficient.width
-            , lookupCoefficient.image));
+            , lookupCoefficient.image
+            , lookupCoefficient.tableSource
+            , lookupCoefficient.fixedHeaderHeight));
         }
       }
     }
@@ -615,9 +631,9 @@ export class FanEspComponent implements OnInit {
     let documentRelated: string;
     let ductSection: DuctSection;
     this.request.fanSystemInteraction.ductSection = this.request.ductSectionList[this.fanSystemInteractionDuctSection].startPoint
-      + ':' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
+      + '-' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
     for (const section of this.request.ductSectionList) {
-      if (section.startPoint + ':' + section.endPoint === this.request.fanSystemInteraction.ductSection) {
+      if (section.startPoint + '-' + section.endPoint === this.request.fanSystemInteraction.ductSection) {
         ductSection = section;
         break;
       }
@@ -640,7 +656,9 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.document
             , lookupCoefficient.height
             , lookupCoefficient.width
-            , lookupCoefficient.image));
+            , lookupCoefficient.image
+            , lookupCoefficient.tableSource
+            , lookupCoefficient.fixedHeaderHeight));
         }
       }
     }
@@ -689,7 +707,7 @@ export class FanEspComponent implements OnInit {
   setFanSystemInteractionDuctSection() {
     for (let i = 0; i < this.request.ductSectionList.length; ++i) {
       const section = this.request.ductSectionList[i];
-      if (this.request.fanSystemInteraction.ductSection === section.startPoint + ':' + section.endPoint) {
+      if (this.request.fanSystemInteraction.ductSection === section.startPoint + '-' + section.endPoint) {
         this.fanSystemInteractionDuctSection = i;
         break;
       }
@@ -700,7 +718,7 @@ export class FanEspComponent implements OnInit {
     this.request.fanSystemInteraction = new FanSystemInteraction();
     this.fanSystemInteractionDuctSection = 0;
     this.request.fanSystemInteraction.ductSection
-      = this.request.ductSectionList[0].startPoint + ':' + this.request.ductSectionList[0].endPoint;
+      = this.request.ductSectionList[0].startPoint + '-' + this.request.ductSectionList[0].endPoint;
     this.setFanSystemInteractionCriteria(1);
   }
 

@@ -6,8 +6,12 @@ export class FanEspCoefficientLookup {
   height: number;
   width: number;
   image: string;
+  tableSource: string;
+  fixedHeaderHeight: number;
 
-  constructor(name: string, documentRelated: string, typeName: string, document: string, height: number, width: number, image: string) {
+  constructor(name: string, documentRelated: string, typeName: string
+    , document: string, height: number, width: number, image: string, tableSource: string
+    , fixedHeaderHeight: number) {
     this.name = name;
     this.documentRelated = documentRelated;
     this.typeName = typeName;
@@ -15,5 +19,7 @@ export class FanEspCoefficientLookup {
     this.height = height;
     this.width = width;
     this.image = image;
+    this.tableSource = tableSource;
+    this.fixedHeaderHeight = fixedHeaderHeight;
   }
 }
