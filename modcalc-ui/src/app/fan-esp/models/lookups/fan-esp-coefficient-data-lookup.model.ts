@@ -1,9 +1,11 @@
+import {FanEspCoefficientDataLookupTable} from './fan-esp-coefficient-data-lookup-table.model';
+
 export class FanEspCoefficientDataLookup {
   name: string;
-  table: string[][];
+  tables: FanEspCoefficientDataLookupTable[];
 
-  constructor(name: string, table: string[][]) {
+  constructor(name: string, tables: FanEspCoefficientDataLookupTable[]) {
     this.name = name;
-    this.table = table;
+    this.tables = tables;
   }
 }

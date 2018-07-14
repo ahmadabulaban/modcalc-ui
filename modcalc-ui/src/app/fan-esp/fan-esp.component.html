@@ -114,7 +114,12 @@
                 <div class="row">
                   <mat-form-field class="col" style="width: 50%">
                     <input type="number" step="any" matInput placeholder="Air Temperature"
-                           [(ngModel)]="request.airTemperature.temperatureInput">
+                           [(ngModel)]="request.airTemperature.temperatureInput"
+                           temperatureInputValidator
+                            #temperatureInput="ngModel">
+                    <mat-error *ngIf="temperatureInput.errors">
+                      Temperature Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 50%">
                     <input type="text" matInput readonly
@@ -181,11 +186,21 @@
                   <div class="col" style="width: 25%"></div>
                   <mat-form-field class="col" style="width: 25%">
                     <input type="text" matInput placeholder="Section Start"
-                           [(ngModel)]="ductSection.startPoint">
+                           [(ngModel)]="ductSection.startPoint"
+                           nullInputValidator
+                            #ductStartPoint="ngModel">
+                    <mat-error *ngIf="ductStartPoint.errors">
+                      Start Point Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 25%">
                     <input type="text" matInput placeholder="Section End"
-                           [(ngModel)]="ductSection.endPoint">
+                           [(ngModel)]="ductSection.endPoint"
+                           nullInputValidator
+                           #ductEndPoint="ngModel">
+                    <mat-error *ngIf="ductEndPoint.errors">
+                      End Point Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <!--<div class="col">-->
                   <!--Section Start-->
@@ -204,7 +219,12 @@
                 <div class="row">
                   <mat-form-field class="col" style="width: 16.5%">
                     <input type="number" step="any" matInput placeholder="Flow Rate"
-                           [(ngModel)]="ductSection.rateInput">
+                           [(ngModel)]="ductSection.rateInput"
+                           ductFlowRateInputValidator
+                           #ductFanRateInput="ngModel">
+                    <mat-error *ngIf="ductFanRateInput.errors">
+                      Fan Rate Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
@@ -213,7 +233,12 @@
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 16.5%">
                     <input type="number" step="any" matInput placeholder="Length"
-                           [(ngModel)]="ductSection.lengthInput">
+                           [(ngModel)]="ductSection.lengthInput"
+                           ductLengthInputValidator
+                           #ductLengthInput="ngModel">
+                    <mat-error *ngIf="ductLengthInput.errors">
+                      Length Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
@@ -222,7 +247,7 @@
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 16.5%">
                     <mat-select placeholder="Duct Shape" [(ngModel)]="ductSection.shp"
-                                (change)="this.changeDuctSectionShpFun(ductSection)">
+                                (change)="this.changeDuctSectionShp(ductSection)">
                       <mat-option *ngFor="let ductShape of ductShapeList" [value]="ductShape.value"
                                   [innerHtml]="ductShape.key">
                       </mat-option>
@@ -230,7 +255,7 @@
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 16.5%">
                     <mat-select placeholder="Function" [(ngModel)]="ductSection.fun"
-                                (change)="this.changeDuctSectionShpFun(ductSection)">
+                                (change)="this.changeDuctSectionFun(ductSection)">
                       <mat-option *ngFor="let function of functionList" [value]="function.value"
                                   [innerHtml]="function.key">
                       </mat-option>
@@ -277,7 +302,12 @@
                   <div *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%"></div>
                   <mat-form-field *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%">
                     <input type="number" step="any" matInput placeholder="Duct Diameter"
-                           [(ngModel)]="ductSection.ductDiameterInput">
+                           [(ngModel)]="ductSection.ductDiameterInput"
+                           ductDiameterInputValidator
+                           #ductDiameter="ngModel">
+                    <mat-error *ngIf="ductDiameter.errors">
+                      Diameter Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
@@ -288,7 +318,12 @@
                   <div *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%"></div>
                   <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
                     <input type="number" step="any" matInput placeholder="Duct Width"
-                           [(ngModel)]="ductSection.ductWidthInput">
+                           [(ngModel)]="ductSection.ductWidthInput"
+                           ductHeightWidthInputValidator
+                           #ductWidth="ngModel">
+                    <mat-error *ngIf="ductWidth.errors">
+                      Width Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
@@ -299,7 +334,12 @@
                   <div *ngIf="ductSection.shp == 2" class="col" style="width: 12.5%"></div>
                   <mat-form-field *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
                     <input type="number" step="any" matInput placeholder="Duct Height"
-                           [(ngModel)]="ductSection.ductHeightInput">
+                           [(ngModel)]="ductSection.ductHeightInput"
+                           ductHeightWidthInputValidator
+                           #ductHeight="ngModel">
+                    <mat-error *ngIf="ductHeight.errors">
+                      Height Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" *ngIf="ductSection.shp == 1" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
@@ -308,7 +348,12 @@
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 12.5%">
                     <input type="number" step="any" matInput placeholder="Duct Thickness"
-                           [(ngModel)]="ductSection.ductThicknessInput">
+                           [(ngModel)]="ductSection.ductThicknessInput"
+                           ductThicknessInputValidator
+                           #ductThickness="ngModel">
+                    <mat-error *ngIf="ductThickness.errors">
+                      Thickness Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 12.5%">
                     <input type="text" matInput readonly
@@ -416,7 +461,12 @@
                           </div>
                           <mat-form-field *ngIf="fitting.fittingSizingCriteria == 1" style="width: 100%;">
                             <input type="number" step="any" matInput placeholder="Qty"
-                                   [(ngModel)]="fitting.qf">
+                                   [(ngModel)]="fitting.qf"
+                                   nullInputValidator
+                                   #fittingQf="ngModel">
+                            <mat-error *ngIf="fittingQf.errors">
+                              Qty Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <!--<div class="form-group col" *ngIf="fitting.fittingSizingCriteria == 1">-->
                           <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
@@ -459,15 +509,30 @@
                         <div class="col">
                           <mat-form-field *ngIf="fitting.fittingSizingCriteria == 2" style="width: 100%">
                             <input type="text" matInput placeholder="Description"
-                                   [(ngModel)]="fitting.fittingDescription">
+                                   [(ngModel)]="fitting.fittingDescription"
+                                   nullInputValidator
+                                   #fittingDescription="ngModel">
+                            <mat-error *ngIf="fittingDescription.errors">
+                              Description Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <mat-form-field *ngIf="fitting.fittingSizingCriteria == 2" style="width: 100%">
                             <input type="number" step="any" matInput placeholder="loss coefficient (C)"
-                                   [(ngModel)]="fitting.cf">
+                                   [(ngModel)]="fitting.cf"
+                                   nullInputValidator
+                                   #fittingCf="ngModel">
+                            <mat-error *ngIf="fittingCf.errors">
+                              Loss Coefficient Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <mat-form-field *ngIf="fitting.fittingSizingCriteria == 2" style="width: 100%">
                             <input type="number" step="any" matInput placeholder="Qty"
-                                   [(ngModel)]="fitting.qf">
+                                   [(ngModel)]="fitting.qf"
+                                   nullInputValidator
+                                   #fittingQf="ngModel">
+                            <mat-error *ngIf="fittingQf.errors">
+                              Qty Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <!--<div class="form-group col" *ngIf="fitting.fittingSizingCriteria == 2">-->
                           <!--<div class="row">-->
@@ -566,7 +631,12 @@
                           <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1"
                                           style="width: 100%;">
                             <input type="number" step="any" matInput placeholder="Qty"
-                                   [(ngModel)]="dampersAndObstructions.qd">
+                                   [(ngModel)]="dampersAndObstructions.qd"
+                                   nullInputValidator
+                                   #dampersAndObstructionsQd="ngModel">
+                            <mat-error *ngIf="dampersAndObstructionsQd.errors">
+                              Qty Is Invalid
+                            </mat-error>
                           </mat-form-field>
                         </div>
                         <!--<div class="col">-->
@@ -608,17 +678,32 @@
                           <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2"
                                           style="width: 100%">
                             <input type="text" matInput placeholder="Description"
-                                   [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">
+                                   [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription"
+                                   nullInputValidator
+                                   #dampersAndObstructionsDescription="ngModel">
+                            <mat-error *ngIf="dampersAndObstructionsDescription.errors">
+                              Description Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2"
                                           style="width: 100%">
                             <input type="number" step="any" matInput placeholder="loss coefficient (C)"
-                                   [(ngModel)]="dampersAndObstructions.cd">
+                                   [(ngModel)]="dampersAndObstructions.cd"
+                                   nullInputValidator
+                                   #dampersAndObstructionsCd="ngModel">
+                            <mat-error *ngIf="dampersAndObstructionsCd.errors">
+                              Loss Coefficient Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2"
                                           style="width: 100%">
                             <input type="number" step="any" matInput placeholder="Qty"
-                                   [(ngModel)]="dampersAndObstructions.qd">
+                                   [(ngModel)]="dampersAndObstructions.qd"
+                                   nullInputValidator
+                                   #dampersAndObstructionsQd="ngModel">
+                            <mat-error *ngIf="dampersAndObstructionsQd.errors">
+                              Qty Is Invalid
+                            </mat-error>
                           </mat-form-field>
                         </div>
                         <!--<div class="col">-->
@@ -720,7 +805,12 @@
                           <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1"
                                           style="width: 100%;">
                             <input type="number" step="any" matInput placeholder="Qty"
-                                   [(ngModel)]="ductMountedEquipment.qe">
+                                   [(ngModel)]="ductMountedEquipment.qe"
+                                   nullInputValidator
+                                   #ductMountedEquipmentQe="ngModel">
+                            <mat-error *ngIf="ductMountedEquipmentQe.errors">
+                              Qty Is Invalid
+                            </mat-error>
                           </mat-form-field>
                         </div>
                         <!--<div class="col">-->
@@ -760,17 +850,32 @@
                           <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2"
                                           style="width: 100%">
                             <input type="text" matInput placeholder="Description"
-                                   [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">
+                                   [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription"
+                                   nullInputValidator
+                                   #ductMountedEquipmentDescription="ngModel">
+                            <mat-error *ngIf="ductMountedEquipmentDescription.errors">
+                              Description Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2"
                                           style="width: 100%">
                             <input type="number" step="any" matInput placeholder="loss coefficient (C)"
-                                   [(ngModel)]="ductMountedEquipment.ce">
+                                   [(ngModel)]="ductMountedEquipment.ce"
+                                   nullInputValidator
+                                   #ductMountedEquipmentCe="ngModel">
+                            <mat-error *ngIf="ductMountedEquipmentCe.errors">
+                              Loss Coefficient Is Invalid
+                            </mat-error>
                           </mat-form-field>
                           <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2"
                                           style="width: 100%">
                             <input type="number" step="any" matInput placeholder="Qty"
-                                   [(ngModel)]="ductMountedEquipment.qe">
+                                   [(ngModel)]="ductMountedEquipment.qe"
+                                   nullInputValidator
+                                   #ductMountedEquipmentQe="ngModel">
+                            <mat-error *ngIf="ductMountedEquipmentQe.errors">
+                              Qty Is Invalid
+                            </mat-error>
                           </mat-form-field>
                         </div>
                         <!--<div class="col">-->
@@ -818,11 +923,21 @@
                       <div class="row">
                         <mat-form-field class="col" style="width: 25%">
                           <input type="text" matInput placeholder="Description"
-                                 [(ngModel)]="specialComponent.specialComponentDescription">
+                                 [(ngModel)]="specialComponent.specialComponentDescription"
+                                 nullInputValidator
+                                 #specialComponentDescription="ngModel">
+                          <mat-error *ngIf="specialComponentDescription.errors">
+                            Description Is Invalid
+                          </mat-error>
                         </mat-form-field>
                         <mat-form-field class="col" style="width: 25%">
                           <input type="number" step="any" matInput placeholder="Pressure loss"
-                                 [(ngModel)]="specialComponent.componentPressureDropInput">
+                                 [(ngModel)]="specialComponent.componentPressureDropInput"
+                                 nullInputValidator
+                                 #componentPressureDropInput="ngModel">
+                          <mat-error *ngIf="componentPressureDropInput.errors">
+                            Pressure loss Is Invalid
+                          </mat-error>
                         </mat-form-field>
                         <mat-form-field id="units-style" class="col" style="width: 25%">
                           <input type="text" matInput readonly
@@ -831,7 +946,12 @@
                         </mat-form-field>
                         <mat-form-field class="col" style="width: 25%">
                           <input type="number" step="any" matInput placeholder="Qty"
-                                 [(ngModel)]="specialComponent.qc">
+                                 [(ngModel)]="specialComponent.qc"
+                                 nullInputValidator
+                                 #specialComponentQc="ngModel">
+                          <mat-error *ngIf="specialComponentQc.errors">
+                            Qty Is Invalid
+                          </mat-error>
                         </mat-form-field>
                         <!--<div class="col">-->
                         <!--<div class="form-group row">-->
@@ -1001,12 +1121,22 @@
                     <mat-form-field *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 2"
                                     style="width: 100%">
                       <input type="text" matInput placeholder="Description"
-                             [(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription">
+                             [(ngModel)]="request.fanSystemInteraction.fanSystemInteractionDescription"
+                             nullInputValidator
+                             #fanSystemInteractionDescription="ngModel">
+                      <mat-error *ngIf="fanSystemInteractionDescription.errors">
+                        Description Is Invalid
+                      </mat-error>
                     </mat-form-field>
                     <mat-form-field *ngIf="request.fanSystemInteraction.fanSystemInteractionCriteria == 2"
                                     style="width: 100%">
                       <input type="number" step="any" matInput placeholder="loss coefficient (C)"
-                             [(ngModel)]="request.fanSystemInteraction.ci">
+                             [(ngModel)]="request.fanSystemInteraction.ci"
+                             nullInputValidator
+                             #fanSystemInteractionCi="ngModel">
+                      <mat-error *ngIf="fanSystemInteractionCi.errors">
+                        Loss Coefficient Is Invalid
+                      </mat-error>
                     </mat-form-field>
                   </div>
                   <!--<div class="col">-->
@@ -1055,15 +1185,30 @@
                 <div class="row">
                   <mat-form-field class="col" style="width: 16.5%">
                     <input type="text" matInput placeholder="Type"
-                           [(ngModel)]="airTerminal.airTerminalDescription">
+                           [(ngModel)]="airTerminal.airTerminalDescription"
+                           nullInputValidator
+                           #airTerminalDescription="ngModel">
+                    <mat-error *ngIf="airTerminalDescription.errors">
+                      Description Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 16.5%">
                     <input type="text" matInput placeholder="Model"
-                           [(ngModel)]="airTerminal.model">
+                           [(ngModel)]="airTerminal.model"
+                           nullInputValidator
+                           #airTerminalModel="ngModel">
+                    <mat-error *ngIf="airTerminalModel.errors">
+                      Model Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 16.5%">
                     <input type="number" step="any" matInput placeholder="Flow Rate"
-                           [(ngModel)]="airTerminal.terminalRateInput">
+                           [(ngModel)]="airTerminal.terminalRateInput"
+                           nullInputValidator
+                           #terminalRateInput="ngModel">
+                    <mat-error *ngIf="terminalRateInput.errors">
+                      Flow Rate Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
@@ -1072,7 +1217,12 @@
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 16.5%">
                     <input type="number" step="any" matInput placeholder="Pressure Loss"
-                           [(ngModel)]="airTerminal.terminalPressureDropInput">
+                           [(ngModel)]="airTerminal.terminalPressureDropInput"
+                           nullInputValidator
+                           #terminalPressureDropInput="ngModel">
+                    <mat-error *ngIf="terminalPressureDropInput.errors">
+                      Pressure Drop Is Invalid
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 16.5%">
                     <input type="text" matInput readonly
@@ -1135,7 +1285,12 @@
         <mat-expansion-panel expanded="true" style="width: 33%">
           <mat-form-field class="col" style="width: 45%">
             <input type="number" step="any" matInput placeholder="Fan Flow Rate"
-                   [(ngModel)]="request.fanRate.fanRateInput">
+                   [(ngModel)]="request.fanRate.fanRateInput"
+                   nullInputValidator
+                   #fanRateInput="ngModel">
+            <mat-error *ngIf="fanRateInput.errors">
+              Fan Flow Rate Is Invalid
+            </mat-error>
           </mat-form-field>
           <mat-form-field id="units-style" class="col" style="width: 45%">
             <input type="text" matInput readonly

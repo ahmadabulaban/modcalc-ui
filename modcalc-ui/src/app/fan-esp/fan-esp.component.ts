@@ -16,7 +16,8 @@ import {FanEspCoefficientDataLookup} from './models/lookups/fan-esp-coefficient-
 import {FanPopupCoefficientComponent} from './fan-popup-coefficient/fan-popup-coefficient.component';
 import {FanEspResponse} from './models/response/fan-esp-response.model';
 import {FanSystemInteraction} from './models/request/fan-system-interaction.model';
-import {FormControl, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, ValidatorFn, Validators} from '@angular/forms';
+import {FanEspCoefficientDataLookupTable} from './models/lookups/fan-esp-coefficient-data-lookup-table.model';
 
 @Component({
   selector: 'app-fan-esp',
@@ -24,6 +25,7 @@ import {FormControl, Validators} from '@angular/forms';
   styleUrls: ['./fan-esp.component.css']
 })
 export class FanEspComponent implements OnInit {
+  static uu: number;
   title = 'Fan Esp';
   dataAvailable: boolean;
   resultAvailable: boolean;
@@ -112,7 +114,8 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.width
             , lookupCoefficient.image
             , lookupCoefficient.tableSource
-            , lookupCoefficient.fixedHeaderHeight));
+            , lookupCoefficient.fixedHeaderHeight
+            , lookupCoefficient.fixedBodyHeight));
         }
       },
       error => {
@@ -126,7 +129,7 @@ export class FanEspComponent implements OnInit {
       data => {
         for (const lookupCoefficientData of data) {
           this.lookupCoefficientDataList.push(new FanEspCoefficientDataLookup(lookupCoefficientData.name
-            , lookupCoefficientData.table));
+            , lookupCoefficientData.tables));
         }
       },
       error => {
@@ -167,10 +170,12 @@ export class FanEspComponent implements OnInit {
       }
     }
     this.request.units.uu = this.unitSystemList[0].value;
+    FanEspComponent.uu = this.request.units.uu;
     this.setRelatedData(this.request.units.uu);
   }
 
   setRelatedData(unitSystem) {
+    FanEspComponent.uu = this.request.units.uu;
     this.flowRateList = [];
     this.lengthList = [];
     for (const lookup of this.lookupList) {
@@ -431,7 +436,8 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.width
             , lookupCoefficient.image
             , lookupCoefficient.tableSource
-            , lookupCoefficient.fixedHeaderHeight));
+            , lookupCoefficient.fixedHeaderHeight
+            , lookupCoefficient.fixedBodyHeight));
         }
       }
     }
@@ -446,12 +452,13 @@ export class FanEspComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
       fitting.fittingDescription = result;
+      fitting.cf = null;
     });
   }
 
   chooseFittingCoefficient(fitting) {
     let fanLookupCoefficient: FanEspCoefficientLookup;
-    let table: string[][];
+    let tables: FanEspCoefficientDataLookupTable[];
     for (const lookupCoefficient of this.lookupCoefficientList) {
       if (fitting.fittingDescription === lookupCoefficient.typeName) {
         fanLookupCoefficient = lookupCoefficient;
@@ -460,20 +467,22 @@ export class FanEspComponent implements OnInit {
     }
     for (const lookupCoefficientData of this.lookupCoefficientDataList) {
       if (fanLookupCoefficient.name === lookupCoefficientData.name) {
-        table = lookupCoefficientData.table;
+        tables = lookupCoefficientData.tables;
         break;
       }
     }
-    this.openFittingCoefficientDialog(fitting, table, fanLookupCoefficient);
+    this.openFittingCoefficientDialog(fitting, tables, fanLookupCoefficient);
   }
 
-  openFittingCoefficientDialog(fitting, table, fanLookupCoefficient) {
+  openFittingCoefficientDialog(fitting, tables, fanLookupCoefficient) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
       // width: '700px',
-      data: {fanLookupCoefficient: fanLookupCoefficient, table: table}
+      data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      fitting.cf = +result;
+      if (result != null) {
+        fitting.cf = +result;
+      }
     });
   }
 
@@ -482,10 +491,39 @@ export class FanEspComponent implements OnInit {
     fitting.cf = null;
   }
 
-  changeDuctSectionShpFun(ductSection) {
+  changeDampersAndObstructionsValues(dampersAndObstructions) {
+    dampersAndObstructions.dampersAndObstructionsDescription = null;
+    dampersAndObstructions.cd = null;
+  }
+
+  changeDuctMountedEquipmentValues(ductMountedEquipment) {
+    ductMountedEquipment.ductMountedEquipmentDescription = null;
+    ductMountedEquipment.ce = null;
+  }
+
+  changeFanSystemInteractionValues() {
+    this.request.fanSystemInteraction.fanSystemInteractionDescription = null;
+    this.request.fanSystemInteraction.ci = null;
+  }
+
+  changeDuctSectionShp(ductSection) {
     for (const fitting of ductSection.fittingList) {
       this.changeFittingCat(fitting);
     }
+    for (const dampersAndObstructions of ductSection.dampersAndObstructionsList) {
+      this.changeDampersAndObstructionsValues(dampersAndObstructions);
+    }
+    for (const ductMountedEquipment of ductSection.ductMountedEquipmentList) {
+      this.changeDuctMountedEquipmentValues(ductMountedEquipment);
+    }
+    this.changeFanSystemInteractionValues();
+  }
+
+  changeDuctSectionFun(ductSection) {
+    for (const fitting of ductSection.fittingList) {
+      this.changeFittingCat(fitting);
+    }
+    this.changeFanSystemInteractionValues();
   }
 
   chooseDampersAndObstructionsType(ductSection, dampersAndObstructions) {
@@ -510,7 +548,8 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.width
             , lookupCoefficient.image
             , lookupCoefficient.tableSource
-            , lookupCoefficient.fixedHeaderHeight));
+            , lookupCoefficient.fixedHeaderHeight
+            , lookupCoefficient.fixedBodyHeight));
         }
       }
     }
@@ -525,12 +564,13 @@ export class FanEspComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
       dampersAndObstructions.dampersAndObstructionsDescription = result;
+      dampersAndObstructions.cd = null;
     });
   }
 
   chooseDampersAndObstructionsCoefficient(dampersAndObstructions) {
     let fanLookupCoefficient: FanEspCoefficientLookup;
-    let table: string[][];
+    let tables: FanEspCoefficientDataLookupTable[];
     for (const lookupCoefficient of this.lookupCoefficientList) {
       if (dampersAndObstructions.dampersAndObstructionsDescription === lookupCoefficient.typeName) {
         fanLookupCoefficient = lookupCoefficient;
@@ -539,20 +579,22 @@ export class FanEspComponent implements OnInit {
     }
     for (const lookupCoefficientData of this.lookupCoefficientDataList) {
       if (fanLookupCoefficient.name === lookupCoefficientData.name) {
-        table = lookupCoefficientData.table;
+        tables = lookupCoefficientData.tables;
         break;
       }
     }
-    this.openDampersAndObstructionsCoefficientDialog(dampersAndObstructions, table, fanLookupCoefficient);
+    this.openDampersAndObstructionsCoefficientDialog(dampersAndObstructions, tables, fanLookupCoefficient);
   }
 
-  openDampersAndObstructionsCoefficientDialog(dampersAndObstructions, table, fanLookupCoefficient) {
+  openDampersAndObstructionsCoefficientDialog(dampersAndObstructions, tables, fanLookupCoefficient) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
       // width: '700px',
-      data: {fanLookupCoefficient: fanLookupCoefficient, table: table}
+      data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      dampersAndObstructions.cd = +result;
+      if (result != null) {
+        dampersAndObstructions.cd = +result;
+      }
     });
   }
 
@@ -579,7 +621,8 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.width
             , lookupCoefficient.image
             , lookupCoefficient.tableSource
-            , lookupCoefficient.fixedHeaderHeight));
+            , lookupCoefficient.fixedHeaderHeight
+            , lookupCoefficient.fixedBodyHeight));
         }
       }
     }
@@ -594,12 +637,13 @@ export class FanEspComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
       ductMountedEquipment.ductMountedEquipmentDescription = result;
+      ductMountedEquipment.ce = null;
     });
   }
 
   chooseDuctMountedEquipmentCoefficient(ductMountedEquipment) {
     let fanLookupCoefficient: FanEspCoefficientLookup;
-    let table: string[][];
+    let tables: FanEspCoefficientDataLookupTable[];
     for (const lookupCoefficient of this.lookupCoefficientList) {
       if (ductMountedEquipment.ductMountedEquipmentDescription === lookupCoefficient.typeName) {
         fanLookupCoefficient = lookupCoefficient;
@@ -608,20 +652,22 @@ export class FanEspComponent implements OnInit {
     }
     for (const lookupCoefficientData of this.lookupCoefficientDataList) {
       if (fanLookupCoefficient.name === lookupCoefficientData.name) {
-        table = lookupCoefficientData.table;
+        tables = lookupCoefficientData.tables;
         break;
       }
     }
-    this.openDuctMountedEquipmentCoefficientDialog(ductMountedEquipment, table, fanLookupCoefficient);
+    this.openDuctMountedEquipmentCoefficientDialog(ductMountedEquipment, tables, fanLookupCoefficient);
   }
 
-  openDuctMountedEquipmentCoefficientDialog(ductMountedEquipment, table, fanLookupCoefficient) {
+  openDuctMountedEquipmentCoefficientDialog(ductMountedEquipment, tables, fanLookupCoefficient) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
       // width: '700px',
-      data: {fanLookupCoefficient: fanLookupCoefficient, table: table}
+      data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      ductMountedEquipment.ce = +result;
+      if (result != null) {
+        ductMountedEquipment.ce = +result;
+      }
     });
   }
 
@@ -658,7 +704,8 @@ export class FanEspComponent implements OnInit {
             , lookupCoefficient.width
             , lookupCoefficient.image
             , lookupCoefficient.tableSource
-            , lookupCoefficient.fixedHeaderHeight));
+            , lookupCoefficient.fixedHeaderHeight
+            , lookupCoefficient.fixedBodyHeight));
         }
       }
     }
@@ -673,12 +720,13 @@ export class FanEspComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
       this.request.fanSystemInteraction.fanSystemInteractionDescription = result;
+      this.request.fanSystemInteraction.ci = null;
     });
   }
 
   chooseFanSystemInteractionCoefficient() {
     let fanLookupCoefficient: FanEspCoefficientLookup;
-    let table: string[][];
+    let tables: FanEspCoefficientDataLookupTable[];
     for (const lookupCoefficient of this.lookupCoefficientList) {
       if (this.request.fanSystemInteraction.fanSystemInteractionDescription === lookupCoefficient.typeName) {
         fanLookupCoefficient = lookupCoefficient;
@@ -687,20 +735,22 @@ export class FanEspComponent implements OnInit {
     }
     for (const lookupCoefficientData of this.lookupCoefficientDataList) {
       if (fanLookupCoefficient.name === lookupCoefficientData.name) {
-        table = lookupCoefficientData.table;
+        tables = lookupCoefficientData.tables;
         break;
       }
     }
-    this.openFanSystemInteractionCoefficientDialog(table, fanLookupCoefficient);
+    this.openFanSystemInteractionCoefficientDialog(tables, fanLookupCoefficient);
   }
 
-  openFanSystemInteractionCoefficientDialog(table, fanLookupCoefficient) {
+  openFanSystemInteractionCoefficientDialog(tables, fanLookupCoefficient) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
       // width: '700px',
-      data: {fanLookupCoefficient: fanLookupCoefficient, table: table}
+      data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.request.fanSystemInteraction.ci = +result;
+      if (result != null) {
+        this.request.fanSystemInteraction.ci = +result;
+      }
     });
   }
 

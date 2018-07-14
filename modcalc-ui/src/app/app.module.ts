@@ -19,6 +19,13 @@ import {
 import { FanPopupTypeComponent } from './fan-esp/fan-popup-type/fan-popup-type.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FanPopupCoefficientComponent } from './fan-esp/fan-popup-coefficient/fan-popup-coefficient.component';
+import {TemperatureInputValidator} from './fan-esp/validators/temperature-input-validation.model';
+import {DuctFlowRateInputValidator} from './fan-esp/validators/duct-flow-rate-input-validation.model';
+import {NullInputValidator} from './fan-esp/validators/null-input-validation.model';
+import {DuctLengthInputValidator} from './fan-esp/validators/duct-length-input-validation.model';
+import {DuctDiameterInputValidator} from './fan-esp/validators/duct-diameter-input-validation.model';
+import {DuctHeightWidthInputValidator} from './fan-esp/validators/duct-height-width-input-validation.model';
+import {DuctThicknessInputValidator} from './fan-esp/validators/duct-thickness-input-validation.model';
 
 @NgModule({
   declarations: [
@@ -26,7 +33,14 @@ import { FanPopupCoefficientComponent } from './fan-esp/fan-popup-coefficient/fa
     DuctSizerComponent,
     FanEspComponent,
     FanPopupTypeComponent,
-    FanPopupCoefficientComponent
+    FanPopupCoefficientComponent,
+    TemperatureInputValidator,
+    DuctFlowRateInputValidator,
+    NullInputValidator,
+    DuctLengthInputValidator,
+    DuctDiameterInputValidator,
+    DuctHeightWidthInputValidator,
+    DuctThicknessInputValidator
   ],
   imports: [
     BrowserModule,
