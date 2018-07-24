@@ -20,9 +20,10 @@ export class DuctHeightWidthInputValidator implements Validator {
     if (FanEspComponent.uu === 1) {
       dimension = c.value;
     } else {
-      dimension = c.value / 25.4;
+      dimension = c.value * 25.4;
     }
     const forbidden = (c.value != null && dimension >= 10 && dimension <= 4000) ? false : true;
+    c.markAsUntouched();
     return forbidden ? {'invalidDuctDimension': {value: c.value}} : null;
   }
 }

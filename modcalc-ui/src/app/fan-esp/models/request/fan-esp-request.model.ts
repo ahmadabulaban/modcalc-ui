@@ -13,7 +13,7 @@ export class FanEspRequest {
   airTemperature: AirTemperature = new AirTemperature();
   ductType: DuctType = new DuctType();
   ductSectionList: DuctSection[] = [];
-  fanSystemInteraction: FanSystemInteraction = null;
+  fanSystemInteractionList: FanSystemInteraction[] = [];
   airTerminalList: AirTerminal[] = [];
   fanRate: FanRate = new FanRate();
 }

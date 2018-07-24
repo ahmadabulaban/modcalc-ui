@@ -23,6 +23,7 @@ export class TemperatureInputValidator implements Validator {
       temperature = (c.value - 32) / 1.8;
     }
     const forbidden = (c.value != null && temperature >= -20 && temperature <= 100) ? false : true;
+    c.markAsUntouched();
     return forbidden ? {'invalidTemperature': {value: c.value}} : null;
   }
 }

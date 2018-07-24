@@ -1,22 +1,32 @@
 <div style="overflow-x: hidden;overflow-y: auto; max-height:500px;max-width:1000px;">
-  <div *ngFor="let lookupCoefficientData of data.lookupCoefficientDataList">
-    <h1 mat-dialog-title align="center">{{lookupCoefficientData.typeName}}</h1>
-    <div mat-dialog-content>
-      <img src="assets/images/{{lookupCoefficientData.image}}.png" style="max-height: 400px; max-width: 400px; display: block;
+  <h1 mat-dialog-title align="center">Types</h1>
+  <div *ngIf="initialStart">
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+    <ng-container *ngIf="startBuildPage()"></ng-container>
+  </div>
+  <br>
+  <div *ngIf="dataAvailable">
+    <div *ngFor="let lookupCoefficientData of data.lookupCoefficientDataList;let i = index">
+      <h1 mat-dialog-title align="center">{{lookupCoefficientData.typeName}}</h1>
+      <div mat-dialog-content>
+        <img *ngIf="lookupCoefficientData.image!='NO_IMAGE_AVAILABLE'"
+             src="assets/images/{{lookupCoefficientData.image}}.png" style="max-height: 400px; max-width: 400px; display: block;
     margin-left: auto;
     margin-right: auto;">
-      <div class="row">
-        <div class="col"></div>
-        <button mat-raised-button
-                (click)="this.chooseType(lookupCoefficientData.typeName)">Select
-        </button>
-        <div class="col"></div>
+        <br *ngIf="lookupCoefficientData.image=='NO_IMAGE_AVAILABLE'">
+        <div class="row">
+          <div class="col"></div>
+          <button mat-raised-button
+                  (click)="this.chooseType(lookupCoefficientData.typeName)">Select
+          </button>
+          <div class="col"></div>
+        </div>
+        <br>
       </div>
-      <br>
+      <ng-container
+        *ngIf="checkHtmlReady(i,data.lookupCoefficientDataList.length)"></ng-container>
     </div>
   </div>
 </div>
 <div mat-dialog-actions>
-  <!--<button mat-button (click)="onNoClick()">No Thanks</button>-->
-  <!--<button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
 </div>

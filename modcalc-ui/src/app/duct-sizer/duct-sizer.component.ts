@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {isNull} from 'util';
 import {FlowRateAndSizingCriteria} from './models/flow-rate-and-sizing-criteria.model';
 import {AirTemperature} from './models/air-temperature.model';
@@ -183,18 +183,6 @@ export class DuctSizerComponent implements OnInit {
   }
 
   calculate() {
-    if (!this.ductSizerForm.valid ||
-      (this.ductSizerForm.controls.ductShape.value.value === 1
-        && isNull(this.ductSizerForm.controls.dimensionInput.value)) ||
-      ((this.ductSizerForm.controls.sizingCriteria.value + 1) === 1
-        && isNull(this.ductSizerForm.controls.allowedPressureInput.value)) ||
-      ((this.ductSizerForm.controls.sizingCriteria.value + 1) === 2
-        && isNull(this.ductSizerForm.controls.allowedVelocityInput.value))) {
-      this.error = true;
-      this.errorMessage = 'Please fill all fields !';
-      this.clearAllResultValues();
-      return;
-    }
     this.error = false;
     this.mapToUnits();
     this.mapToAirTemperature();
@@ -215,6 +203,7 @@ export class DuctSizerComponent implements OnInit {
         this.ductSizerForm.patchValue({tx5: resp.tx5});
         this.ductSizerForm.patchValue({o6: resp.o6});
         this.ductSizerForm.patchValue({tx6: resp.tx6});
+        this.error = false;
       }, error => {
         this.error = true;
         this.errorMessage = error;
@@ -288,7 +277,36 @@ export class DuctSizerComponent implements OnInit {
     this.units.uf = this.ductSizerForm.controls.flowRate.value.value;
   }
 
+  resetAllData() {
+    this.ductSizerForm = this.formBuilder.group({
+      unitSystem: DuctSizingLookupData,
+      flowRate: DuctSizingLookupData,
+      temperatureInput: ['', [this.validateTemperatureInput()]],
+      ductMaterial: DuctSizingLookupData,
+      ductThickness: ['', [this.validateThicknessInput()]],
+      flowRateInput: ['', [this.validateFlowRateInput()]],
+      ductShape: DuctSizingLookupData,
+      dimensionInput: ['', [this.validateDimensionInput()]],
+      sizingCriteria: 0,
+      allowedPressureInput: ['', [this.validatePressureInput()]],
+      allowedVelocityInput: ['', [this.validateVelocityInput()]],
+      o1: '',
+      tx1: '',
+      o2: '',
+      tx2: '',
+      o3: '',
+      o4: '',
+      tx3: '',
+      o5: '',
+      tx5: '',
+      o6: '',
+      tx6: '',
+    });
+    this.fillInitialData();
+  }
+
   private fillUnitSystemList() {
+    this.unitSystemList = [];
     for (const lookupData of this.lookupDataList) {
       if (lookupData.uiField === 'uu') {
         this.unitSystemList.push(lookupData);
@@ -298,6 +316,7 @@ export class DuctSizerComponent implements OnInit {
   }
 
   private fillDuctShapeList() {
+    this.ductShapeList = [];
     for (const lookupData of this.lookupDataList) {
       if (lookupData.uiField === 'ductShape') {
         this.ductShapeList.push(lookupData);
@@ -308,6 +327,7 @@ export class DuctSizerComponent implements OnInit {
   }
 
   private fillDuctTypeList() {
+    this.ductMaterialList = [];
     for (const lookupData of this.lookupDataList) {
       if (lookupData.uiField === 'eps') {
         this.ductMaterialList.push(lookupData);
@@ -354,14 +374,6 @@ export class DuctSizerComponent implements OnInit {
     this.ductSizerForm.patchValue({allowedPressureInput: ''});
     this.ductSizerForm.patchValue({allowedVelocityInput: ''});
     this.callAllValidation();
-  }
-
-  setStyleClass(objForm, objField) {
-    let styleClass = 'state-success';
-    if (objField.invalid && (objField.dirty || objField.touched)) {
-      styleClass = 'state-error';
-    }
-    return styleClass;
   }
 
   changeUf(flowRateUnit) {

@@ -16,6 +16,7 @@ export class NullInputValidator implements Validator {
   validate(c: AbstractControl): ValidationErrors | null {
     let v;
     v = c.value;
+    c.markAsUntouched();
     if (v === null || v === '') {
       return {'nullValue': {value: 'null'}};
     } else {

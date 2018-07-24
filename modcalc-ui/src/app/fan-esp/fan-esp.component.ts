@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {FanEspServiceImpl} from './service/fan-esp.serviceImpl';
 import {FanEspLookup} from './models/lookups/fan-esp-lookup.model';
@@ -18,6 +18,13 @@ import {FanEspResponse} from './models/response/fan-esp-response.model';
 import {FanSystemInteraction} from './models/request/fan-system-interaction.model';
 import {AbstractControl, FormControl, ValidatorFn, Validators} from '@angular/forms';
 import {FanEspCoefficientDataLookupTable} from './models/lookups/fan-esp-coefficient-data-lookup-table.model';
+import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
+import {FanPopupSaveComponent} from './fan-popup-save/fan-popup-save.component';
+import {FanEspSaveRequest} from './models/request/fan-esp-save-request.model';
+import {FanPopupLoadComponent} from './fan-popup-load/fan-popup-load.component';
+import {FanEspLoadResponse} from './models/response/fan-esp-load-response.model';
+import * as html2pdf from 'html2pdf.js';
+
 
 @Component({
   selector: 'app-fan-esp',
@@ -45,20 +52,31 @@ export class FanEspComponent implements OnInit {
   categoryList: Array<FanEspLookup> = [];
   pressureUnit: FanEspLookup;
   request: FanEspRequest = new FanEspRequest();
-  fanSystemInteractionDuctSection: number;
   response: FanEspResponse = new FanEspResponse();
 
   calculate() {
-    console.log(this.request);
-    if (this.request.fanSystemInteraction != null) {
-      this.request.fanSystemInteraction.ductSection
-        = this.request.ductSectionList[this.fanSystemInteractionDuctSection].startPoint
-        + ':' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
+    let available = false;
+    for (const fanSystemInteraction of this.request.fanSystemInteractionList) {
+      available = false;
+      for (const ductSection of this.request.ductSectionList) {
+        if (fanSystemInteraction.ductSection === ductSection.ductSectionId) {
+          available = true;
+          break;
+        }
+      }
+      if (!available) {
+        fanSystemInteraction.ductSection = null;
+        fanSystemInteraction.fanSystemInteractionCriteria = 1;
+        fanSystemInteraction.fanSystemInteractionDescription = null;
+        fanSystemInteraction.ci = null;
+      }
     }
     this.fanEspService.calculateFanEsp(this.request)
       .subscribe(resp => {
         this.response = resp;
         this.resultAvailable = true;
+        this.error = false;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
       }, error => {
         this.error = true;
         this.errorMessage = error;
@@ -66,14 +84,83 @@ export class FanEspComponent implements OnInit {
       });
   }
 
+  saveInput() {
+    const dialogRef = this.dialog.open(FanPopupSaveComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== null) {
+        const fanEspSaveRequest = new FanEspSaveRequest();
+        fanEspSaveRequest.name = result;
+        fanEspSaveRequest.fanEspCalcRequest = this.request;
+        this.fanEspService.saveFanEsp(fanEspSaveRequest)
+          .subscribe(resp => {
+            this.error = true;
+            this.errorMessage = 'Saved Successfully';
+            setTimeout(() => {
+              this.error = false;
+            }, 3000);
+          }, error => {
+            this.error = true;
+            this.errorMessage = error;
+          });
+      }
+    });
+  }
+
+  loadInput() {
+    const fanEspLoadResponseList: Array<FanEspLoadResponse> = [];
+    this.fanEspService.getSavedFanEsp()
+      .subscribe(resp => {
+        for (const response of resp) {
+          fanEspLoadResponseList.push(new FanEspLoadResponse(response.name,
+            response.date, response.fanEspCalcRequest));
+        }
+      }, error => {
+        this.error = true;
+        this.errorMessage = 'Unable to load the data';
+      }, () => this.openLoadDialog(fanEspLoadResponseList));
+  }
+
+  openLoadDialog(fanEspLoadResponseList) {
+    const dialogRef = this.dialog.open(FanPopupLoadComponent, {
+      data: {fanEspLoadResponseList: fanEspLoadResponseList}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== null) {
+        const loadedRequest = fanEspLoadResponseList[result].fanEspCalcRequest;
+        const uf = loadedRequest.units.uf;
+        const ul = loadedRequest.units.ul;
+        this.request = null;
+        this.request = loadedRequest;
+        this.setRelatedData(loadedRequest.units.uu);
+        this.request.units.uf = uf;
+        this.request.units.ul = ul;
+        this.error = true;
+        this.errorMessage = 'Input Successfully Loaded';
+        setTimeout(() => {
+          this.error = false;
+        }, 3000);
+      }
+    });
+  }
+
+  resetAllData() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.request = null;
+        this.fillInitialData();
+        this.error = true;
+        this.errorMessage = 'Reset All Data Successfully';
+        setTimeout(() => {
+          this.error = false;
+        }, 3000);
+      }
+    });
+  }
+
   backToInputPage() {
     this.resultAvailable = false;
     this.response = null;
-    if (this.request.fanSystemInteraction != null) {
-      this.request.fanSystemInteraction.ductSection
-        = this.request.ductSectionList[this.fanSystemInteractionDuctSection].startPoint
-        + '-' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
-    }
   }
 
   constructor(private titleService: Title, private fanEspService: FanEspServiceImpl, public dialog: MatDialog) {
@@ -151,7 +238,6 @@ export class FanEspComponent implements OnInit {
     this.categoryList = [];
     this.pressureUnit = null;
     this.request = new FanEspRequest();
-    this.fanSystemInteractionDuctSection = null;
     this.response = new FanEspResponse();
     this.fillUnitSystemList();
     this.fillDuctTypeList();
@@ -159,7 +245,6 @@ export class FanEspComponent implements OnInit {
     this.fillFunctionList();
     this.fillCategoryList();
     this.addNewDuctSection();
-    this.addTerminal();
     this.dataAvailable = true;
   }
 
@@ -198,7 +283,6 @@ export class FanEspComponent implements OnInit {
     this.request.units.uf = this.flowRateList[0].value;
     this.request.units.ul = this.lengthList[0].value;
     this.request.airTemperature.temperatureUnit = this.temperatureUnit.key;
-    // this.callAllValidation();
   }
 
   getFlowRateKey(uf, ductSection) {
@@ -272,10 +356,15 @@ export class FanEspComponent implements OnInit {
 
   private addNewDuctSection() {
     const ductSection = new DuctSection();
-    ductSection.startPoint = '';
-    ductSection.endPoint = '';
-    ductSection.shp = this.ductShapeList[0].value;
-    ductSection.fun = this.functionList[0].value;
+    ductSection.ductSectionId = '';
+    if (this.request.ductSectionList.length === 0) {
+      ductSection.shp = this.ductShapeList[0].value;
+      ductSection.fun = this.functionList[0].value;
+    } else {
+      ductSection.shp = this.request.ductSectionList[0].shp;
+      ductSection.fun = this.request.ductSectionList[0].fun;
+      ductSection.ductThicknessInput = this.request.ductSectionList[0].ductThicknessInput;
+    }
     ductSection.ductDiameterUnit = this.dimensionUnit.key;
     ductSection.ductWidthUnit = this.dimensionUnit.key;
     ductSection.ductHeightUnit = this.dimensionUnit.key;
@@ -283,13 +372,31 @@ export class FanEspComponent implements OnInit {
     this.request.ductSectionList.push(ductSection);
   }
 
-  private removeDuctSection() {
-    if (this.fanSystemInteractionDuctSection === this.request.ductSectionList.length - 1) {
-      this.fanSystemInteractionDuctSection = 0;
-      this.request.fanSystemInteraction.ductSection
-        = this.request.ductSectionList[0].startPoint + '-' + this.request.ductSectionList[0].endPoint;
-    }
-    this.request.ductSectionList.pop();
+  private removeDuctSection(i) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const ductSection = this.request.ductSectionList[i];
+        let cnt = 0;
+        for (const fanSystemInteraction of this.request.fanSystemInteractionList) {
+          if (fanSystemInteraction.ductSection === ductSection.ductSectionId) {
+            this.request.fanSystemInteractionList.splice(cnt, 1);
+          }
+          ++cnt;
+        }
+        cnt = 0;
+        if (this.request.fanSystemInteractionList.length === this.request.ductSectionList.length) {
+          for (const fanSystemInteraction of this.request.fanSystemInteractionList) {
+            if (fanSystemInteraction.ductSection === null) {
+              this.request.fanSystemInteractionList.splice(cnt, 1);
+              break;
+            }
+            cnt++;
+          }
+        }
+        this.request.ductSectionList.splice(i, 1);
+      }
+    });
   }
 
   private addFitting(ductSection) {
@@ -299,8 +406,13 @@ export class FanEspComponent implements OnInit {
     ductSection.fittingList.push(fitting);
   }
 
-  private removeFitting(ductSection) {
-    ductSection.fittingList.pop();
+  private removeFitting(ductSection, i) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        ductSection.fittingList.splice(i, 1);
+      }
+    });
   }
 
   setFittingCriteria(fitting, tg) {
@@ -318,8 +430,13 @@ export class FanEspComponent implements OnInit {
     ductSection.dampersAndObstructionsList.push(dampersAndObstructions);
   }
 
-  private removeDampersAndObstructions(ductSection) {
-    ductSection.dampersAndObstructionsList.pop();
+  private removeDampersAndObstructions(ductSection, i) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        ductSection.dampersAndObstructionsList.splice(i, 1);
+      }
+    });
   }
 
   setDampersAndObstructionsCriteria(dampersAndObstructions, tg) {
@@ -337,8 +454,13 @@ export class FanEspComponent implements OnInit {
     ductSection.ductMountedEquipmentList.push(ductMountedEquipment);
   }
 
-  private removeEquipment(ductSection) {
-    ductSection.ductMountedEquipmentList.pop();
+  private removeEquipment(ductSection, i) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        ductSection.ductMountedEquipmentList.splice(i, 1);
+      }
+    });
   }
 
   setDuctMountedEquipmentCriteria(ductMountedEquipment, tg) {
@@ -355,8 +477,13 @@ export class FanEspComponent implements OnInit {
     ductSection.specialComponentList.push(specialComponent);
   }
 
-  private removeSpecialComponent(ductSection) {
-    ductSection.specialComponentList.pop();
+  private removeSpecialComponent(ductSection, i) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        ductSection.specialComponentList.splice(i, 1);
+      }
+    });
   }
 
   getPressureUnit(specialComponent) {
@@ -364,20 +491,31 @@ export class FanEspComponent implements OnInit {
     return this.pressureUnit.key;
   }
 
-  getDuctSectionList() {
+  getDuctSectionList(i) {
     const tempDuctSectionList: Array<string> = [];
+    let anotherDuctSection = null;
+    let count = 0;
+    for (const fanSystemInteraction of this.request.fanSystemInteractionList) {
+      if (count !== i) {
+        anotherDuctSection = fanSystemInteraction.ductSection;
+        break;
+      }
+      count++;
+    }
     for (const ductSection of this.request.ductSectionList) {
-      tempDuctSectionList.push(ductSection.startPoint + '-' + ductSection.endPoint);
+      if (anotherDuctSection !== ductSection.ductSectionId) {
+        tempDuctSectionList.push(ductSection.ductSectionId);
+      }
     }
     return tempDuctSectionList;
   }
 
-  setFanSystemInteractionCriteria(tg) {
-    if (tg !== this.request.fanSystemInteraction.fanSystemInteractionCriteria) {
-      this.request.fanSystemInteraction.fanSystemInteractionDescription = null;
-      this.request.fanSystemInteraction.ci = null;
+  setFanSystemInteractionCriteria(fanSystemInteraction, tg) {
+    if (tg !== fanSystemInteraction.fanSystemInteractionCriteria) {
+      fanSystemInteraction.fanSystemInteractionDescription = null;
+      fanSystemInteraction.ci = null;
     }
-    this.request.fanSystemInteraction.fanSystemInteractionCriteria = tg;
+    fanSystemInteraction.fanSystemInteractionCriteria = tg;
   }
 
   getTerminalRateUnit(uf, airTerminal) {
@@ -401,8 +539,13 @@ export class FanEspComponent implements OnInit {
     this.request.airTerminalList.push(airTerminal);
   }
 
-  removeTerminal() {
-    this.request.airTerminalList.pop();
+  removeTerminal(i) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.request.airTerminalList.splice(i, 1);
+      }
+    });
   }
 
   getFanRateUnit(uf) {
@@ -446,11 +589,9 @@ export class FanEspComponent implements OnInit {
 
   openFittingTypeDialog(fitting, list) {
     const dialogRef = this.dialog.open(FanPopupTypeComponent, {
-      // width: '700px',
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
       fitting.fittingDescription = result;
       fitting.cf = null;
     });
@@ -476,7 +617,6 @@ export class FanEspComponent implements OnInit {
 
   openFittingCoefficientDialog(fitting, tables, fanLookupCoefficient) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
-      // width: '700px',
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -501,9 +641,13 @@ export class FanEspComponent implements OnInit {
     ductMountedEquipment.ce = null;
   }
 
-  changeFanSystemInteractionValues() {
-    this.request.fanSystemInteraction.fanSystemInteractionDescription = null;
-    this.request.fanSystemInteraction.ci = null;
+  changeFanSystemInteractionValues(ductSection) {
+    for (const fanSystemInteraction of this.request.fanSystemInteractionList) {
+      if (fanSystemInteraction.ductSection === ductSection.startPoint + '-' + ductSection.endPoint) {
+        fanSystemInteraction.fanSystemInteractionDescription = null;
+        fanSystemInteraction.ci = null;
+      }
+    }
   }
 
   changeDuctSectionShp(ductSection) {
@@ -516,14 +660,14 @@ export class FanEspComponent implements OnInit {
     for (const ductMountedEquipment of ductSection.ductMountedEquipmentList) {
       this.changeDuctMountedEquipmentValues(ductMountedEquipment);
     }
-    this.changeFanSystemInteractionValues();
+    this.changeFanSystemInteractionValues(ductSection);
   }
 
   changeDuctSectionFun(ductSection) {
     for (const fitting of ductSection.fittingList) {
       this.changeFittingCat(fitting);
     }
-    this.changeFanSystemInteractionValues();
+    this.changeFanSystemInteractionValues(ductSection);
   }
 
   chooseDampersAndObstructionsType(ductSection, dampersAndObstructions) {
@@ -558,11 +702,9 @@ export class FanEspComponent implements OnInit {
 
   openDampersAndObstructionsTypeDialog(dampersAndObstructions, list) {
     const dialogRef = this.dialog.open(FanPopupTypeComponent, {
-      // width: '700px',
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
       dampersAndObstructions.dampersAndObstructionsDescription = result;
       dampersAndObstructions.cd = null;
     });
@@ -588,7 +730,6 @@ export class FanEspComponent implements OnInit {
 
   openDampersAndObstructionsCoefficientDialog(dampersAndObstructions, tables, fanLookupCoefficient) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
-      // width: '700px',
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -609,7 +750,6 @@ export class FanEspComponent implements OnInit {
     }
     const list: Array<FanEspCoefficientLookup> = [];
     const documents = documentRelated.split(',');
-    console.log(documents);
     for (const doc of documents) {
       for (const lookupCoefficient of this.lookupCoefficientList) {
         if (doc === lookupCoefficient.documentRelated) {
@@ -631,11 +771,9 @@ export class FanEspComponent implements OnInit {
 
   openDuctMountedEquipmentTypeDialog(ductMountedEquipment, list) {
     const dialogRef = this.dialog.open(FanPopupTypeComponent, {
-      // width: '700px',
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
       ductMountedEquipment.ductMountedEquipmentDescription = result;
       ductMountedEquipment.ce = null;
     });
@@ -661,7 +799,6 @@ export class FanEspComponent implements OnInit {
 
   openDuctMountedEquipmentCoefficientDialog(ductMountedEquipment, tables, fanLookupCoefficient) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
-      // width: '700px',
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -671,15 +808,11 @@ export class FanEspComponent implements OnInit {
     });
   }
 
-  //
-
-  chooseFanSystemInteractionType() {
+  chooseFanSystemInteractionType(fanSystemInteraction) {
     let documentRelated: string;
     let ductSection: DuctSection;
-    this.request.fanSystemInteraction.ductSection = this.request.ductSectionList[this.fanSystemInteractionDuctSection].startPoint
-      + '-' + this.request.ductSectionList[this.fanSystemInteractionDuctSection].endPoint;
     for (const section of this.request.ductSectionList) {
-      if (section.startPoint + '-' + section.endPoint === this.request.fanSystemInteraction.ductSection) {
+      if (section.ductSectionId === fanSystemInteraction.ductSection) {
         ductSection = section;
         break;
       }
@@ -709,26 +842,24 @@ export class FanEspComponent implements OnInit {
         }
       }
     }
-    this.openFanSystemInteractionTypeDialog(list);
+    this.openFanSystemInteractionTypeDialog(fanSystemInteraction, list);
   }
 
-  openFanSystemInteractionTypeDialog(list) {
+  openFanSystemInteractionTypeDialog(fanSystemInteraction, list) {
     const dialogRef = this.dialog.open(FanPopupTypeComponent, {
-      // width: '700px',
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      this.request.fanSystemInteraction.fanSystemInteractionDescription = result;
-      this.request.fanSystemInteraction.ci = null;
+      fanSystemInteraction.fanSystemInteractionDescription = result;
+      fanSystemInteraction.ci = null;
     });
   }
 
-  chooseFanSystemInteractionCoefficient() {
+  chooseFanSystemInteractionCoefficient(fanSystemInteraction) {
     let fanLookupCoefficient: FanEspCoefficientLookup;
     let tables: FanEspCoefficientDataLookupTable[];
     for (const lookupCoefficient of this.lookupCoefficientList) {
-      if (this.request.fanSystemInteraction.fanSystemInteractionDescription === lookupCoefficient.typeName) {
+      if (fanSystemInteraction.fanSystemInteractionDescription === lookupCoefficient.typeName) {
         fanLookupCoefficient = lookupCoefficient;
         break;
       }
@@ -739,41 +870,33 @@ export class FanEspComponent implements OnInit {
         break;
       }
     }
-    this.openFanSystemInteractionCoefficientDialog(tables, fanLookupCoefficient);
+    this.openFanSystemInteractionCoefficientDialog(tables, fanLookupCoefficient, fanSystemInteraction);
   }
 
-  openFanSystemInteractionCoefficientDialog(tables, fanLookupCoefficient) {
+  openFanSystemInteractionCoefficientDialog(tables, fanLookupCoefficient, fanSystemInteraction) {
     const dialogRef = this.dialog.open(FanPopupCoefficientComponent, {
-      // width: '700px',
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.request.fanSystemInteraction.ci = +result;
+        fanSystemInteraction.ci = +result;
       }
     });
   }
 
-  setFanSystemInteractionDuctSection() {
-    for (let i = 0; i < this.request.ductSectionList.length; ++i) {
-      const section = this.request.ductSectionList[i];
-      if (this.request.fanSystemInteraction.ductSection === section.startPoint + '-' + section.endPoint) {
-        this.fanSystemInteractionDuctSection = i;
-        break;
-      }
-    }
-  }
-
   addFanSystemInteraction() {
-    this.request.fanSystemInteraction = new FanSystemInteraction();
-    this.fanSystemInteractionDuctSection = 0;
-    this.request.fanSystemInteraction.ductSection
-      = this.request.ductSectionList[0].startPoint + '-' + this.request.ductSectionList[0].endPoint;
-    this.setFanSystemInteractionCriteria(1);
+    const fanSystemInteraction = new FanSystemInteraction();
+    this.setFanSystemInteractionCriteria(fanSystemInteraction, 1);
+    this.request.fanSystemInteractionList.push(fanSystemInteraction);
   }
 
-  removeFanSystemInteraction() {
-    this.request.fanSystemInteraction = null;
+  removeFanSystemInteraction(i) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.request.fanSystemInteractionList.splice(i, 1);
+      }
+    });
   }
 
   setStyleClass(objForm, objField) {
@@ -782,5 +905,13 @@ export class FanEspComponent implements OnInit {
       styleClass = 'state-error';
     }
     return styleClass;
+  }
+
+  generatePDF() {
+    const opt = {
+      filename: this.response.project + '_' + this.response.system + '_'
+      + this.response.pumpRef + '.pdf',
+    };
+    html2pdf(document.getElementById('reportPdf'), opt);
   }
 }

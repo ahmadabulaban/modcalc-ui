@@ -20,9 +20,10 @@ export class DuctDiameterInputValidator implements Validator {
     if (FanEspComponent.uu === 1) {
       diameter = c.value;
     } else {
-      diameter = c.value / 25.4;
+      diameter = c.value * 25.4;
     }
     const forbidden = (c.value != null && diameter >= 10 && diameter <= 3000) ? false : true;
+    c.markAsUntouched();
     return forbidden ? {'invalidDuctDiameter': {value: c.value}} : null;
   }
 }

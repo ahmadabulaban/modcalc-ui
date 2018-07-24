@@ -17,6 +17,7 @@ export class DuctFlowRateInputValidator implements Validator {
     let flowRate;
     flowRate = c.value;
     const forbidden = (c.value != null && flowRate >= 0 && flowRate <= 99999) ? false : true;
+    c.markAsUntouched();
     return forbidden ? {'invalidDuctFlowRate': {value: c.value}} : null;
   }
 }

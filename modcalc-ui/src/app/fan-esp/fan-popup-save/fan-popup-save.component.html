@@ -1,0 +1,17 @@
+<div>
+  <h1 mat-dialog-title align="center">Save Input</h1>
+  <div class="row">
+    <mat-form-field class="col">
+      <input type="text" matInput placeholder="Name" [(ngModel)]="name">
+    </mat-form-field>
+  </div>
+  <br>
+  <div id="inner-button" class="row">
+    <button mat-raised-button type="submit"
+            (click)="this.saveInput(name)">Save
+    </button>
+    <button mat-raised-button color="warn"
+            type="submit" (click)="this.saveInput(null)">Cancel
+    </button>
+  </div>
+</div>

@@ -17,6 +17,7 @@ export class DuctLengthInputValidator implements Validator {
     let length;
     length = c.value;
     const forbidden = (c.value != null && length >= 0 && length <= 99999) ? false : true;
+    c.markAsUntouched();
     return forbidden ? {'invalidDuctLength': {value: c.value}} : null;
   }
 }

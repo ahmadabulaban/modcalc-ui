@@ -1,249 +1,291 @@
 <html>
-<header *ngIf="dataAvailable">
+<header>
   <h3 class="text-center">Duct Sizer</h3>
 </header>
+<div *ngIf="!dataAvailable" class="row">
+  <div class="col"></div>
+  <div class="col-sm-3" style="margin-top: 15%;">
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+  </div>
+  <div class="col"></div>
+</div>
 <body [formGroup]="ductSizerForm" *ngIf="dataAvailable">
-<div class="data-border">
-  This duct sizer is based on Darcy-Weisbach equation which is more accurate and applicable to a wider range of
-  temperature and duct size than Hazen-William equation based on which many duct sizing chart are drafted.
+<mat-expansion-panel expanded="true">
+  <div class="data-border-rectangular">
+    This duct sizer is based on Darcy-Weisbach equation which is more accurate and applicable to a wider range of
+    temperature and duct size than Hazen-William equation based on which many duct sizing chart are drafted.
+  </div>
+</mat-expansion-panel>
+<div>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h5 style="font-weight: bold;">
+          Inputs
+        </h5>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-expansion-panel expanded="true">
+      <div>
+        <div class="row">
+          <div class="col">
+            <mat-expansion-panel expanded="true">
+              <h6 style="font-weight: bold">Units</h6>
+              <mat-expansion-panel expanded="true">
+                <div>
+                  <div class="row">
+                    <mat-form-field class="col" style="width: 100%">
+                      <mat-select placeholder="Unit System" [formControl]="ductSizerForm.controls.unitSystem"
+                                  (change)="this.setRelatedData(ductSizerForm.controls.unitSystem.value)">
+                        <mat-option *ngFor="let unitSystem of unitSystemList" [value]="unitSystem">
+                          {{unitSystem.key}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-expansion-panel>
+          </div>
+          <div class="col">
+            <mat-expansion-panel expanded="true">
+              <h6 style="font-weight: bold">Air Temperature</h6>
+              <mat-expansion-panel expanded="true">
+                <div>
+                  <div class="row">
+                    <mat-form-field class="col" style="width: 50%">
+                      <input type="number" step="any" matInput placeholder="Fluid Temperature"
+                             [formControl]="ductSizerForm.controls.temperatureInput">
+                      <mat-error
+                        *ngIf="ductSizerForm.controls.temperatureInput.invalid && (ductSizerForm.controls.temperatureInput.dirty || ductSizerForm.controls.temperatureInput.touched)">
+                        Temperature is out of range
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field id="units-style" class="col" style="width: 50%">
+                      <input type="text" matInput readonly
+                             value="{{temperatureUnit.key}}">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-expansion-panel>
+          </div>
+          <div class="col">
+            <mat-expansion-panel expanded="true">
+              <h6 style="font-weight: bold">Duct Type</h6>
+              <mat-expansion-panel expanded="true">
+                <div>
+                  <div class="row">
+                    <mat-form-field class="col" style="width: 33%">
+                      <mat-select placeholder="Duct Material" [formControl]="ductSizerForm.controls.ductMaterial">
+                        <mat-option *ngFor="let ductMaterial of ductMaterialList" [value]="ductMaterial">
+                          {{ductMaterial.key}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col" style="width: 33%">
+                      <input type="number" step="any" matInput placeholder="Duct Thickness"
+                             [formControl]="ductSizerForm.controls.ductThickness">
+                      <mat-error
+                        *ngIf="ductSizerForm.controls.ductThickness.invalid && (ductSizerForm.controls.ductThickness.dirty || ductSizerForm.controls.ductThickness.touched)">
+                        Duct Thickness is out of range
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field id="units-style" class="col" style="width: 33%">
+                      <input type="text" matInput readonly
+                             value="{{dimensionUnit.key}}">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-expansion-panel>
+          </div>
+        </div>
+        <br>
+        <div>
+          <mat-expansion-panel expanded="true">
+            <h6 style="font-weight: bold">Flow Rate & Sizing Criteria</h6>
+            <mat-expansion-panel expanded="true">
+              <div>
+                <div class="row">
+                  <mat-form-field class="col" style="width: 20%">
+                    <input type="number" step="any" matInput placeholder="Flow Rate"
+                           [formControl]="ductSizerForm.controls.flowRateInput">
+                    <mat-error
+                      *ngIf="ductSizerForm.controls.flowRateInput.invalid && (ductSizerForm.controls.flowRateInput.dirty || ductSizerForm.controls.flowRateInput.touched)">
+                      Flow Rate is out of range
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <mat-select placeholder="Flow Rate Unit" [formControl]="ductSizerForm.controls.flowRate"
+                                (change)="this.changeUf(ductSizerForm.controls.flowRate.value)">
+                      <mat-option *ngFor="let flowRate of flowRateList" [value]="flowRate"
+                                  [innerHtml]="flowRate.key">
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col" style="width: 20%">
+                    <mat-select placeholder="Duct Shape" [formControl]="ductSizerForm.controls.ductShape"
+                                (change)="this.changeDuctShape(ductSizerForm.controls.ductShape.value)">
+                      <mat-option *ngFor="let ductShape of ductShapeList" [value]="ductShape">
+                        {{ductShape.key}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 20%"></div>
+                  <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 20%"></div>
+                  <mat-form-field class="col" style="width: 20%"
+                                  *ngIf="ductSizerForm.controls.ductShape.value.value == 1">
+                    <input type="number" step="any" matInput placeholder="Enter One Dimension"
+                           [formControl]="ductSizerForm.controls.dimensionInput">
+                    <mat-error
+                      *ngIf="ductSizerForm.controls.ductShape.value.value == 1 && ductSizerForm.controls.dimensionInput.invalid && (ductSizerForm.controls.dimensionInput.dirty || ductSizerForm.controls.dimensionInput.touched)">
+                      Dimension Input is out of range
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field id="units-style" *ngIf="ductSizerForm.controls.ductShape.value.value == 1" class="col"
+                                  style="width: 20%">
+                    <input type="text" matInput readonly
+                           value="{{dimensionUnit.key}}">
+                  </mat-form-field>
+                </div>
+                <mat-radio-group class="row">
+                  <mat-radio-button [checked]="this.tg==1"
+                                    [value]="this.tg==1"
+                                    class="col"
+                                    (click)="changeSizingCriteria(0)">
+                    Pressure Drop Criteria
+                  </mat-radio-button>
+                  <div class="col-sm-1"></div>
+                  <mat-radio-button [checked]="this.tg==2"
+                                    [value]="this.tg==2" class="col"
+                                    (click)="changeSizingCriteria(1)">
+                    Velocity Criteria
+                  </mat-radio-button>
+                </mat-radio-group>
+                <div class="row">
+                  <div class="col" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2" style="width: 25%"></div>
+                  <div class="col" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2" style="width: 25%"></div>
+                  <mat-form-field *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1" class="col"
+                                  style="width: 25%">
+                    <input type="number" step="any" matInput placeholder="Max allowed pressure drop"
+                           [formControl]="ductSizerForm.controls.allowedPressureInput">
+                    <mat-error
+                      *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1 && ductSizerForm.controls.allowedPressureInput.invalid && (ductSizerForm.controls.allowedPressureInput.dirty || ductSizerForm.controls.allowedPressureInput.touched)">
+                      Pressure Input is out of range
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1" id="units-style"
+                                  class="col" style="width: 25%">
+                    <input type="text" matInput readonly
+                           value="{{pressureUnit.key}}">
+                  </mat-form-field>
+                  <div class="col" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1" style="width: 25%"></div>
+                  <div class="col" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1" style="width: 25%"></div>
+                  <mat-form-field *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2" class="col"
+                                  style="width: 25%">
+                    <input type="number" step="any" matInput placeholder="Max allowed velocity"
+                           [formControl]="ductSizerForm.controls.allowedVelocityInput">
+                    <mat-error
+                      *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2 && ductSizerForm.controls.allowedVelocityInput.invalid && (ductSizerForm.controls.allowedVelocityInput.dirty || ductSizerForm.controls.allowedVelocityInput.touched)">
+                      Velocity Input is out of range
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2" id="units-style"
+                                  class="col" style="width: 25%">
+                    <input type="text" matInput readonly
+                           value="{{velocityUnit.key}}">
+                  </mat-form-field>
+                </div>
+                <br *ngIf="!error">
+                <div id="inner-error-message" class="row" *ngIf="error">
+                  {{errorMessage.substring(errorMessage.lastIndexOf("-")+1)}}
+                </div>
+                <div id="inner-button" class="row">
+                  <button mat-raised-button type="submit" (click)="calculate()">Calculate</button>
+                  <button mat-raised-button type="submit" color="warn" (click)="resetAllData()">Reset All Data</button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-expansion-panel>
 </div>
 <div>
-  <h5 style="margin-left: 1%;">
-    Inputs
-  </h5>
-  <div class="data-border">
-    <div class="row">
-      <div class="col">
-        1- Units
-        <div class="data-border">
-          <div class="row">
-            <div class="col">
-              Unit System
-              <div class="form-group row">
-                <select class="custom-select"
-                        [formControl]="ductSizerForm.controls.unitSystem"
-                        (change)="this.setRelatedData(ductSizerForm.controls.unitSystem.value)">
-                  <option *ngFor="let unitSystem of unitSystemList" [ngValue]="unitSystem"
-                          selected="{{unitSystem.defaultOption}}" [selected]="unitSystem.defaultOption">
-                    {{unitSystem.key}}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        2- Air Temperature
-        <div class="data-border">
-          <div class="row">
-            <div class="col">
-              Fluid Temperature
-              <div class="form-group row">
-                <input type="number" step="any" class="form-control col"
-                       [formControl]="ductSizerForm.controls.temperatureInput"
-                       [ngClass]="this.setStyleClass(this, ductSizerForm.controls.temperatureInput)">
-                <input type="text" class="form-control col" readonly value="{{temperatureUnit.key}}">
-              </div>
-              <div
-                *ngIf="ductSizerForm.controls.temperatureInput.invalid && (ductSizerForm.controls.temperatureInput.dirty || ductSizerForm.controls.temperatureInput.touched)"
-                class="note-error">
-                Temperature is out of range
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        3- Duct Type
-        <div class="data-border">
-          <div class="row">
-            <div class="col">
-              Duct Material
-              <select class="custom-select" [formControl]="ductSizerForm.controls.ductMaterial">
-                <option *ngFor="let ductMaterial of ductMaterialList" [ngValue]="ductMaterial"
-                        selected="{{ductMaterial.defaultOption}}" [selected]="ductMaterial.defaultOption">
-                  {{ductMaterial.key}}
-                </option>
-              </select>
-            </div>
-            <div class="col">
-              Duct Thickness
-              <div class="form-group row">
-                <input type="number" step="any" class="form-control col"
-                       [formControl]="ductSizerForm.controls.ductThickness"
-                       [ngClass]="this.setStyleClass(this, ductSizerForm.controls.ductThickness)">
-                <input type="text" class="form-control col" readonly value="{{dimensionUnit.key}}">
-              </div>
-              <div
-                *ngIf="ductSizerForm.controls.ductThickness.invalid && (ductSizerForm.controls.ductThickness.dirty || ductSizerForm.controls.ductThickness.touched)"
-                class="note-error">
-                Duct Thickness is out of range
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      4- Flow Rate & Sizing Criteria
-      <div class="data-border">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h5 style="font-weight: bold;">
+          Results
+        </h5>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-expansion-panel expanded="true">
+      <div>
         <div class="row">
-          <div class="col row">
-            <div class="col">
-              Flow Rate
-              <div class="form-group row">
-                <input type="number" step="any" class="form-control col"
-                       [formControl]="ductSizerForm.controls.flowRateInput"
-                       [ngClass]="this.setStyleClass(this, ductSizerForm.controls.flowRateInput)">
-              </div>
-              <div
-                *ngIf="ductSizerForm.controls.flowRateInput.invalid && (ductSizerForm.controls.flowRateInput.dirty || ductSizerForm.controls.flowRateInput.touched)"
-                class="note-error">
-                Flow Rate is out of range
-              </div>
-            </div>
-            <div class="col">
-              Flow Rate Unit
-              <select class="custom-select" [formControl]="ductSizerForm.controls.flowRate">
-                <option *ngFor="let flowRate of flowRateList" [ngValue]="flowRate"
-                        selected="{{flowRate.defaultOption}}" [selected]="flowRate.defaultOption"
-                        [innerHtml]="flowRate.key"
-                        (change)="this.changeUf(ductSizerForm.controls.flowRate.value)">
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="col">
-            Duct Shape
-            <select class="custom-select" [formControl]="ductSizerForm.controls.ductShape"
-                    (change)="this.changeDuctShape(ductSizerForm.controls.ductShape.value)">
-              <option *ngFor="let ductShape of ductShapeList" [ngValue]="ductShape"
-                      selected="{{ductShape.defaultOption}}" [selected]="ductShape.defaultOption">{{ductShape.key}}
-              </option>
-            </select>
-          </div>
-          <div class="col">
-            <div *ngIf="ductSizerForm.controls.ductShape.value.value == 1">Enter One Dimension</div>
-            <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 1">
-              <input type="number" step="any" class="form-control col"
-                     [formControl]="ductSizerForm.controls.dimensionInput"
-                     [ngClass]="this.setStyleClass(this, ductSizerForm.controls.dimensionInput)">
-              <input type="text" class="form-control col" readonly value="{{dimensionUnit.key}}">
-            </div>
-            <div
-              *ngIf="ductSizerForm.controls.ductShape.value.value == 1 && ductSizerForm.controls.dimensionInput.invalid && (ductSizerForm.controls.dimensionInput.dirty || ductSizerForm.controls.dimensionInput.touched)"
-              class="note-error">
-              Dimension Input is out of range
-            </div>
-            <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 2">
-            </div>
-          </div>
+          <mat-form-field class="col" style="width: 12%">
+            <input type="text" readonly matInput placeholder="Flow Rate"
+                   value="{{ductSizerForm.controls.o1.value}}">
+          </mat-form-field>
+          <mat-dialog-content class="col" style="width: 12%">
+            <br>
+            <div [innerHtml]="ductSizerForm.controls.flowRate.value.key"></div>
+          </mat-dialog-content>
+          <div *ngIf="ductSizerForm.controls.ductShape.value.value == 1" class="col" style="width: 12%"></div>
+          <div *ngIf="ductSizerForm.controls.ductShape.value.value == 1" class="col" style="width: 12%"></div>
+          <mat-form-field *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 12%">
+            <input type="text" readonly matInput placeholder="Circular Duct Size"
+                   value="{{ductSizerForm.controls.o2.value}}">
+          </mat-form-field>
+          <mat-dialog-content *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 12%">
+            <br>
+            <div [innerHtml]="dimensionUnit.key"></div>
+          </mat-dialog-content>
+          <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 12%"></div>
+          <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 12%"></div>
+          <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 12%"></div>
+          <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2" class="col" style="width: 12%"></div>
+          <mat-form-field *ngIf="ductSizerForm.controls.ductShape.value.value == 1" class="col" style="width: 12%">
+            <input type="text" readonly matInput placeholder="Rectangular Duct Size"
+                   value="{{ductSizerForm.controls.o3.value}}">
+          </mat-form-field>
+          <mat-dialog-content *ngIf="ductSizerForm.controls.ductShape.value.value == 1" class="col"
+                              style="text-align: center;width: 12%">
+            <br>
+            <div>X</div>
+          </mat-dialog-content>
+          <mat-form-field *ngIf="ductSizerForm.controls.ductShape.value.value == 1" class="col" style="width: 12%">
+            <input type="text" readonly matInput
+                   value="{{ductSizerForm.controls.o4.value}}">
+          </mat-form-field>
+          <mat-dialog-content *ngIf="ductSizerForm.controls.ductShape.value.value == 1" class="col" style="width: 12%">
+            <br>
+            <div [innerHtml]="dimensionUnit.key"></div>
+          </mat-dialog-content>
         </div>
         <div class="row">
-          <button type="button" class="btn btn-primary col align-content-center"
-                  (click)="changeSizingCriteria(0)">Pressure Drop Criteria
-          </button>
-          <div class="col-sm-1"></div>
-          <button type="button" class="btn btn-primary col align-content-center"
-                  (click)="changeSizingCriteria(1)">Velocity Criteria
-          </button>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1">Max allowed pressure drop</div>
-            <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1">
-              <input type="number" step="any" class="form-control col"
-                     [formControl]="ductSizerForm.controls.allowedPressureInput"
-                     [ngClass]="this.setStyleClass(this, ductSizerForm.controls.allowedPressureInput)">
-              <input type="text" class="form-control col" readonly value="{{pressureUnit.key}}">
-            </div>
-            <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2">
-            </div>
-            <div
-              *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1 && ductSizerForm.controls.allowedPressureInput.invalid && (ductSizerForm.controls.allowedPressureInput.dirty || ductSizerForm.controls.allowedPressureInput.touched)"
-              class="note-error">
-              Pressure Input is out of range
-            </div>
-          </div>
-          <div class="col">
-            <div *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2">Max allowed velocity</div>
-            <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2">
-              <input type="number" step="any" class="form-control col"
-                     [formControl]="ductSizerForm.controls.allowedVelocityInput"
-                     [ngClass]="this.setStyleClass(this, ductSizerForm.controls.allowedVelocityInput)">
-              <input type="text" class="form-control col" readonly value="{{velocityUnit.key}}">
-            </div>
-            <div class="form-group row" *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 1">
-            </div>
-            <div
-              *ngIf="ductSizerForm.controls.sizingCriteria.value+1 == 2 && ductSizerForm.controls.allowedVelocityInput.invalid && (ductSizerForm.controls.allowedVelocityInput.dirty || ductSizerForm.controls.allowedVelocityInput.touched)"
-              class="note-error">
-              Velocity Input is out of range
-            </div>
-          </div>
-        </div>
-        <div id="inner-button" class="row">
-          <button class="btn btn-primary align-content-center" type="submit" (click)="calculate()">Calculate</button>
-        </div>
-        <div id="inner-error-message" class="row" *ngIf="error">
-          {{errorMessage.substring(errorMessage.lastIndexOf("-")+1)}}
+          <mat-form-field class="col" style="width: 25%">
+            <input type="text" readonly matInput placeholder="Flow Velocity"
+                   value="{{ductSizerForm.controls.o5.value}}">
+          </mat-form-field>
+          <mat-dialog-content class="col" style="width: 25%">
+            <br>
+            <div [innerHtml]="velocityUnit.key"></div>
+          </mat-dialog-content>
+          <mat-form-field class="col" style="width: 25%">
+            <input type="text" readonly matInput placeholder="Pressure Drop"
+                   value="{{ductSizerForm.controls.o6.value}}">
+          </mat-form-field>
+          <mat-dialog-content class="col" style="width: 25%">
+            <br>
+            <div [innerHtml]="pressureUnit.key"></div>
+          </mat-dialog-content>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div>
-  <h5 style="margin-left: 1%;">
-    Results
-  </h5>
-  <div class="data-border">
-    <div class="row">
-      <div class="col">
-        Flow Rate
-        <div class="form-group row">
-          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o1.value}}">
-          <option type="text" class="form-control col output-field" readonly
-                  innerHtml="{{ductSizerForm.controls.flowRate.value.key}}">
-        </div>
-      </div>
-      <div class="col-sm-1"></div>
-      <div class="col">
-        <div *ngIf="ductSizerForm.controls.ductShape.value.value == 2">Circular Duct Size</div>
-        <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 2">
-          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o2.value}}">
-          <input type="text" class="form-control col output-field" readonly value="{{dimensionUnit.key}}">
-        </div>
-      </div>
-      <div class="col-sm-1"></div>
-      <div class="col">
-        <div *ngIf="ductSizerForm.controls.ductShape.value.value == 1">Rectangular Duct Size</div>
-        <div class="form-group row" *ngIf="ductSizerForm.controls.ductShape.value.value == 1">
-          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o3.value}}">
-          <input type="text" class="form-control col output-field" readonly style="text-align: center;" value="X">
-          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o4.value}}">
-          <input type="text" class="form-control col output-field" readonly value="{{dimensionUnit.key}}">
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        Flow Velocity
-        <div class="form-group row">
-          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o5.value}}">
-          <input type="text" class="form-control col output-field" readonly value="{{velocityUnit.key}}">
-        </div>
-      </div>
-      <div class="col-sm-1"></div>
-      <div class="col">
-        Pressure Drop
-        <div class="form-group row">
-          <input type="text" class="form-control col output-field" readonly value="{{ductSizerForm.controls.o6.value}}">
-          <input type="text" class="form-control col output-field" readonly value="{{pressureUnit.key}}">
-        </div>
-      </div>
-    </div>
-  </div>
+    </mat-expansion-panel>
+  </mat-expansion-panel>
 </div>
 </body>
 </html>

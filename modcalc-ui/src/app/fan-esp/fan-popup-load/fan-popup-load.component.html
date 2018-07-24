@@ -1,0 +1,31 @@
+<div>
+  <h1 mat-dialog-title align="center">Load Input</h1>
+  <br>
+  <div *ngIf="data.fanEspLoadResponseList.length==0">
+    <h6 align="center">No Data Found</h6>
+  </div>
+  <div *ngIf="data.fanEspLoadResponseList.length!=0">
+    <div class="row">
+      <div class="col">Name</div>
+      <div class="col">Creation Date</div>
+      <div class="col"></div>
+    </div>
+    <ng-container *ngFor="let response of data.fanEspLoadResponseList;let i = index">
+      <div class="row">
+        <div class="col">{{response.name}}</div>
+        <div class="col">{{response.date}}</div>
+        <div class="col">
+          <button mat-raised-button
+                  (click)="loadInput(i)">Select
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <br>
+  <div id="inner-button" class="row">
+    <button mat-raised-button color="warn"
+            type="submit" (click)="loadInput(null)">Cancel
+    </button>
+  </div>
+</div>

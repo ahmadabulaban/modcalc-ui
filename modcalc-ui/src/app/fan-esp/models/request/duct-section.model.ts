@@ -5,8 +5,7 @@ import {SpecialComponent} from './special-component.model';
 import {FanEspLookup} from '../lookups/fan-esp-lookup.model';
 
 export class DuctSection {
-  startPoint: string;
-  endPoint: string;
+  ductSectionId: string;
   rateInput: number;
   rateUnit: string;
   lengthInput: number;
@@ -27,8 +26,7 @@ export class DuctSection {
   specialComponentList: SpecialComponent[] = [];
 
   constructor() {
-    this.startPoint = null;
-    this.endPoint = null;
+    this.ductSectionId = null;
     this.rateInput = null;
     this.rateUnit = null;
     this.lengthInput = null;

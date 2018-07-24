@@ -1,0 +1,11 @@
+<div>
+  <h1 mat-dialog-title align="center">Are You Sure ?</h1>
+  <div id="inner-button" class="row">
+    <button mat-raised-button type="submit"
+            (click)="this.closeDialog(true)">Yes
+    </button>
+    <button mat-raised-button color="warn"
+            type="submit" (click)="this.closeDialog(false)">No
+    </button>
+  </div>
+</div>

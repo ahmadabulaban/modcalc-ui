@@ -15,7 +15,7 @@ export class DuctSizerServiceImpl extends DuctSizerService {
     super();
     // Production Url
     this.baseUrl = 'http://ec2-34-243-32-121.eu-west-1.compute.amazonaws.com';
-    this.baseUrl = '/modcalc-deployment-draft4/duct-sizer/';
+    this.baseUrl = '/modcalc-deployment-draft6/duct-sizer/';
     // Development Url
     // this.baseUrl = '/modcalc-controller/duct-sizer/';
   }
@@ -31,7 +31,6 @@ export class DuctSizerServiceImpl extends DuctSizerService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log('message    [Error     ]==' + error);
     return Observable.throw(error.error);
   }
 }

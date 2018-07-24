@@ -5,7 +5,6 @@ import {SpecialComponentResponse} from './special-component-response.model';
 
 export class DuctSectionResponse {
   o1: string;
-  o2: string;
   o3: number;
   o4: number;
   o5: number;
@@ -29,7 +28,6 @@ export class DuctSectionResponse {
 
   constructor() {
     this.o1 = null;
-    this.o2 = null;
     this.o3 = null;
     this.o4 = null;
     this.o5 = null;

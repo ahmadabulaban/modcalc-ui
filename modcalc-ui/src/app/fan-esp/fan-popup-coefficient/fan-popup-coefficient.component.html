@@ -1,9 +1,15 @@
 <div style="overflow-x: auto;overflow-y: auto; ; max-height:500px;max-width:1000px;">
   <h1 mat-dialog-title align="center">{{data.fanLookupCoefficient.typeName}}</h1>
-  <div>
-    <img src="assets/images/{{data.fanLookupCoefficient.image}}.png" style="max-height: 400px; max-width: 400px; display: block;
+  <div *ngIf="initialStart">
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+    <ng-container *ngIf="startBuildPage()"></ng-container>
+  </div>
+  <div *ngIf="dataAvailable">
+    <img *ngIf="data.fanLookupCoefficient.image!='NO_IMAGE_AVAILABLE'"
+         src="assets/images/{{data.fanLookupCoefficient.image}}.png" style="max-height: 400px; max-width: 400px; display: block;
     margin-left: auto;
     margin-right: auto;">
+    <br *ngIf="data.fanLookupCoefficient.image=='NO_IMAGE_AVAILABLE'">
     <br>
     <ng-container *ngFor="let table of data.tables;let tableCount = index">
       <ng-container *ngIf="data.fanLookupCoefficient.fixedHeaderHeight[tableCount]!=0">
@@ -111,6 +117,8 @@
               </ng-container>
             </tr>
           </ng-container>
+          <ng-container
+            *ngIf="checkHtmlReady(tableCount,i,data.fanLookupCoefficient.fixedHeaderHeight[tableCount]+data.fanLookupCoefficient.fixedBodyHeight[tableCount])"></ng-container>
         </ng-container>
       </table>
     </ng-container>
@@ -120,6 +128,4 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <!--<button mat-button (click)="onNoClick()">No Thanks</button>-->
-  <!--<button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
 </div>

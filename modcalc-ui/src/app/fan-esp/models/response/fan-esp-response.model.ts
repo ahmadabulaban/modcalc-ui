@@ -1,5 +1,6 @@
 import {DuctSectionResponse} from './duct-section-response.model';
 import {AirTerminalResponse} from './air-terminal-response.model';
+import {FanSystemInteractionResponse} from './fan-system-interaction-response.model';
 
 export class FanEspResponse {
   project: string;
@@ -8,9 +9,7 @@ export class FanEspResponse {
   date: string;
   tx5: string;
   ductSectionResponseList: DuctSectionResponse[] = [];
-  o29: string;
-  o30: number;
-  o31: number;
+  fanSystemInteractionResponseList: FanSystemInteractionResponse[] = [];
   o32: number;
   o33: number;
   o34: number;
@@ -21,6 +20,7 @@ export class FanEspResponse {
   o42: number;
   o43: number;
   o44: number;
+  o45: number;
 
   constructor() {
     this.project = null;
@@ -28,9 +28,6 @@ export class FanEspResponse {
     this.pumpRef = null;
     this.date = null;
     this.tx5 = null;
-    this.o29 = null;
-    this.o30 = null;
-    this.o31 = null;
     this.o32 = null;
     this.o33 = null;
     this.o34 = null;
@@ -40,8 +37,6 @@ export class FanEspResponse {
     this.o42 = null;
     this.o43 = null;
     this.o44 = null;
-    this.ductSectionResponseList.push(new DuctSectionResponse());
-    this.airTerminalResponseList.push(new AirTerminalResponse());
-    // this.ductSectionResponseList.push(new DuctSectionResponse());
+    this.o45 = null;
   }
 }
