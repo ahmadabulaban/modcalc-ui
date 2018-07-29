@@ -45,6 +45,7 @@ option.output-field:read-only {
 
 table {
   border: 1px solid black;
+  font-size: 13px;
 }
 th, td {
   border: 1px solid black;
@@ -56,6 +57,26 @@ th, td {
 
 .mat-raised-button {
   background-color: silver;
+}
+
+.mat-select {
+  font-size: 13px;
+}
+
+.mat-form-field {
+  font-size: 13px;
+}
+
+.mat-dialog-content {
+  font-size: 13px;
+}
+
+.mat-radio-group {
+  font-size: 13px;
+}
+
+.mat-raised-button {
+  font-size: 13px;
 }
 
 #units-style .mat-input-underline {

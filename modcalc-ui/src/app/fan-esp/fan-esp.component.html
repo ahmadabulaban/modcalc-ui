@@ -48,7 +48,7 @@
   <mat-expansion-panel expanded="true">
     <div>
       <div class="row">
-        <div class="col">
+        <div class="col-sm-4">
           <mat-expansion-panel expanded="true">
             <h6 style="font-weight: bold">Units</h6>
             <mat-expansion-panel expanded="true">
@@ -81,7 +81,7 @@
             </mat-expansion-panel>
           </mat-expansion-panel>
         </div>
-        <div class="col">
+        <div class="col-sm-3">
           <mat-expansion-panel expanded="true">
             <h6 style="font-weight: bold">Air Temperature</h6>
             <mat-expansion-panel expanded="true">
@@ -292,8 +292,9 @@
                           </mat-form-field>
                           <div class="row">
                             <mat-form-field class="col" *ngIf="fitting.fittingSizingCriteria == 1">
-                              <input type="text" matInput readonly placeholder="Type"
-                                     [(ngModel)]="fitting.fittingDescription">
+                              <textarea type="text" matTextareaAutosize
+                                        matInput readonly placeholder="Type"
+                                        [(ngModel)]="fitting.fittingDescription"></textarea>
                             </mat-form-field>
                             <button mat-raised-button class="col-sm-4" *ngIf="fitting.fittingSizingCriteria == 1"
                                     (click)="this.chooseFittingType(ductSection,fitting)">Select Type
@@ -323,10 +324,10 @@
                         <div class="col-sm-1"></div>
                         <div class="col">
                           <mat-form-field *ngIf="fitting.fittingSizingCriteria == 2" style="width: 100%">
-                            <input type="text" matInput placeholder="Description"
-                                   [(ngModel)]="fitting.fittingDescription"
-                                   nullInputValidator
-                                   #fittingDescription="ngModel">
+                            <textarea type="text" matTextareaAutosize matInput placeholder="Description"
+                                      [(ngModel)]="fitting.fittingDescription"
+                                      nullInputValidator
+                                      #fittingDescription="ngModel"></textarea>
                             <mat-error *ngIf="fittingDescription.errors">
                               Description Is Invalid
                             </mat-error>
@@ -397,8 +398,9 @@
                           <div class="row">
                             <mat-form-field class="col"
                                             *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1">
-                              <input type="text" matInput readonly placeholder="Type"
-                                     [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">
+                              <textarea type="text" matTextareaAutosize matInput readonly placeholder="Type"
+                                        [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription">
+                              </textarea>
                             </mat-form-field>
                             <button mat-raised-button class="col-sm-4"
                                     *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 1"
@@ -435,10 +437,11 @@
                         <div class="col">
                           <mat-form-field *ngIf="dampersAndObstructions.dampersAndObstructionsSizingCriteria == 2"
                                           style="width: 100%">
-                            <input type="text" matInput placeholder="Description"
-                                   [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription"
-                                   nullInputValidator
-                                   #dampersAndObstructionsDescription="ngModel">
+                            <textarea type="text" matTextareaAutosize matInput placeholder="Description"
+                                      [(ngModel)]="dampersAndObstructions.dampersAndObstructionsDescription"
+                                      nullInputValidator
+                                      #dampersAndObstructionsDescription="ngModel">
+                            </textarea>
                             <mat-error *ngIf="dampersAndObstructionsDescription.errors">
                               Description Is Invalid
                             </mat-error>
@@ -510,8 +513,9 @@
                           <div class="row">
                             <mat-form-field class="col"
                                             *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1">
-                              <input type="text" matInput readonly placeholder="Type"
-                                     [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">
+                              <textarea type="text" matTextareaAutosize matInput readonly placeholder="Type"
+                                        [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription">
+                              </textarea>
                             </mat-form-field>
                             <button mat-raised-button class="col-sm-4"
                                     *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 1"
@@ -548,10 +552,11 @@
                         <div class="col">
                           <mat-form-field *ngIf="ductMountedEquipment.ductMountedEquipmentCriteria == 2"
                                           style="width: 100%">
-                            <input type="text" matInput placeholder="Description"
-                                   [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription"
-                                   nullInputValidator
-                                   #ductMountedEquipmentDescription="ngModel">
+                            <textarea type="text" matTextareaAutosize matInput placeholder="Description"
+                                      [(ngModel)]="ductMountedEquipment.ductMountedEquipmentDescription"
+                                      nullInputValidator
+                                      #ductMountedEquipmentDescription="ngModel">
+                            </textarea>
                             <mat-error *ngIf="ductMountedEquipmentDescription.errors">
                               Description Is Invalid
                             </mat-error>
@@ -606,10 +611,11 @@
                       </mat-expansion-panel-header>
                       <div class="row">
                         <mat-form-field class="col" style="width: 25%">
-                          <input type="text" matInput placeholder="Description"
-                                 [(ngModel)]="specialComponent.specialComponentDescription"
-                                 nullInputValidator
-                                 #specialComponentDescription="ngModel">
+                          <textarea type="text" matTextareaAutosize matInput placeholder="Description"
+                                    [(ngModel)]="specialComponent.specialComponentDescription"
+                                    nullInputValidator
+                                    #specialComponentDescription="ngModel">
+                          </textarea>
                           <mat-error *ngIf="specialComponentDescription.errors">
                             Description Is Invalid
                           </mat-error>
@@ -716,8 +722,9 @@
                       <div class="row">
                         <mat-form-field class="col"
                                         *ngIf="fanSystemInteraction.fanSystemInteractionCriteria == 1">
-                          <input type="text" matInput readonly placeholder="Type"
-                                 [(ngModel)]="fanSystemInteraction.fanSystemInteractionDescription">
+                          <textarea type="text" matTextareaAutosize matInput readonly placeholder="Type"
+                                    [(ngModel)]="fanSystemInteraction.fanSystemInteractionDescription">
+                          </textarea>
                         </mat-form-field>
                         <button mat-raised-button class="col-sm-4"
                                 *ngIf="fanSystemInteraction.fanSystemInteractionCriteria == 1"
@@ -745,10 +752,11 @@
                     <div class="col">
                       <mat-form-field *ngIf="fanSystemInteraction.fanSystemInteractionCriteria == 2"
                                       style="width: 100%">
-                        <input type="text" matInput placeholder="Description"
-                               [(ngModel)]="fanSystemInteraction.fanSystemInteractionDescription"
-                               nullInputValidator
-                               #fanSystemInteractionDescription="ngModel">
+                        <textarea type="text" matTextareaAutosize matInput placeholder="Description"
+                                  [(ngModel)]="fanSystemInteraction.fanSystemInteractionDescription"
+                                  nullInputValidator
+                                  #fanSystemInteractionDescription="ngModel">
+                        </textarea>
                         <mat-error *ngIf="fanSystemInteractionDescription.errors">
                           Description Is Invalid
                         </mat-error>
@@ -799,19 +807,21 @@
                 </mat-expansion-panel-header>
                 <div class="row">
                   <mat-form-field class="col" style="width: 16.5%">
-                    <input type="text" matInput placeholder="Type"
-                           [(ngModel)]="airTerminal.airTerminalDescription"
-                           nullInputValidator
-                           #airTerminalDescription="ngModel">
+                    <textarea type="text" matTextareaAutosize matInput placeholder="Type"
+                              [(ngModel)]="airTerminal.airTerminalDescription"
+                              nullInputValidator
+                              #airTerminalDescription="ngModel">
+                    </textarea>
                     <mat-error *ngIf="airTerminalDescription.errors">
                       Description Is Invalid
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 16.5%">
-                    <input type="text" matInput placeholder="Model"
-                           [(ngModel)]="airTerminal.model"
-                           nullInputValidator
-                           #airTerminalModel="ngModel">
+                    <textarea type="text" matTextareaAutosize matInput placeholder="Model"
+                              [(ngModel)]="airTerminal.model"
+                              nullInputValidator
+                              #airTerminalModel="ngModel">
+                    </textarea>
                     <mat-error *ngIf="airTerminalModel.errors">
                       Model Is Invalid
                     </mat-error>
@@ -910,20 +920,24 @@
     <mat-expansion-panel expanded="true" class="data-border-rectangular">
       <div class="row">
         <mat-form-field class="col" style="width: 25%">
-          <input type="text" matInput readonly placeholder="Project"
-                 [(ngModel)]="response.project">
+          <textarea type="text" matTextareaAutosize matInput readonly placeholder="Project"
+                    [(ngModel)]="response.project">
+          </textarea>
         </mat-form-field>
         <mat-form-field class="col" readonly style="width: 25%">
-          <input type="text" matInput placeholder="System"
-                 [(ngModel)]="response.system">
+          <textarea type="text" matTextareaAutosize matInput placeholder="System"
+                    [(ngModel)]="response.system">
+          </textarea>
         </mat-form-field>
         <mat-form-field class="col" readonly style="width: 25%">
-          <input type="text" matInput placeholder="Fan Ref."
-                 [(ngModel)]="response.pumpRef">
+          <textarea type="text" matTextareaAutosize matInput placeholder="Fan Ref."
+                    [(ngModel)]="response.pumpRef">
+          </textarea>
         </mat-form-field>
         <mat-form-field class="col" readonly style="width: 25%">
-          <input type="text" matInput placeholder="Date"
-                 [(ngModel)]="response.date">
+          <textarea type="text" matTextareaAutosize matInput placeholder="Date"
+                    [(ngModel)]="response.date">
+          </textarea>
         </mat-form-field>
       </div>
     </mat-expansion-panel>
@@ -956,85 +970,100 @@
                 <div class="row">
                   <div class="col" style="width: 25%"></div>
                   <mat-form-field class="col" style="width: 50%">
-                    <input type="text" matInput readonly placeholder="Duct Section Id"
-                           [(ngModel)]="ductSection.o1">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Duct Section Id"
+                              [(ngModel)]="ductSection.o1">
+                    </textarea>
                   </mat-form-field>
                   <div class="col" style="width: 25%"></div>
                 </div>
                 <div class="row">
                   <mat-form-field *ngIf="request.ductSectionList[i].shp == 1" class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly placeholder="Duct Height"
-                           [(ngModel)]="ductSection.o3">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Duct Height"
+                              [(ngModel)]="ductSection.o3">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field *ngIf="request.ductSectionList[i].shp == 1" class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly placeholder="Duct Width"
-                           [(ngModel)]="ductSection.o4">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Duct Width"
+                              [(ngModel)]="ductSection.o4">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" *ngIf="request.ductSectionList[i].shp == 1" class="col"
                                   style="width: 0.09%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="ductSection.tx1">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="ductSection.tx1">
+                    </textarea>
                   </mat-form-field>
                   <div class="col" *ngIf="request.ductSectionList[i].shp == 2" style="width: 0.09%"></div>
                   <div class="col" *ngIf="request.ductSectionList[i].shp == 2" style="width: 0.09%"></div>
                   <div class="col" *ngIf="request.ductSectionList[i].shp == 2" style="width: 0.09%"></div>
                   <mat-form-field *ngIf="request.ductSectionList[i].shp == 2" class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly placeholder="Duct Diameter"
-                           [(ngModel)]="ductSection.o5">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Duct Diameter"
+                              [(ngModel)]="ductSection.o5">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" *ngIf="request.ductSectionList[i].shp == 2" class="col"
                                   style="width: 0.09%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="ductSection.tx1">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="ductSection.tx1">
+                    </textarea>
                   </mat-form-field>
                   <div class="col" *ngIf="request.ductSectionList[i].shp == 1" style="width: 0.09%"></div>
                   <div class="col" *ngIf="request.ductSectionList[i].shp == 1" style="width: 0.09%"></div>
                   <mat-form-field class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly placeholder="Duct Thickness"
-                           [(ngModel)]="ductSection.o6">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Duct Thickness"
+                              [(ngModel)]="ductSection.o6">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="ductSection.tx1">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="ductSection.tx1">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly placeholder="Flow Rate"
-                           [(ngModel)]="ductSection.o7">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Flow Rate"
+                              [(ngModel)]="ductSection.o7">
+                    </textarea>
                   </mat-form-field>
                   <mat-dialog-content class="col" style="width: 0.09%">
                     <br>
                     <div [innerHtml]="ductSection.tx2.replace('^', '&sup')"></div>
                   </mat-dialog-content>
                   <mat-form-field class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly placeholder="Flow Velocity"
-                           [(ngModel)]="ductSection.o8">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Flow Velocity"
+                              [(ngModel)]="ductSection.o8">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 0.09%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="ductSection.tx3">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="ductSection.tx3">
+                    </textarea>
                   </mat-form-field>
                 </div>
                 <div class="row">
-                  <div class="col">
+                  <div class="col" style="font-size: 13px">
                     <u>Straight Run</u>
                   </div>
                 </div>
                 <div class="row">
                   <mat-form-field class="col" style="width: 25%">
-                    <input type="text" matInput readonly placeholder="Length"
-                           [(ngModel)]="ductSection.o88">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Length"
+                              [(ngModel)]="ductSection.o88">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 25%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="ductSection.tx4">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="ductSection.tx4">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 25%">
-                    <input type="text" matInput readonly placeholder="Pressure Loss"
-                           [(ngModel)]="ductSection.o9">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Pressure Loss"
+                              [(ngModel)]="ductSection.o9">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 25%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="response.tx5">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="response.tx5">
+                    </textarea>
                   </mat-form-field>
                 </div>
                 <div class="row">
@@ -1045,40 +1074,45 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     <div class="row" *ngIf="ductSection.fittingResponseList.length>0">
-                      <div class="col">
+                      <div class="col" style="font-size: 13px">
                         Type
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         C
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Qty
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Pressure Loss
                       </div>
-                      <div class="col"></div>
+                      <div class="col-sm-2"></div>
                     </div>
                     <div class="row" *ngFor="let fitting of ductSection.fittingResponseList">
                       <mat-form-field class="col" style="width: 20%;">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="fitting.o10">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="fitting.o10">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="fitting.o11">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="fitting.o11">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="fitting.o12">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="fitting.o12">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="fitting.o13">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="fitting.o13">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field id="units-style" class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="response.tx5">
+                      <mat-form-field id="units-style" class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="response.tx5">
+                        </textarea>
                       </mat-form-field>
                     </div>
                   </mat-expansion-panel>
@@ -1089,41 +1123,46 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     <div class="row" *ngIf="ductSection.dampersAndObstructionsResponseList.length>0">
-                      <div class="col">
+                      <div class="col" style="font-size: 13px">
                         Type
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         C
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Qty
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Pressure Loss
                       </div>
-                      <div class="col"></div>
+                      <div class="col-sm-2"></div>
                     </div>
                     <div class="row"
                          *ngFor="let dampersAndObstructions of ductSection.dampersAndObstructionsResponseList">
                       <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="dampersAndObstructions.o14">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="dampersAndObstructions.o14">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="dampersAndObstructions.o15">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="dampersAndObstructions.o15">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="dampersAndObstructions.o16">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="dampersAndObstructions.o16">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="dampersAndObstructions.o17">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="dampersAndObstructions.o17">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field id="units-style" class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="response.tx5">
+                      <mat-form-field id="units-style" class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="response.tx5">
+                        </textarea>
                       </mat-form-field>
                     </div>
                   </mat-expansion-panel>
@@ -1131,20 +1170,24 @@
                 <br>
                 <div class="row">
                   <mat-form-field class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly placeholder="Total"
-                           [(ngModel)]="ductSection.o25">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Total"
+                              [(ngModel)]="ductSection.o25">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="response.tx5">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="response.tx5">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly placeholder="Total"
-                           [(ngModel)]="ductSection.o26">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Total"
+                              [(ngModel)]="ductSection.o26">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="response.tx5">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="response.tx5">
+                    </textarea>
                   </mat-form-field>
                 </div>
                 <div class="row">
@@ -1155,40 +1198,45 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     <div class="row" *ngIf="ductSection.ductMountedEquipmentResponseList.length>0">
-                      <div class="col">
+                      <div class="col" style="font-size: 13px">
                         Type
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         C
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Qty
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Pressure Loss
                       </div>
-                      <div class="col"></div>
+                      <div class="col-sm-2"></div>
                     </div>
                     <div class="row" *ngFor="let ductMountedEquipment of ductSection.ductMountedEquipmentResponseList">
                       <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="ductMountedEquipment.o18">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="ductMountedEquipment.o18">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="ductMountedEquipment.o19">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="ductMountedEquipment.o19">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="ductMountedEquipment.o20">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="ductMountedEquipment.o20">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="ductMountedEquipment.o21">
+                      <mat-form-field class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="ductMountedEquipment.o21">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field id="units-style" class="col" style="width: 20%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="response.tx5">
+                      <mat-form-field id="units-style" class="col-sm-2" style="width: 20%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="response.tx5">
+                        </textarea>
                       </mat-form-field>
                     </div>
                   </mat-expansion-panel>
@@ -1199,33 +1247,37 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     <div class="row" *ngIf="ductSection.specialComponentResponseList.length>0">
-                      <div class="col">
+                      <div class="col" style="font-size: 13px">
                         Type
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Qty
                       </div>
-                      <div class="col">
+                      <div class="col-sm-2" style="font-size: 13px">
                         Pressure Loss
                       </div>
-                      <div class="col"></div>
+                      <div class="col-sm-2"></div>
                     </div>
                     <div class="row" *ngFor="let specialComponent of ductSection.specialComponentResponseList">
                       <mat-form-field class="col" style="width: 25%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="specialComponent.o22">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="specialComponent.o22">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 25%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="specialComponent.o23">
+                      <mat-form-field class="col-sm-2" style="width: 25%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="specialComponent.o23">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field class="col" style="width: 25%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="specialComponent.o24">
+                      <mat-form-field class="col-sm-2" style="width: 25%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="specialComponent.o24">
+                        </textarea>
                       </mat-form-field>
-                      <mat-form-field id="units-style" class="col" style="width: 25%">
-                        <input type="text" matInput readonly
-                               [(ngModel)]="response.tx5">
+                      <mat-form-field id="units-style" class="col-sm-2" style="width: 25%">
+                        <textarea type="text" matTextareaAutosize matInput readonly
+                                  [(ngModel)]="response.tx5">
+                        </textarea>
                       </mat-form-field>
                     </div>
                   </mat-expansion-panel>
@@ -1233,20 +1285,24 @@
                 <br>
                 <div class="row">
                   <mat-form-field class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly placeholder="Total"
-                           [(ngModel)]="ductSection.o27">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Total"
+                              [(ngModel)]="ductSection.o27">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="response.tx5">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="response.tx5">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly placeholder="Total"
-                           [(ngModel)]="ductSection.o28">
+                    <textarea type="text" matTextareaAutosize matInput readonly placeholder="Total"
+                              [(ngModel)]="ductSection.o28">
+                    </textarea>
                   </mat-form-field>
                   <mat-form-field id="units-style" class="col" style="width: 12.5%">
-                    <input type="text" matInput readonly
-                           [(ngModel)]="response.tx5">
+                    <textarea type="text" matTextareaAutosize matInput readonly
+                              [(ngModel)]="response.tx5">
+                    </textarea>
                   </mat-form-field>
                 </div>
               </mat-expansion-panel>
@@ -1261,62 +1317,68 @@
             <h6 style="font-weight: bold">Duct Sections Pressure Loss Summary</h6>
             <mat-expansion-panel class="row data-border-rectangular" expanded="true">
               <div class="row">
-                <div class="col" align="center"><u>Straight Duct</u></div>
-                <div class="col" align="center"><u>Fittings</u></div>
-                <div class="col" align="center"><u>Dampers & Obstructions</u></div>
-                <div class="col" align="center"><u>Duct-Mounted Equipments</u></div>
-                <div class="col" align="center"><u>Special Components</u></div>
-                <div class="col" align="center"><u>Total Pressure Loss</u></div>
+                <div class="col" align="center" style="font-size: 13px"><u>Straight Duct</u></div>
+                <div class="col" align="center" style="font-size: 13px"><u>Fittings</u></div>
+                <div class="col" align="center" style="font-size: 13px"><u>Dampers & Obstructions</u></div>
+                <div class="col" align="center" style="font-size: 13px"><u>Duct-Mounted Equipments</u></div>
+                <div class="col" align="center" style="font-size: 13px"><u>Special Components</u></div>
+                <div class="col" align="center" style="font-size: 13px"><u>Total Pressure Loss</u></div>
               </div>
               <div class="row">
-                <mat-form-field class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.o32">
+                <mat-form-field class="col" style="width: 0.083%">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.o32">
+                  </textarea>
                 </mat-form-field>
-                <mat-form-field id="units-style" class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
+                <mat-dialog-content class="col" style="width: 0.083%">
+                  <br>
+                  <div [innerHtml]="response.tx5.replace('^', '&sup')"></div>
+                </mat-dialog-content>
+                <mat-form-field class="col" style="width: 0.083%">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.o33">
+                  </textarea>
                 </mat-form-field>
-                <mat-form-field class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.o33">
+                <mat-dialog-content class="col" style="width: 0.083%">
+                  <br>
+                  <div [innerHtml]="response.tx5.replace('^', '&sup')"></div>
+                </mat-dialog-content>
+                <mat-form-field class="col" style="width: 0.083%">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.o34">
+                  </textarea>
                 </mat-form-field>
-                <mat-form-field id="units-style" class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
+                <mat-dialog-content class="col" style="width: 0.083%">
+                  <br>
+                  <div [innerHtml]="response.tx5.replace('^', '&sup')"></div>
+                </mat-dialog-content>
+                <mat-form-field class="col" style="width: 0.083%">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.o35">
+                  </textarea>
                 </mat-form-field>
-                <mat-form-field class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.o34">
+                <mat-dialog-content class="col" style="width: 0.083%">
+                  <br>
+                  <div [innerHtml]="response.tx5.replace('^', '&sup')"></div>
+                </mat-dialog-content>
+                <mat-form-field class="col" style="width: 0.083%">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.o36">
+                  </textarea>
                 </mat-form-field>
-                <mat-form-field id="units-style" class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
+                <mat-dialog-content class="col" style="width: 0.083%">
+                  <br>
+                  <div [innerHtml]="response.tx5.replace('^', '&sup')"></div>
+                </mat-dialog-content>
+                <mat-form-field class="col" style="width: 0.083%">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.o37">
+                  </textarea>
                 </mat-form-field>
-                <mat-form-field class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.o35">
-                </mat-form-field>
-                <mat-form-field id="units-style" class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
-                </mat-form-field>
-                <mat-form-field class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.o36">
-                </mat-form-field>
-                <mat-form-field id="units-style" class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
-                </mat-form-field>
-                <mat-form-field class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.o37">
-                </mat-form-field>
-                <mat-form-field id="units-style" class="col" style="width: 0.08%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
-                </mat-form-field>
+                <mat-dialog-content class="col" style="width: 0.083%">
+                  <br>
+                  <div [innerHtml]="response.tx5.replace('^', '&sup')"></div>
+                </mat-dialog-content>
               </div>
             </mat-expansion-panel>
           </mat-expansion-panel>
@@ -1334,44 +1396,51 @@
             <mat-expansion-panel class="data-border-rectangular" expanded="true">
               <div class="row" *ngIf="response.fanSystemInteractionResponseList.length>0">
                 <div class="col" style="width: 19%"></div>
-                <div class="col" style="width: 19%">Type</div>
-                <div class="col" style="width: 19%">C</div>
-                <div class="col" style="width: 19%">Pressure Loss</div>
+                <div class="col" style="width: 19%;font-size: 13px">Type</div>
+                <div class="col" style="width: 19%;font-size: 13px">C</div>
+                <div class="col" style="width: 19%;font-size: 13px">Pressure Loss</div>
                 <div class="col" style="width: 19%"></div>
               </div>
               <div class="row"
                    *ngFor="let fanSystemInteraction of response.fanSystemInteractionResponseList;let i = index">
                 <mat-form-field class="col" style="width: 19%">
-                  <input type="text" matInput readonly
-                         value="Fan-System Interaction {{i+1}}">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            value="Fan-System Interaction {{i+1}}">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field class="col" style="width: 19%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="fanSystemInteraction.o29">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="fanSystemInteraction.o29">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field class="col" style="width: 19%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="fanSystemInteraction.o30">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="fanSystemInteraction.o30">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field class="col" style="width: 19%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="fanSystemInteraction.o31">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="fanSystemInteraction.o31">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field id="units-style" class="col" style="width: 19%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.tx5">
+                  </textarea>
                 </mat-form-field>
               </div>
               <br>
               <div class="row">
                 <div class="col" style="width: 25%"></div>
                 <mat-form-field class="col" style="width: 25%">
-                  <input type="text" matInput readonly placeholder="Total"
-                         [(ngModel)]="response.o45">
+                  <textarea type="text" matTextareaAutosize matInput readonly placeholder="Total"
+                            [(ngModel)]="response.o45">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field id="units-style" class="col" style="width: 25%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.tx5">
+                  </textarea>
                 </mat-form-field>
                 <div class="col" style="width: 25%"></div>
               </div>
@@ -1391,48 +1460,56 @@
             <mat-expansion-panel class="data-border-rectangular" expanded="true">
               <div class="row" *ngIf="response.airTerminalResponseList.length>0">
                 <div class="col" style="width: 16%"></div>
-                <div class="col" style="width: 16%">Type</div>
-                <div class="col" style="width: 16%">Model</div>
-                <div class="col" style="width: 16%">Flow Rate</div>
-                <div class="col" style="width: 16%">Pressure Loss</div>
+                <div class="col" style="width: 16%;font-size: 13px">Type</div>
+                <div class="col" style="width: 16%;font-size: 13px">Model</div>
+                <div class="col" style="width: 16%;font-size: 13px">Flow Rate</div>
+                <div class="col" style="width: 16%;font-size: 13px">Pressure Loss</div>
                 <div class="col" style="width: 16%"></div>
               </div>
               <div class="row" *ngFor="let airTerminal of response.airTerminalResponseList;let i = index">
                 <mat-form-field class="col" style="width: 16%">
-                  <input type="text" matInput readonly
-                         value="Air Terminal {{i+1}}">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            value="Air Terminal {{i+1}}">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field class="col" style="width: 16%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="airTerminal.o38">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="airTerminal.o38">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field class="col" style="width: 16%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="airTerminal.o39">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="airTerminal.o39">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field class="col" style="width: 16%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="airTerminal.o40">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="airTerminal.o40">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field class="col" style="width: 16%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="airTerminal.o41">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="airTerminal.o41">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field id="units-style" class="col" style="width: 16%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.tx5">
+                  </textarea>
                 </mat-form-field>
               </div>
               <br>
               <div class="row">
                 <div class="col" style="width: 25%"></div>
                 <mat-form-field class="col" style="width: 25%">
-                  <input type="text" matInput readonly placeholder="Total"
-                         [(ngModel)]="response.o42">
+                  <textarea type="text" matTextareaAutosize matInput readonly placeholder="Total"
+                            [(ngModel)]="response.o42">
+                  </textarea>
                 </mat-form-field>
                 <mat-form-field id="units-style" class="col" style="width: 25%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
+                  <textarea type="text" matTextareaAutosize matInput readonly
+                            [(ngModel)]="response.tx5">
+                  </textarea>
                 </mat-form-field>
                 <div class="col" style="width: 25%"></div>
               </div>
@@ -1448,21 +1525,23 @@
             <mat-expansion-panel class="row data-border-rectangular" expanded="true">
               <div class="row">
                 <mat-form-field class="col" style="width: 24%">
-                  <input type="text" matInput readonly placeholder="Fan Flow Rate"
+                  <textarea type="text" matTextareaAutosize matInput readonly placeholder="Fan Flow Rate"
                          [(ngModel)]="response.o43">
+                  </textarea>
                 </mat-form-field>
                 <mat-dialog-content class="col" style="width: 24%">
                   <br>
                   <div [innerHtml]="response.ductSectionResponseList[0].tx2.replace('^', '&sup')"></div>
                 </mat-dialog-content>
                 <mat-form-field class="col" style="width: 24%">
-                  <input type="text" matInput readonly placeholder="Fan Esp"
+                  <textarea type="text" matTextareaAutosize matInput readonly placeholder="Fan Esp"
                          [(ngModel)]="response.o44">
+                  </textarea>
                 </mat-form-field>
-                <mat-form-field id="units-style" class="col" style="width: 24%">
-                  <input type="text" matInput readonly
-                         [(ngModel)]="response.tx5">
-                </mat-form-field>
+                <mat-dialog-content class="col" style="width: 24%">
+                  <br>
+                  <div [innerHtml]="response.tx5.replace('^', '&sup')"></div>
+                </mat-dialog-content>
               </div>
             </mat-expansion-panel>
           </mat-expansion-panel>

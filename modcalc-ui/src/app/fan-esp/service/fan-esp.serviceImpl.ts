@@ -17,7 +17,7 @@ export class FanEspServiceImpl extends FanEspService {
     super();
     // Production Url
     this.baseUrl = 'http://ec2-34-243-32-121.eu-west-1.compute.amazonaws.com';
-    this.baseUrl = '/modcalc-deployment-draft6/fan-esp/';
+    this.baseUrl = '/modcalc-production/fan-esp/';
     // Development Url
     // this.baseUrl = '/modcalc-controller/fan-esp/';
   }

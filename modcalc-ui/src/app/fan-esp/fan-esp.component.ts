@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {FanEspServiceImpl} from './service/fan-esp.serviceImpl';
 import {FanEspLookup} from './models/lookups/fan-esp-lookup.model';
@@ -53,7 +53,13 @@ export class FanEspComponent implements OnInit {
   pressureUnit: FanEspLookup;
   request: FanEspRequest = new FanEspRequest();
   response: FanEspResponse = new FanEspResponse();
-
+  // @ViewChild('autosize') autosize: CdkTextareaAutosize;
+  //
+  // triggerResize() {
+  //   // Wait for changes to be applied, then trigger textarea resize.
+  //   this.ngZone.onStable.pipe(take(1))
+  //     .subscribe(() => this.autosize.resizeToFitContent(true));
+  // }
   calculate() {
     let available = false;
     for (const fanSystemInteraction of this.request.fanSystemInteractionList) {
@@ -87,7 +93,7 @@ export class FanEspComponent implements OnInit {
   saveInput() {
     const dialogRef = this.dialog.open(FanPopupSaveComponent);
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== null) {
+      if (result !== undefined) {
         const fanEspSaveRequest = new FanEspSaveRequest();
         fanEspSaveRequest.name = result;
         fanEspSaveRequest.fanEspCalcRequest = this.request;
@@ -101,6 +107,9 @@ export class FanEspComponent implements OnInit {
           }, error => {
             this.error = true;
             this.errorMessage = error;
+            setTimeout(() => {
+              this.error = false;
+            }, 3000);
           });
       }
     });
@@ -125,7 +134,7 @@ export class FanEspComponent implements OnInit {
       data: {fanEspLoadResponseList: fanEspLoadResponseList}
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== null) {
+      if (result !== undefined) {
         const loadedRequest = fanEspLoadResponseList[result].fanEspCalcRequest;
         const uf = loadedRequest.units.uf;
         const ul = loadedRequest.units.ul;
@@ -592,8 +601,10 @@ export class FanEspComponent implements OnInit {
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      fitting.fittingDescription = result;
-      fitting.cf = null;
+      if (result !== undefined) {
+        fitting.fittingDescription = result;
+        fitting.cf = null;
+      }
     });
   }
 
@@ -620,7 +631,7 @@ export class FanEspComponent implements OnInit {
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {
+      if (result !== undefined) {
         fitting.cf = +result;
       }
     });
@@ -705,8 +716,10 @@ export class FanEspComponent implements OnInit {
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      dampersAndObstructions.dampersAndObstructionsDescription = result;
-      dampersAndObstructions.cd = null;
+      if (result !== undefined) {
+        dampersAndObstructions.dampersAndObstructionsDescription = result;
+        dampersAndObstructions.cd = null;
+      }
     });
   }
 
@@ -733,7 +746,7 @@ export class FanEspComponent implements OnInit {
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {
+      if (result !== undefined) {
         dampersAndObstructions.cd = +result;
       }
     });
@@ -774,8 +787,10 @@ export class FanEspComponent implements OnInit {
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      ductMountedEquipment.ductMountedEquipmentDescription = result;
-      ductMountedEquipment.ce = null;
+      if (result !== undefined) {
+        ductMountedEquipment.ductMountedEquipmentDescription = result;
+        ductMountedEquipment.ce = null;
+      }
     });
   }
 
@@ -802,7 +817,7 @@ export class FanEspComponent implements OnInit {
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {
+      if (result !== undefined) {
         ductMountedEquipment.ce = +result;
       }
     });
@@ -850,8 +865,10 @@ export class FanEspComponent implements OnInit {
       data: {lookupCoefficientDataList: list}
     });
     dialogRef.afterClosed().subscribe(result => {
-      fanSystemInteraction.fanSystemInteractionDescription = result;
-      fanSystemInteraction.ci = null;
+      if (result !== undefined) {
+        fanSystemInteraction.fanSystemInteractionDescription = result;
+        fanSystemInteraction.ci = null;
+      }
     });
   }
 
@@ -878,7 +895,7 @@ export class FanEspComponent implements OnInit {
       data: {fanLookupCoefficient: fanLookupCoefficient, tables: tables}
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {
+      if (result !== undefined) {
         fanSystemInteraction.ci = +result;
       }
     });
@@ -911,6 +928,9 @@ export class FanEspComponent implements OnInit {
     const opt = {
       filename: this.response.project + '_' + this.response.system + '_'
       + this.response.pumpRef + '.pdf',
+      image: {type: 'jpeg', quality: 0.98},
+      html2canvas: {scale: 2},
+      jsPDF: {unit: 'in', format: 'a3', orientation: 'portrait'}
     };
     html2pdf(document.getElementById('reportPdf'), opt);
   }

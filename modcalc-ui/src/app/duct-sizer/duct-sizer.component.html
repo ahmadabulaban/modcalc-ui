@@ -28,7 +28,7 @@
     <mat-expansion-panel expanded="true">
       <div>
         <div class="row">
-          <div class="col">
+          <div class="col-sm-2">
             <mat-expansion-panel expanded="true">
               <h6 style="font-weight: bold">Units</h6>
               <mat-expansion-panel expanded="true">
@@ -47,7 +47,7 @@
               </mat-expansion-panel>
             </mat-expansion-panel>
           </div>
-          <div class="col">
+          <div class="col-sm-3">
             <mat-expansion-panel expanded="true">
               <h6 style="font-weight: bold">Air Temperature</h6>
               <mat-expansion-panel expanded="true">
@@ -61,7 +61,7 @@
                         Temperature is out of range
                       </mat-error>
                     </mat-form-field>
-                    <mat-form-field id="units-style" class="col" style="width: 50%">
+                    <mat-form-field id="units-style" class="col-sm-3" style="width: 50%">
                       <input type="text" matInput readonly
                              value="{{temperatureUnit.key}}">
                     </mat-form-field>
@@ -83,7 +83,7 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="col" style="width: 33%">
+                    <mat-form-field class="col-sm-2" style="width: 33%">
                       <input type="number" step="any" matInput placeholder="Duct Thickness"
                              [formControl]="ductSizerForm.controls.ductThickness">
                       <mat-error
@@ -91,7 +91,7 @@
                         Duct Thickness is out of range
                       </mat-error>
                     </mat-form-field>
-                    <mat-form-field id="units-style" class="col" style="width: 33%">
+                    <mat-form-field id="units-style" class="col-sm-1" style="width: 33%">
                       <input type="text" matInput readonly
                              value="{{dimensionUnit.key}}">
                     </mat-form-field>
