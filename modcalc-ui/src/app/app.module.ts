@@ -8,7 +8,7 @@ import {DuctSizerComponent} from './duct-sizer/duct-sizer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DuctSizerServiceImpl} from './duct-sizer/service/duct-sizer.serviceImpl';
 import {HttpClientModule} from '@angular/common/http';
-import {CommonModule} from '@angular/common';
+import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {FanEspComponent} from './fan-esp/fan-esp.component';
 import {FanEspServiceImpl} from './fan-esp/service/fan-esp.serviceImpl';
 import {
@@ -68,7 +68,7 @@ import { FanPopupLoadComponent } from './fan-esp/fan-popup-load/fan-popup-load.c
   ],
   entryComponents: [FanEspComponent, FanPopupTypeComponent, FanPopupCoefficientComponent
     , ConfirmationDialogComponent, FanPopupSaveComponent, FanPopupLoadComponent],
-  providers: [HttpClientModule, DuctSizerServiceImpl, FanEspServiceImpl],
+  providers: [HttpClientModule, DuctSizerServiceImpl, FanEspServiceImpl, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
